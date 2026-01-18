@@ -1,0 +1,60 @@
+<div class="dashboard-wrapper fade-in-viewer">
+  
+  <app-header></app-header>
+
+  <main class="calendar-body">
+    <div class="title-section-container">
+      <div class="badge-title-dark">FECHAS DE EVALUACIONES - {{ studentName }}</div>
+    </div>
+
+    <div class="content-grid">
+      <section class="calendar-card">
+        <div class="calendar-header">
+          <button class="btn-nav" (click)="changeMonth(-1)">◀</button>
+          <h2>{{ monthNames[currentMonth] | uppercase }} {{ currentYear }}</h2>
+          <button class="btn-nav" (click)="changeMonth(1)">▶</button>
+        </div>
+        <table class="calendar-table">
+          <thead>
+            <tr><th *ngFor="let day of weekDays">{{ day }}</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let week of calendar">
+              <td *ngFor="let date of week" 
+                  [class.today]="isToday(date)" 
+                  [class.has-event]="hasEvent(date)"
+                  (click)="selectDate(date)">
+                <span class="day-number">{{ date ? date.getDate() : '' }}</span>
+                <div class="event-dots" *ngIf="date && hasEvent(date)">
+                  <span class="dot-indicator"></span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="detail-card">
+        <h3 class="detail-title">PRÓXIMAS EVALUACIONES</h3>
+        <div class="event-list">
+          <div class="event-item" *ngFor="let ev of proximasEvaluaciones">
+            <div class="event-date-pill">
+              {{ ev.fecha ? ev.fecha.split('-')[2] + '/' + ev.fecha.split('-')[1] : 'S/F' }}
+            </div>
+            <div class="event-info">
+              <span class="subject">{{ ev.materia | uppercase }}</span>
+              <span class="description">{{ ev.descripcion }}</span>
+              <span class="type-label">Tipo: {{ ev.tipo }}</span>
+            </div>
+          </div>
+
+          <div *ngIf="proximasEvaluaciones.length === 0" class="no-events">
+            <p>No hay evaluaciones para {{ monthNames[currentMonth] }}.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="minimal-footer"><p>Copyright © 2026 | KALINK DISEÑOS</p></footer>
+</div>

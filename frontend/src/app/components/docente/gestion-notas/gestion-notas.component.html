@@ -1,0 +1,120 @@
+<div class="dashboard-wrapper" (click)="menuOpen = false">
+  <header class="header-main">
+    <div class="header-left-action">
+      <button class="btn-back-nav" (click)="volverDashboard()"><span>⬅</span> VOLVER</button>
+    </div>
+    
+    <div class="logo-wrapper">
+      <div class="logo-white-bg">
+        <img src="assets/logo-escuela.png" alt="Logo Escuela" class="img-logo" style="width: 80%;">
+      </div>
+    </div>
+    
+    <div class="user-profile-pill">
+      <span>{{ userRol }}: {{ userName }}</span>
+      <button class="menu-trigger" (click)="toggleMenu($event)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+      
+      <div class="dropdown-floating-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
+        <button class="dropdown-item" (click)="irAConfig()">⚙️ Configuración</button>
+        <div style="height: 1px; background: #eee; margin: 5px 0;"></div>
+        <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="title-section-container">
+    <div class="badge-title-dark">GESTIÓN DE NOTAS</div>
+  </div>
+
+  <main class="main-content-area">
+    <div class="selectors-row">
+      <div class="select-box">
+        <select [(ngModel)]="seleccion.curso" (change)="onCursoChange()" class="clean-select">
+          <option [ngValue]="null">Seleccione Curso</option>
+          <option *ngFor="let c of cursos" [ngValue]="c.id_curso">{{ c.nombre_curso }}</option>
+        </select>
+      </div>
+
+      <div class="select-box">
+        <select [(ngModel)]="seleccion.asignatura" (change)="obtenerNotas()" class="clean-select" [disabled]="!seleccion.curso">
+          <option [ngValue]="null">{{ !seleccion.curso ? 'Elija un curso primero' : 'Asignatura' }}</option>
+          <option *ngFor="let a of asignaturas" [ngValue]="a.id_asignatura">{{ a.nombre }}</option>
+        </select>
+      </div>
+
+      <div class="select-box">
+        <select [(ngModel)]="seleccion.estudiante" (change)="obtenerNotas()" class="clean-select" [disabled]="!seleccion.curso">
+          <option [ngValue]="null">Estudiante</option>
+          <option *ngFor="let e of estudiantes" [ngValue]="e.id_estudiante">{{ e.nombre_completo }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="panels-grid">
+      <section class="card-dark-panel">
+        <h3 class="panel-title">{{ seleccion.id_nota_edicion ? 'Actualizar Nota' : 'Ingresar Nota' }}</h3>
+        
+        <label class="label-lite">Descripción</label>
+        <input type="text" [(ngModel)]="seleccion.descripcion" placeholder="Ej: Prueba 1" class="grade-input" style="margin-bottom: 15px;">
+        
+        <label class="label-lite">Calificación</label>
+        <input type="number" step="0.1" [(ngModel)]="seleccion.calificacion" placeholder="0.0" class="grade-input" style="margin-bottom: 20px;">
+        
+        <label class="label-lite">Tipo de Evaluación</label>
+        <div class="type-selector-container">
+          <button 
+            type="button"
+            class="type-btn" 
+            [class.active]="seleccion.tipo === 'sumativa'"
+            (click)="seleccion.tipo = 'sumativa'">
+            SUMATIVA
+          </button>
+          <button 
+            type="button"
+            class="type-btn" 
+            [class.active]="seleccion.tipo === 'formativa'"
+            (click)="seleccion.tipo = 'formativa'">
+            FORMATIVA
+          </button>
+        </div>
+        
+        <button class="btn-full-action green-grad" (click)="guardarNota()">
+          {{ seleccion.id_nota_edicion ? 'GUARDAR CAMBIOS' : 'GUARDAR NOTA' }}
+        </button>
+
+        <button *ngIf="seleccion.id_nota_edicion" class="btn-cancel" (click)="limpiarPanelEdicion()">
+          CANCELAR EDICIÓN
+        </button>
+      </section>
+
+      <section class="card-white-panel">
+        <h3 class="panel-title" style="color: #002d40;">Registro de Calificaciones</h3>
+        <div class="grades-scroll-container">
+          <div *ngIf="notasActuales.length === 0" style="text-align: center; color: #999; padding-top: 20px;">
+            Seleccione filtros para ver registros.
+          </div>
+          <div class="grade-row-item" 
+               *ngFor="let n of notasActuales" 
+               (click)="seleccionarParaAccion(n)" 
+               [class.selected-row]="notaSeleccionadaId === n.id_nota">
+            <div style="display: flex; flex-direction: column;">
+              <span style="font-weight: bold; color: #002d40;">{{ n.nombre }}</span>
+              <small class="type-badge" [ngClass]="n.tipo">{{ n.tipo }}</small>
+            </div>
+            <div class="grade-value-circle" [style.background]="n.valor < 4.0 ? '#e74c3c' : '#002d40'">
+              {{ n.valor | number:'1.1-1' }}
+            </div>
+          </div>
+        </div>
+        <div class="actions-footer-panel" *ngIf="notasActuales.length > 0">
+          <button class="btn-edit" (click)="editarNota()" [disabled]="!notaSeleccionadaId">EDITAR</button>
+          <button class="btn-delete" (click)="borrarNota()" [disabled]="!notaSeleccionadaId">BORRAR</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="minimal-footer"><p>Copyright © 2026 | KALINK DISEÑOS</p></footer>
+</div>

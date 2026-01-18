@@ -1,0 +1,12 @@
+<div *ngIf="isOffline" class="offline-banner">
+  <div class="banner-content">
+    <span class="warning-icon">⚠️</span>
+    <p>
+      <strong>Modo Offline:</strong> Estás en la sección 
+      <span style="text-decoration: underline;">sin conexión</span>. 
+      Los datos se sincronizarán al detectar señal.
+    </p>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

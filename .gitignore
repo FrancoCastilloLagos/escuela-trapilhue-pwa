@@ -1,0 +1,12 @@
+# Dependencias 
+**/node_modules/
+dist/
+.angular/
+.DS_Store
+
+# Entorno y Secretos
+.env
+
+# Archivos de configuración de editores
+.vscode/
+.idea/

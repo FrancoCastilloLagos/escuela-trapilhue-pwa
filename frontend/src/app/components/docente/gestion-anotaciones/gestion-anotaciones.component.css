@@ -1,0 +1,77 @@
+@import url('../../docente/gestion-notas/gestion-notas.component.css');
+
+/* SWITCH COMPLETO */
+.switch-container-full {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.switch-base {
+  display: flex;
+  background: #001f2d;
+  border-radius: 12px;
+  padding: 5px;
+  border: none;
+}
+
+.switch-option {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 12px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 10px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.switch-option.active {
+  background-color: #f1c40f !important;
+  color: #002d40 !important;
+}
+
+/* --- SECCIÓN DEL TEXTAREA (FUENTE CORREGIDA) --- */
+.anotation-textarea {
+  width: 100%;
+  height: 140px;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  font-family: inherit; 
+  font-size: 1rem;
+  resize: none;
+}
+
+.anotation-content {
+  display: flex;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.indicator-bar {
+  width: 6px;
+  min-height: 50px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.is-pos { background-color: #27ae60 !important; }
+.is-neg { background-color: #e74c3c !important; }
+
+.label-tipo {
+  font-size: 0.8rem;
+  font-weight: 900;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.txt-rojo { color: #ff0000 !important; }
+.txt-verde { color: #00a800 !important; }
+
+.txt-contenido { color: #333; font-weight: 500; margin: 0; }
+.txt-fecha { color: #888; font-size: 0.75rem; }
+.grades-scroll-container { flex: 1; overflow-y: auto; max-height: 400px; }

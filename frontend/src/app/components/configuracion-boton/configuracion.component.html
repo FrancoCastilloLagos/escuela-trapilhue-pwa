@@ -1,0 +1,58 @@
+<div class="dashboard-wrapper fade-in-viewer" (click)="menuOpen = false">
+  <header class="header-main">
+    <div class="header-container">
+      <div class="back-pill-container">
+        <button class="btn-back-pill-red" (click)="volverDashboard()">⬅ VOLVER</button>
+      </div>
+
+      <div class="logo-wrapper">
+        <div class="logo-white-bg">
+          <img src="assets/logo-escuela.png" alt="Logo Escuela" class="img-logo">
+        </div>
+      </div>
+      
+      <div class="user-profile-pill">
+        <span class="user-info">{{ userRol }}: {{ userName }}</span>
+        <button class="menu-trigger" (click)="toggleMenu($event)">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </button>
+        
+        <div class="dropdown-floating-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
+          <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="config-body">
+    <div class="news-header-badge">CONFIGURACIÓN DE CUENTA</div>
+
+    <section class="card-dark-rounded">
+      <h3 class="card-title">CAMBIAR CONTRASEÑA</h3>
+      <p class="card-subtitle">Por seguridad, ingrese su clave actual y luego la nueva.</p>
+
+      <div class="input-group">
+        <label>Contraseña Actual</label>
+        <input type="password" [(ngModel)]="passData.actual" class="input-white-rounded" placeholder="••••••••">
+      </div>
+
+      <div class="input-group">
+        <label>Nueva Contraseña</label>
+        <input type="password" [(ngModel)]="passData.nueva" class="input-white-rounded" placeholder="Mínimo 4 caracteres">
+      </div>
+
+      <div class="input-group">
+        <label>Confirmar Nueva Contraseña</label>
+        <input type="password" [(ngModel)]="passData.confirmar" class="input-white-rounded" placeholder="Repita la nueva clave">
+      </div>
+
+      <button class="btn-action-green" (click)="actualizarContrasena()">
+        ACTUALIZAR CONTRASEÑA
+      </button>
+    </section>
+  </main>
+
+  <footer class="minimal-footer">
+    <p>Copyright © 2026 | KALINK DISEÑOS</p>
+  </footer>
+</div>

@@ -1,0 +1,46 @@
+<div class="login-container">
+  <header class="header-orange">
+    <img src="assets/logo-escuela.png" alt="Escuela Trapilhue" class="logo">
+  </header>
+
+  <section class="blue-section">
+    <div class="login-box">
+      <h1>Iniciar Sesión</h1>
+      
+      <div class="form-card">
+        <form (submit)="onLogin($event)">
+          <div class="input-group">
+            <label for="rut">RUT de Usuario</label>
+            <input 
+              type="text" 
+              id="rut"
+              name="rut" 
+              [(ngModel)]="rut" 
+              placeholder="12.345.678-k" 
+              required>
+          </div>
+
+          <div class="input-group">
+            <label for="password">Contraseña</label>
+            <input 
+              type="password" 
+              id="password"
+              name="password" 
+              [(ngModel)]="password" 
+              placeholder="••••••••" 
+              required>
+          </div>
+
+          <div class="button-row">
+            <button type="submit" class="btn-signin">Ingresar al Sistema</button>
+            <button type="button" class="btn-secondary" routerLink="/registro">Crear Nueva Cuenta</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-orange">
+    <p>© 2026 Escuela Trapilhue | Desarrollado por KALINK DISEÑOS</p>
+  </footer>
+</div>

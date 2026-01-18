@@ -1,0 +1,47 @@
+<div class="dashboard-wrapper">
+  
+  <app-header></app-header>
+
+  <div class="title-section-container" style="text-align: center; margin-top: 50px;">
+    <div class="badge-title-dark" style="background: #002d40; color: white; padding: 15px 60px; border-radius: 20px; font-weight: 800; font-size: 1.6rem; display: inline-block;">
+      HOJA DE VIDA - ANOTACIONES
+    </div>
+  </div>
+
+  <main class="main-content-area" style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+    <section class="card-white-panel" style="background: white; border-radius: 25px; padding: 30px; width: 100%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+      <h3 class="panel-title" style="color: #002d40; font-weight: 800; margin-bottom: 20px; text-align: center;">Historial de Observaciones</h3>
+      
+      <div class="grades-scroll-container" style="max-height: 500px; overflow-y: auto;">
+        <div *ngIf="loading" class="no-data" style="text-align: center; padding: 20px;">Cargando...</div>
+        <div *ngIf="!loading && anotaciones.length === 0" class="no-data" style="text-align: center; padding: 20px;">No hay anotaciones.</div>
+        
+        <div class="grade-row-item" *ngFor="let a of anotaciones" style="border-bottom: 1px solid #f0f0f0; padding: 15px 10px;">
+          <div class="anotation-content" style="display: flex; gap: 15px; align-items: flex-start;">
+            
+            <div class="indicator-bar" 
+                 [ngClass]="{'is-neg': a.tipo === 'NEGATIVA', 'is-pos': a.tipo === 'POSITIVA'}"
+                 style="width: 6px; min-height: 45px; border-radius: 10px; flex-shrink: 0;">
+            </div>
+
+            <div class="anotation-details">
+              <div class="label-tipo" 
+                   [ngClass]="{'txt-rojo': a.tipo === 'NEGATIVA', 'txt-verde': a.tipo === 'POSITIVA'}"
+                   style="font-size: 0.75rem; font-weight: 900; margin-bottom: 3px; text-transform: uppercase;">
+                {{ a.tipo === 'NEGATIVA' ? 'ANOTACIÓN NEGATIVA' : 'ANOTACIÓN POSITIVA' }}
+              </div>
+
+              <p class="txt-contenido" style="font-weight: 600; color: #333; margin: 0;">{{ a.contenido }}</p>
+              <small class="txt-fecha" style="color: #2980b9; font-weight: bold;">FECHA: {{ a.fecha | date:'dd/MM/yyyy' }}</small>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="minimal-footer" style="background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto;">
+    <p>Copyright © 2026 | KALINK DISEÑOS</p>
+  </footer>
+</div>

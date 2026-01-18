@@ -1,0 +1,69 @@
+<div class="dashboard-wrapper">
+  
+  <app-header></app-header>
+
+  <div class="title-section-container">
+    <div class="badge-title-dark">MIS CALIFICACIONES</div>
+  </div>
+
+  <main class="main-content-area">
+    <div class="selector-asignatura">
+      <select [(ngModel)]="idAsignaturaSeleccionada" (change)="onAsignaturaChange()" class="clean-select">
+        <option [ngValue]="null">Seleccione una Asignatura</option>
+        <option *ngFor="let a of asignaturas" [ngValue]="a.id_asignatura">{{ a.nombre }}</option>
+      </select>
+    </div>
+
+    <div *ngIf="notasSumativas.length === 0 && notasFormativas.length === 0" class="no-records-card">
+      <p>Seleccione una asignatura para ver el detalle de calificaciones.</p>
+    </div>
+
+    <div class="tables-container" *ngIf="notasSumativas.length > 0 || notasFormativas.length > 0">
+      
+      <section class="report-card-panel sumativas">
+        <div class="panel-header">
+          <span class="icon">📊</span> CALIFICACIONES SUMATIVAS
+        </div>
+        <div class="grade-row" *ngFor="let n of notasSumativas">
+          <div class="grade-info">
+            <span class="grade-name">{{ n.descripcion }}</span>
+            <small class="grade-type">SUMATIVA</small>
+          </div>
+          <div class="grade-value-circle" [style.background]="n.valor < 4.0 ? '#e74c3c' : '#002d40'">
+            {{ n.valor | number:'1.1-1' }}
+          </div>
+        </div>
+        
+        <div class="summary-footer" *ngIf="notasSumativas.length > 0">
+          <div class="promedio-container">
+              <span class="promedio-label">PROMEDIO PARCIAL</span>
+          </div>
+          <div class="promedio-badge" [style.background]="promedioFinal < 4.0 ? '#e74c3c' : '#28b463'">
+            {{ promedioFinal | number:'1.1-1' }}
+          </div>
+        </div>
+      </section>
+
+      <section class="report-card-panel formativas" *ngIf="notasFormativas.length > 0">
+        <div class="panel-header formativa-h">
+          <span class="icon">📝</span> EVALUACIONES FORMATIVAS
+        </div>
+        <div class="grade-row" *ngFor="let n of notasFormativas">
+          <div class="grade-info">
+            <span class="grade-name">{{ n.descripcion }}</span>
+            <small class="grade-type txt-formativa">FORMATIVA</small>
+          </div>
+          <div class="grade-value-circle formativa-circle">
+            {{ n.valor | number:'1.1-1' }}
+          </div>
+        </div>
+        <div class="formativa-note">
+          * Estas notas no influyen en el promedio parcial.
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="minimal-footer"><p>Copyright © 2026 | KALINK DISEÑOS</p></footer>
+</div>

@@ -1,0 +1,162 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-wrapper {
+  background-color: #85c1e9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* --- TÍTULO --- */
+.title-section-container { 
+  text-align: center; 
+  margin-top: 50px; 
+  margin-bottom: 20px; 
+}
+
+.badge-title-dark { 
+  background: #002d40; 
+  color: white; 
+  padding: 15px 60px; 
+  border-radius: 20px; 
+  font-weight: 800; 
+  font-size: 1.6rem; 
+  display: inline-block; 
+}
+
+/* --- ÁREA DE CONTENIDO --- */
+.main-content-area { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  padding: 0 20px; 
+}
+
+.selector-asignatura { 
+  background: white; 
+  border-radius: 15px; 
+  width: 100%; 
+  max-width: 400px; 
+  height: 50px; 
+  margin-bottom: 30px; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+  display: flex; 
+  align-items: center; 
+  overflow: hidden; 
+}
+
+.clean-select { 
+  width: 100%; 
+  height: 100%; 
+  border: none; 
+  outline: none; 
+  background: transparent; 
+  padding: 0 15px; 
+  font-family: 'Poppins', sans-serif; 
+  font-weight: 600; 
+  text-align: center; 
+  cursor: pointer; 
+}
+
+.no-records-card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  color: #7f8c8d;
+  font-style: italic;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* --- TABLAS Y PANELES --- */
+.tables-container { 
+  width: 100%; 
+  max-width: 700px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 30px; 
+  padding-bottom: 40px; 
+}
+
+.report-card-panel { 
+  background: white; 
+  border-radius: 25px; 
+  padding: 0; 
+  overflow: hidden; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+}
+
+.panel-header { 
+  background: #002d40; 
+  color: white; 
+  padding: 15px 20px; 
+  font-weight: 700; 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+}
+
+.formativa-h { background: #2980b9; }
+
+.grade-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 15px 25px; 
+  border-bottom: 1px solid #f0f0f0; 
+}
+
+.grade-name { font-weight: 700; color: #002d40; font-size: 1.1rem; }
+.grade-type { font-size: 0.7rem; display: block; color: #95a5a6; }
+.txt-formativa { color: #2980b9; font-weight: bold; }
+
+.grade-value-circle { 
+  width: 45px; 
+  height: 45px; 
+  color: white; 
+  border-radius: 50%; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  font-weight: 800; 
+  font-size: 1.1rem; 
+}
+
+.formativa-circle { background: #7f8c8d; }
+
+.summary-footer { 
+  padding: 20px 25px; 
+  border-top: 3px solid #002d40; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  background: #f8f9fa; 
+}
+
+.promedio-label { font-weight: 800; font-size: 1.1rem; color: #002d40; }
+.promedio-badge { 
+  color: white; 
+  padding: 10px 25px; 
+  border-radius: 12px; 
+  font-size: 1.4rem; 
+  font-weight: 800; 
+}
+
+.formativa-note {
+  padding: 15px;
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  text-align: center;
+}
+
+.minimal-footer { 
+  background: #e67e22; 
+  color: white; 
+  text-align: center; 
+  padding: 15px; 
+  margin-top: auto; 
+}

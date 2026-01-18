@@ -1,0 +1,44 @@
+.offline-banner {
+  background-color: #d35400; 
+  color: #ffffff;
+  padding: 12px;
+  width: 100%;
+  position: sticky; 
+  top: 0;
+  z-index: 9999;
+  text-align: center;
+  border-bottom: 3px solid #e67e22;
+  animation: slideIn 0.4s ease-out;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.warning-icon {
+  font-size: 1.2rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 600px) {
+  .offline-banner {
+    padding: 8px;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,195 @@
+/* --- BASE Y ANIMACIÓN --- */
+.dashboard-wrapper {
+  background-color: #85c1e9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- TÍTULO --- */
+.title-section-container { 
+  text-align: center; 
+  margin-top: 50px; 
+  margin-bottom: 20px; 
+}
+
+.badge-title-dark {
+  background: #002d40; 
+  color: white; 
+  padding: 12px 50px;
+  border-radius: 20px; 
+  font-weight: 800; 
+  font-size: 1.4rem;
+  display: inline-block;
+}
+
+/* --- CUERPO Y GRID DEL CALENDARIO --- */
+.calendar-body { 
+  flex: 1; 
+  padding: 0 40px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+}
+
+.content-grid { 
+  display: grid; 
+  grid-template-columns: 1.5fr 1fr; 
+  gap: 20px; 
+  width: 100%; 
+  max-width: 1200px; 
+  margin-bottom: 30px; 
+}
+
+.calendar-card { 
+  background: white; 
+  border-radius: 25px; 
+  padding: 25px; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+}
+
+.calendar-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 20px; 
+}
+
+.calendar-header h2 { 
+  color: #002d40; 
+  font-weight: 800; 
+  font-size: 1.4rem; 
+}
+
+.btn-nav { 
+  background: #f1f1f1; 
+  border: none; 
+  padding: 8px 15px; 
+  border-radius: 10px; 
+  cursor: pointer; 
+  font-weight: bold; 
+}
+
+.calendar-table { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+
+.calendar-table th { 
+  padding: 10px; 
+  color: #7f8c8d; 
+  font-size: 0.8rem; 
+  text-transform: uppercase; 
+}
+
+.calendar-table td { 
+  height: 70px; 
+  text-align: center; 
+  border: 1px solid #f2f2f2; 
+  cursor: pointer; 
+  position: relative; 
+}
+
+.day-number { 
+  font-weight: 700; 
+  font-size: 1.2rem; 
+  color: #2c3e50; 
+}
+
+.today { 
+  background-color: #fef9e7; 
+  border: 2px solid #f1c40f !important; 
+}
+
+.has-event { 
+  background-color: #ebf5fb; 
+}
+
+.dot-indicator { 
+  width: 8px; 
+  height: 8px; 
+  background: #e67e22; 
+  border-radius: 50%; 
+  display: block; 
+  margin: 4px auto 0; 
+}
+
+/* --- PANEL DERECHO --- */
+.detail-card { 
+  background: #002d40; 
+  border-radius: 25px; 
+  padding: 25px; 
+  color: white; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+  overflow-y: auto; 
+  max-height: 550px; 
+}
+
+.detail-title { 
+  color: #f1c40f; 
+  margin-bottom: 20px; 
+  font-weight: 800; 
+  text-transform: uppercase; 
+}
+
+.event-item { 
+  display: flex; 
+  gap: 15px; 
+  background: rgba(255,255,255,0.08); 
+  padding: 15px; 
+  border-radius: 15px; 
+  margin-bottom: 12px; 
+}
+
+.event-date-pill { 
+  background: #e67e22; 
+  color: white; 
+  padding: 8px 12px; 
+  border-radius: 10px; 
+  font-weight: 800; 
+  min-width: 60px; 
+  text-align: center; 
+  height: fit-content; 
+}
+
+.subject { 
+  color: #f1c40f; 
+  font-weight: 800; 
+  display: block; 
+  font-size: 0.9rem; 
+}
+
+.description { 
+  font-size: 0.9rem; 
+  color: #fff; 
+  display: block; 
+  margin: 2px 0; 
+}
+
+.type-label { 
+  font-size: 0.75rem; 
+  color: #bdc3c7; 
+  font-style: italic; 
+}
+
+.no-events { 
+  text-align: center; 
+  margin-top: 50px; 
+  color: #bdc3c7; 
+}
+
+.minimal-footer { 
+  background: #e67e22; 
+  color: white; 
+  text-align: center; 
+  padding: 15px; 
+  margin-top: auto; 
+}
