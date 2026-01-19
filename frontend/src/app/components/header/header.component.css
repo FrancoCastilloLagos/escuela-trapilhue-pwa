@@ -119,4 +119,28 @@
     right: 4%; 
     width: 92%; 
   }
+  /* Estilos para el footer y el botón de cerrar */
+.notif-footer { 
+  padding: 10px; 
+  background: #f9f9f9; 
+  border-top: 1px solid #eee; 
+  text-align: center; 
+}
+
+.btn-close-notif { 
+  background: #e74c3c; 
+  color: white; 
+  border: none; 
+  padding: 8px 15px; 
+  border-radius: 8px; 
+  font-weight: 700; 
+  cursor: pointer; 
+  font-size: 0.7rem; 
+  width: 100%; 
+  transition: background 0.2s;
+}
+
+.btn-close-notif:hover {
+  background: #c0392b;
+}
 }
