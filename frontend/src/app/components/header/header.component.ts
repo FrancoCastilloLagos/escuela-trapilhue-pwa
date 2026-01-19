@@ -28,13 +28,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userRol = (this.authService.getRol() || 'Usuario').toUpperCase();
     this.userName = localStorage.getItem('rut') || 'Usuario';
-    
-    // Si no es docente, activamos el rastreador de notificaciones
-    if (this.userRol !== 'DOCENTE') {
-      this.actualizarNotificaciones();
-      // Polling cada 5 segundos para máxima respuesta
-      this.intervalId = setInterval(() => this.actualizarNotificaciones(), 5000);
-    }
+    this.actualizarNotificaciones();
+    this.intervalId = setInterval(() => this.actualizarNotificaciones(), 10000);
   }
 
   ngOnDestroy(): void {
@@ -48,30 +43,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
     fetch(`http://localhost:3000/api/notificaciones/${idUsu}`)
       .then(res => res.json())
       .then(data => {
-        const procesadas = data.map((n: any) => {
+        this.listaNotificaciones = data.map((n: any) => {
+          // Normalizamos el tipo base
           let t = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
           const tit = n.titulo.toLowerCase();
           
-          if (tit.includes('anotaci')) t = 'anotacion';
-          else if (tit.includes('riesgo') || tit.includes('alerta')) t = 'riesgo';
-          else if (tit.includes('nota') || tit.includes('calificaci')) t = 'nota';
-          else if (tit.includes('fecha') || tit.includes('evaluaci')) t = 'fecha';
+          // PRIORIDAD DE COLORES POR PALABRAS CLAVE
+          if (tit.includes('anotaci')) {
+            t = 'anotacion'; // Esto activará el rosado
+          } else if (tit.includes('riesgo') || tit.includes('alerta')) {
+            t = 'riesgo'; // Ahora 'alerta' también activará el ROJO
+          } else if (tit.includes('nota') || tit.includes('calificaci')) {
+            t = 'nota';
+          } else if (tit.includes('fecha') || tit.includes('evaluaci')) {
+            t = 'fecha';
+          }
 
-          return { ...n, tipo: t, leida: Number(n.leida) };
+          return { 
+            ...n, 
+            tipo: t, 
+            leida: Number(n.leida) 
+          };
         });
 
-        // Ordenamos: las más recientes arriba
-        procesadas.sort((a: any, b: any) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-
-        // El contador global de no leídas
-        this.unreadCount = procesadas.filter((n: any) => n.leida === 0).length;
-        
-        // El dropdown solo muestra las últimas 5 para no colapsar la pantalla
-        this.listaNotificaciones = procesadas.slice(0, 5);
-
+        this.unreadCount = this.listaNotificaciones.filter(n => n.leida === 0).length;
         this.cdr.detectChanges(); 
       })
-      .catch(err => console.error("Error en Header Polling:", err));
+      .catch(err => console.error("Error en polling:", err));
   }
 
   toggleNotifications(e: Event) {
