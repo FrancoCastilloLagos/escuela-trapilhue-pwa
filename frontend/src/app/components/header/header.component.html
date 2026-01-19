@@ -11,7 +11,7 @@
     </div>
     
     <div class="user-profile-pill">
-      <div class="notification-wrapper">
+      <div class="notification-wrapper" *ngIf="userRol !== 'DOCENTE'">
         <button class="notif-trigger" (click)="toggleNotifications($event)">
           <span class="bell-icon">🔔</span>
           <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
