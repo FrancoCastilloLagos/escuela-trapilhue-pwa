@@ -1,12 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import { NotasService } from '../../services/notas.service';
 import { AuthService } from '../../services/auth.service';
-import { NotificationsService } from '../../services/notifications.service';
-import { Subscription, forkJoin, of } from 'rxjs';
+import { HeaderComponent } from '../header/header.component'; // Importamos el componente real
+import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 Chart.register(...registerables);
@@ -14,7 +13,7 @@ Chart.register(...registerables);
 @Component({
   selector: 'app-rendimiento',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HeaderComponent], // Inyectamos el HeaderComponent
   templateUrl: './rendimiento.component.html',
   styleUrls: ['./rendimiento.component.css']
 })
@@ -22,19 +21,7 @@ export class RendimientoComponent implements OnInit, OnDestroy {
   @ViewChild('sumativasChart', { static: false }) sumativasCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('formativasChart', { static: false }) formativasCanvas!: ElementRef<HTMLCanvasElement>;
   
-  // Datos de Usuario y Estado del Header
-  userRol: string = '';
-  userName: string = '';
-  menuOpen: boolean = false;
-  notifOpen: boolean = false; 
   esDocente: boolean = false;
-
-  // Notificaciones
-  listaNotificaciones: any[] = [];
-  unreadCount: number = 0;
-  private refreshSub?: Subscription;
-
-  // Datos de Rendimiento
   cursos: any[] = [];
   estudiantes: any[] = [];
   asignaturas: any[] = [];
@@ -57,22 +44,12 @@ export class RendimientoComponent implements OnInit, OnDestroy {
   constructor(
     private nService: NotasService,
     private authService: AuthService,
-    private notiService: NotificationsService,
-    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     const rawRol = this.authService.getRol() || 'APODERADO';
-    this.userRol = rawRol.toUpperCase();
-    this.userName = localStorage.getItem('rut') || 'Usuario';
-    this.esDocente = this.userRol === 'DOCENTE';
-
-    // Sincronización con el sistema de notificaciones
-    this.actualizarNotificaciones();
-    this.refreshSub = this.notiService.refreshNeeded$.subscribe(() => {
-      this.actualizarNotificaciones();
-    });
+    this.esDocente = rawRol.toUpperCase() === 'DOCENTE';
 
     if (this.esDocente) {
       this.cargarCursos();
@@ -87,72 +64,32 @@ export class RendimientoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.refreshSub) this.refreshSub.unsubscribe();
+    this.limpiarGraficos();
   }
 
-  // --- Lógica del Header Manual ---
-  actualizarNotificaciones() {
-    const idUsu = localStorage.getItem('id_usuario');
-    if (!idUsu) return;
-
-    fetch(`https://escuela-backend-vva9.onrender.com/api/notificaciones/${idUsu}`)
-      .then(res => res.json())
-      .then(data => {
-        this.listaNotificaciones = (data || []).map((n: any) => {
-          let t = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
-          const tit = n.titulo.toLowerCase();
-          if (tit.includes('anotaci')) t = 'anotacion';
-          else if (tit.includes('riesgo') || tit.includes('alerta')) t = 'riesgo';
-          else if (tit.includes('nota') || tit.includes('calificaci')) t = 'nota';
-          else if (tit.includes('fecha') || tit.includes('evaluaci')) t = 'fecha';
-          return { ...n, tipo: t, leida: Number(n.leida) };
-        });
-        this.unreadCount = this.listaNotificaciones.filter(n => n.leida === 0).length;
-        this.cdr.detectChanges();
-      });
-  }
-
-  toggleNotifications(e: Event) {
-    e.stopPropagation();
-    this.notifOpen = !this.notifOpen;
-    this.menuOpen = false;
-    if (this.notifOpen && this.unreadCount > 0) this.marcarComoLeidas();
-  }
-
-  private marcarComoLeidas() {
-    const idUsu = localStorage.getItem('id_usuario');
-    fetch(`https://escuela-backend-vva9.onrender.com/api/notificaciones/leer/${idUsu}`, { method: 'PUT' })
-      .then(() => {
-        this.unreadCount = 0;
-        this.listaNotificaciones.forEach(n => n.leida = 1);
-        this.notiService.forzarActualizacion();
-        this.cdr.detectChanges();
-      });
-  }
-
-  toggleMenu(e: Event) {
-    e.stopPropagation();
-    this.menuOpen = !this.menuOpen;
-    this.notifOpen = false;
-  }
-
-  // --- Lógica de Negocio ---
   cargarCursos() {
-    this.nService.getCursos().subscribe(data => { this.cursos = data; this.cdr.detectChanges(); });
+    this.nService.getCursos().subscribe(data => { 
+      this.cursos = data; 
+      this.cdr.detectChanges(); 
+    });
   }
 
   onCursoChange() {
-    this.estudiantes = []; this.idEstudianteSel = null; this.idAsignaturaSel = null;
+    this.estudiantes = []; 
+    this.idEstudianteSel = null; 
+    this.idAsignaturaSel = null;
     this.limpiarGraficos();
     if (this.idCursoSel) {
       this.nService.getEstudiantesPorCurso(this.idCursoSel).subscribe(data => {
-        this.estudiantes = data; this.cdr.detectChanges();
+        this.estudiantes = data; 
+        this.cdr.detectChanges();
       });
     }
   }
 
   onEstudianteChange() {
-    this.asignaturas = []; this.idAsignaturaSel = null;
+    this.asignaturas = []; 
+    this.idAsignaturaSel = null;
     this.limpiarGraficos();
     if (this.idEstudianteSel) {
       const est = this.estudiantes.find(e => e.id_estudiante === this.idEstudianteSel);
@@ -163,7 +100,8 @@ export class RendimientoComponent implements OnInit, OnDestroy {
 
   cargarAsignaturas() {
     this.nService.getAsignaturasPorEstudiante(this.idEstudianteSel!).subscribe(data => {
-      this.asignaturas = data; this.cdr.detectChanges();
+      this.asignaturas = data; 
+      this.cdr.detectChanges();
     });
   }
 
@@ -252,14 +190,12 @@ export class RendimientoComponent implements OnInit, OnDestroy {
   limpiarGraficos() {
     if (this.chartSumativo) this.chartSumativo.destroy();
     if (this.chartFormativo) this.chartFormativo.destroy();
-    this.chartSumativo = null; this.chartFormativo = null;
-    this.notasActuales = []; this.alertaSumativa = false;
-    this.mensajeSumativo = 'Seleccione asignatura.'; this.mensajeFormativo = 'Seleccione asignatura.';
+    this.chartSumativo = null; 
+    this.chartFormativo = null;
+    this.notasActuales = []; 
+    this.alertaSumativa = false;
+    this.mensajeSumativo = 'Seleccione asignatura.'; 
+    this.mensajeFormativo = 'Seleccione asignatura.';
     this.cdr.detectChanges();
   }
-
-  // Navegación
-  volverDashboard() { this.router.navigate([this.esDocente ? '/dashboard-docente' : '/dashboard-apoderado']); }
-  irAConfiguracion() { this.menuOpen = false; this.router.navigate(['/configuracion']); }
-  cerrarSesion() { this.authService.logout(); this.router.navigate(['/login']); }
 }
