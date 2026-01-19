@@ -37,16 +37,23 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // Carga inicial
     this.cargarAnotaciones();
-
     this.userRol = (this.authService.getRol() || 'Usuario').toUpperCase();
     this.userName = localStorage.getItem('rut') || 'Usuario';
     
     this.actualizarNotificaciones();
-    this.intervalId = setInterval(() => this.actualizarNotificaciones(), 10000);
 
+    // INTERVALO DE 10 SEGUNDOS: Actualiza notificaciones Y la lista de anotaciones
+    this.intervalId = setInterval(() => {
+      this.actualizarNotificaciones();
+      this.cargarAnotaciones(); // Esto hace que la nueva anotación aparezca sin recargar la página
+    }, 10000);
+
+    // Suscripción al servicio por si el cambio viene de otra parte de la app
     this.refreshSub = this.notiService.refreshNeeded$.subscribe(() => {
       this.cargarAnotaciones();
+      this.actualizarNotificaciones();
     });
   }
 
@@ -55,6 +62,7 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
     if (this.refreshSub) this.refreshSub.unsubscribe();
   }
 
+  // --- LÓGICA DE ANOTACIONES ---
   cargarAnotaciones() {
     const id = localStorage.getItem('id_estudiante');
     if (id) {
@@ -72,6 +80,7 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
     }
   }
 
+  // --- LÓGICA DEL HEADER ---
   actualizarNotificaciones() {
     const idUsu = localStorage.getItem('id_usuario');
     if (!idUsu) return;
@@ -79,7 +88,6 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
     fetch(`http://localhost:3000/api/notificaciones/${idUsu}`)
       .then(res => res.json())
       .then(data => {
-        // Mapeo y filtrado de las últimas 3 notificaciones
         const procesadas = data.map((n: any) => {
           let t = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
           const tit = n.titulo.toLowerCase();
@@ -97,10 +105,8 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
           return { ...n, tipo: t, leida: Number(n.leida) };
         });
 
-        // SOLO LAS ÚLTIMAS 3
+        // Solo mostramos las últimas 3 en el dropdown
         this.listaNotificaciones = procesadas.slice(0, 3);
-        
-        // El conteo sigue siendo sobre el total real de no leídas
         this.unreadCount = procesadas.filter((n: any) => n.leida === 0).length;
         this.cdr.detectChanges(); 
       })
