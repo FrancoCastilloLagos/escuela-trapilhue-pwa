@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NotasService } from '../../../services/notas.service';
 import { NotificationsService } from '../../../services/notifications.service';
-import { HeaderComponent } from '../../header/header.component'; // Importamos el header funcional
+import { HeaderComponent } from '../../header/header.component'; // Asegúrate que la ruta sea correcta
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-consulta-anotaciones',
   standalone: true,
-  imports: [CommonModule, HeaderComponent], // Añadido HeaderComponent aquí
+  imports: [CommonModule, HeaderComponent], // Importación vital
   templateUrl: './consulta-anotaciones.component.html',
   styleUrls: ['./consulta-anotaciones.component.css']
 })
@@ -27,17 +27,15 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cargarAnotaciones();
 
-    // Escuchamos al servicio: cuando el docente guarda algo, refrescamos la lista automáticamente
+    // Esta es la parte que "escucha" al docente en tiempo real
     this.refreshSub = this.notiService.refreshNeeded$.subscribe(() => {
-      console.log('Nueva anotación detectada, recargando...');
+      console.log('Refrescando anotaciones por nueva notificación...');
       this.cargarAnotaciones();
     });
   }
 
   ngOnDestroy(): void {
-    if (this.refreshSub) {
-      this.refreshSub.unsubscribe();
-    }
+    if (this.refreshSub) this.refreshSub.unsubscribe();
   }
 
   cargarAnotaciones() {

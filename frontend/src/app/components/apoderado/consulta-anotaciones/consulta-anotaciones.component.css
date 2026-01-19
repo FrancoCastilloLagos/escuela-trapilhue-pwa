@@ -4,40 +4,59 @@
 }
 
 .dashboard-wrapper {
-  background-color: #85c1e9; min-height: 100vh; display: flex; flex-direction: column;
-  font-family: 'Poppins', sans-serif; animation: fadeIn 0.8s ease-out;
+  background-color: #85c1e9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeIn 0.8s ease-out;
 }
 
-/* --- CUERPO --- */
-.title-section-container { text-align: center; margin-top: 50px; margin-bottom: 20px; }
-.badge-title-dark { background: #002d40; color: white; padding: 15px 60px; border-radius: 20px; font-weight: 800; font-size: 1.6rem; display: inline-block; }
+.content-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-.panels-grid { display: flex; justify-content: center; gap: 40px; padding: 0 20px; align-items: flex-start; }
-.card-white-panel { background: white; padding: 30px; border-radius: 25px; width: 600px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-height: 520px; }
+/* --- TÍTULO --- */
+.title-section-container { text-align: center; margin-top: 40px; margin-bottom: 20px; }
+.badge-title-dark { 
+  background: #002d40; color: white; padding: 15px 60px; 
+  border-radius: 20px; font-weight: 800; font-size: 1.5rem; 
+  display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 
-.panel-title { color: #002d40; font-weight: 800; margin-bottom: 20px; text-align: center; font-size: 1.4rem; }
-.grades-scroll-container { max-height: 500px; overflow-y: auto; padding-right: 10px; }
+/* --- PANEL CENTRAL --- */
+.panels-grid { width: 100%; display: flex; justify-content: center; padding: 0 20px; }
+.card-white-panel { 
+  background: white; padding: 30px; border-radius: 25px; 
+  width: 100%; max-width: 700px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+  min-height: 500px;
+}
 
-/* Estilos de las tarjetas de anotación */
-.grade-row-item { background: #f4f6f7; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #e0e0e0; }
-.anotation-container { display: flex; gap: 15px; align-items: flex-start; }
+.panel-title { color: #002d40; font-weight: 800; margin-bottom: 25px; text-align: center; font-size: 1.4rem; }
+.grades-scroll-container { max-height: 550px; overflow-y: auto; padding-right: 10px; }
+
+/* --- ITEMS DE ANOTACIÓN --- */
+.grade-row-item { background: #f8f9fa; padding: 18px; border-radius: 18px; margin-bottom: 15px; border: 1px solid #eee; }
+.anotation-container { display: flex; gap: 15px; }
 .indicator-bar-anot { width: 6px; min-height: 60px; border-radius: 10px; flex-shrink: 0; }
 .is-neg { background-color: #e74c3c !important; }
 .is-pos { background-color: #27ae60 !important; }
 
-.label-tipo { font-size: 0.75rem; font-weight: 900; margin-bottom: 3px; text-transform: uppercase; }
+.label-tipo { font-size: 0.75rem; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; }
 .txt-rojo { color: #e74c3c !important; }
 .txt-verde { color: #27ae60 !important; }
+.txt-contenido { font-weight: 600; color: #2c3e50; margin: 0; line-height: 1.4; font-size: 0.95rem; }
+.txt-fecha { color: #2980b9; font-weight: bold; display: block; margin-top: 8px; font-size: 0.8rem; }
 
-.txt-contenido { font-weight: 600; color: #333; margin: 0; line-height: 1.3; }
-.txt-fecha { color: #2980b9; font-weight: bold; display: block; margin-top: 5px; }
+.info-msg { text-align: center; color: #95a5a6; padding-top: 50px; font-weight: 600; }
 
-.info-msg { text-align: center; color: #7f8c8d; margin-top: 20px; }
-
-.minimal-footer { background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto; }
+.minimal-footer { background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: 40px; }
 
 /* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-  .badge-title-dark { padding: 10px 20px; font-size: 1.1rem; width: 85%; margin-top: 20px; }
-  .card-white-panel { width: 95%; padding: 20px; min-height: auto; }
+  .badge-title-dark { padding: 12px 30px; font-size: 1.2rem; width: 90%; }
+  .card-white-panel { padding: 20px; }
 }
