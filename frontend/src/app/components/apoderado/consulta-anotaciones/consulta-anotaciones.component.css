@@ -1,6 +1,5 @@
 @import url('../../docente/gestion-anotaciones/gestion-anotaciones.component.css');
 
-/* --- ANIMACIONES Y BASE (Igual a Gestión) --- */
 @keyframes fadeIn { 
   from { opacity: 0; transform: translateY(20px); } 
   to { opacity: 1; transform: translateY(0); } 
@@ -15,7 +14,6 @@
   animation: fadeIn 0.8s ease-out;
 }
 
-/* --- HEADER PRINCIPAL (Copiado de Gestión Notas) --- */
 .header-main {
   width: 100%; 
   background: linear-gradient(180deg, #f1c40f, #e67e22); 
@@ -79,7 +77,6 @@
   transition: 0.2s; 
 }
 
-/* --- TÍTULO DE SECCIÓN (Igual a Gestión Notas) --- */
 .title-section-container { 
   text-align: center; 
   margin-top: 50px; 
@@ -96,7 +93,7 @@
   display: inline-block; 
 }
 
-/* --- ÁREA DE CONTENIDO (Adaptada pero con lógica de Gestión) --- */
+/* --- ÁREA DE CONTENIDO (Basada en Consulta) --- */
 .main-content-area {
   display: flex;
   flex-direction: column;
@@ -143,7 +140,7 @@
 }
 
 /* =========================================
-   CAPA MÓVIL (Calibrada como Gestión Notas)
+   CAPA MÓVIL (Misma lógica Gestión Notas)
    ========================================= */
 @media (max-width: 768px) {
   .header-main { 
@@ -161,6 +158,8 @@
     margin-bottom: 10px; 
     order: 1; 
   }
+
+  .logo-wrapper { order: 2; display: flex; justify-content: center; }
 
   .logo-white-bg { 
     margin-top: 0; 
@@ -202,5 +201,6 @@
     width: 95%; 
     padding: 20px 15px; 
     border-radius: 20px;
+    min-height: auto;
   }
 }
