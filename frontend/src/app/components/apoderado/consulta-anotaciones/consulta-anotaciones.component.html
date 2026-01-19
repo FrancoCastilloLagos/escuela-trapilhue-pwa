@@ -19,7 +19,7 @@
             <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
           </button>
           
-          <div class="notif-dropdown" *ngIf="notifOpen">
+          <div class="notif-dropdown" *ngIf="notifOpen" (click)="$event.stopPropagation()">
             <div class="notif-header">NOTIFICACIONES</div>
             <div class="notif-list">
               <div *ngIf="listaNotificaciones.length === 0" class="no-notif">Sin avisos nuevos</div>
@@ -42,7 +42,7 @@
           <span class="dot"></span><span class="dot"></span><span class="dot"></span>
         </button>
         
-        <div class="dropdown-floating-menu" *ngIf="menuOpen">
+        <div class="dropdown-floating-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
           <button class="dropdown-item" (click)="irAConfiguracion()">⚙️ Configuración</button>
           <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
         </div>

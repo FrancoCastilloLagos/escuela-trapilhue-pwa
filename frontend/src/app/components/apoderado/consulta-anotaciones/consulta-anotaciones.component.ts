@@ -14,12 +14,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./consulta-anotaciones.component.css']
 })
 export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
-  // Datos de anotaciones
   anotaciones: any[] = [];
   loading: boolean = true;
   private refreshSub?: Subscription;
 
-  // Variables Header y Notificaciones (Tu lógica funcional)
   userRol: string = '';
   userName: string = '';
   menuOpen: boolean = false;
@@ -37,10 +35,7 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Carga inicial de anotaciones
     this.cargarAnotaciones();
-
-    // Configuración Header (Respetando tu código)
     this.userRol = (this.authService.getRol() || 'Usuario').toUpperCase();
     this.userName = localStorage.getItem('rut') || 'Usuario';
     
@@ -57,7 +52,6 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
     if (this.refreshSub) this.refreshSub.unsubscribe();
   }
 
-  // --- LÓGICA DE ANOTACIONES ---
   cargarAnotaciones() {
     const id = localStorage.getItem('id_estudiante');
     if (id) {
@@ -75,7 +69,6 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
     }
   }
 
-  // --- LÓGICA DEL HEADER (TU CÓDIGO FUNCIONAL) ---
   actualizarNotificaciones() {
     const idUsu = localStorage.getItem('id_usuario');
     if (!idUsu) return;
@@ -86,24 +79,17 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
         this.listaNotificaciones = data.map((n: any) => {
           let t = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
           const tit = n.titulo.toLowerCase();
-          
-          if (tit.includes('anotaci')) {
-            t = 'anotacion'; 
-          } else if (tit.includes('riesgo') || tit.includes('alerta')) {
-            t = 'riesgo'; 
-          } else if (tit.includes('nota') || tit.includes('calificaci')) {
-            t = 'nota';
-          } else if (tit.includes('fecha') || tit.includes('evaluaci')) {
-            t = 'fecha';
-          }
+          if (tit.includes('anotaci')) t = 'anotacion'; 
+          else if (tit.includes('riesgo') || tit.includes('alerta')) t = 'riesgo'; 
+          else if (tit.includes('nota') || tit.includes('calificaci')) t = 'nota';
+          else if (tit.includes('fecha') || tit.includes('evaluaci')) t = 'fecha';
 
           return { ...n, tipo: t, leida: Number(n.leida) };
         });
-
         this.unreadCount = this.listaNotificaciones.filter(n => n.leida === 0).length;
         this.cdr.detectChanges(); 
       })
-      .catch(err => console.error("Error en polling:", err));
+      .catch(err => console.error("Error notificaciones:", err));
   }
 
   toggleNotifications(e: Event) {
@@ -123,7 +109,7 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
         this.listaNotificaciones.forEach(n => n.leida = 1);
         this.cdr.detectChanges();
       })
-      .catch(err => console.error("Error al marcar como leídas:", err));
+      .catch(err => console.error("Error leer:", err));
   }
 
   toggleMenu(e: Event) {
