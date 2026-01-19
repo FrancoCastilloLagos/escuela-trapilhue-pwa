@@ -30,7 +30,7 @@
       
       <div class="dropdown-floating-menu" *ngIf="menuOpen">
         <button class="dropdown-item" (click)="irAConfig()">⚙️ Configuración</button>
-        <div style="height: 1px; background: #eee; margin: 4px 0;"></div>
+        <div class="divider"></div>
         <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
       </div>
     </div>
@@ -38,10 +38,9 @@
 
   <div class="dropdown-notif-box" *ngIf="notifOpen" (click)="$event.stopPropagation()">
     <div class="notif-header">ÚLTIMOS AVISOS</div>
+    
     <div class="notif-scroll">
-      <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding: 30px; text-align: center; color: #ccc;">
-        No hay mensajes nuevos
-      </div>
+      <div *ngIf="listaNotificaciones.length === 0" class="no-notif">No hay mensajes nuevos</div>
       
       <div class="notif-row" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
         <div class="type-line" [attr.data-type]="n.tipo"></div>
@@ -51,6 +50,10 @@
           <span class="n-fec">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
         </div>
       </div>
+    </div>
+
+    <div class="notif-footer">
+      <button class="btn-close-notif" (click)="notifOpen = false">CERRAR NOTIFICACIONES</button>
     </div>
   </div>
 
