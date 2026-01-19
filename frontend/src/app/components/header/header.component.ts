@@ -43,16 +43,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     fetch(`http://localhost:3000/api/notificaciones/${idUsu}`)
       .then(res => res.json())
       .then(data => {
-        this.listaNotificaciones = data.map((n: any) => {
-          // Normalizamos el tipo base
+        // 1. Mapeamos y normalizamos toda la data primero
+        const todas = data.map((n: any) => {
           let t = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
           const tit = n.titulo.toLowerCase();
           
-          // PRIORIDAD DE COLORES POR PALABRAS CLAVE
           if (tit.includes('anotaci')) {
-            t = 'anotacion'; // Esto activará el rosado
+            t = 'anotacion';
           } else if (tit.includes('riesgo') || tit.includes('alerta')) {
-            t = 'riesgo'; // Ahora 'alerta' también activará el ROJO
+            t = 'riesgo';
           } else if (tit.includes('nota') || tit.includes('calificaci')) {
             t = 'nota';
           } else if (tit.includes('fecha') || tit.includes('evaluaci')) {
@@ -66,7 +65,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
           };
         });
 
-        this.unreadCount = this.listaNotificaciones.filter(n => n.leida === 0).length;
+        // 2. Calculamos el contador sobre el total de notificaciones
+        this.unreadCount = todas.filter((n: any) => n.leida === 0).length;
+
+        // 3. Limitamos la lista visual a las últimas 5 para no saturar el móvil
+        this.listaNotificaciones = todas.slice(0, 5);
+
         this.cdr.detectChanges(); 
       })
       .catch(err => console.error("Error en polling:", err));
