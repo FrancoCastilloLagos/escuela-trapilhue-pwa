@@ -6,9 +6,10 @@
     min-height: 100vh; 
     display: flex; 
     flex-direction: column; 
+    font-family: 'Poppins', sans-serif;
 }
 
-/* --- ESTILOS DEL HEADER (Heredados del modelo funcional) --- */
+/* --- ESTILOS DEL HEADER (Idéntico al modelo funcional) --- */
 .header-main {
     width: 100%; 
     background: linear-gradient(180deg, #f1c40f, #e67e22); 
@@ -72,7 +73,7 @@
     transition: 0.2s; 
 }
 
-/* --- CONTENIDO PRINCIPAL --- */
+/* --- ÁREA DE CONTENIDO ESPECÍFICA --- */
 .main-content-area {
     display: flex;
     flex-direction: column;
@@ -102,7 +103,7 @@
     margin-top: auto;
 }
 
-/* CLASES DE ESTADO */
+/* CLASES PARA REFLEJAR TIPO POSITIVO/NEGATIVO */
 .is-pos { background-color: #27ae60 !important; }
 .is-neg { background-color: #e74c3c !important; }
 .txt-rojo { color: #e74c3c !important; }
@@ -118,9 +119,11 @@
     background-color: #e74c3c !important; 
 }
 
-/* --- RESPONSIVE / MÓVIL (Igualando la lógica del logo centrado) --- */
+/* =========================================
+   CAPA PROTECTORA PARA MÓVILES (@media)
+   ========================================= */
 @media (max-width: 768px) {
-    /* Ajuste Header */
+    /* Ajuste de Header para que nada se pise */
     .header-main { 
         height: auto; 
         min-height: 190px; 
@@ -137,12 +140,6 @@
         order: 1; 
     }
 
-    .logo-wrapper { 
-        order: 2; 
-        display: flex; 
-        justify-content: center; 
-    }
-
     .logo-white-bg { 
         margin-top: 0; 
         width: 90px; 
@@ -150,6 +147,7 @@
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        order: 2;
     }
 
     .img-logo { 
@@ -168,7 +166,7 @@
         justify-content: center; 
     }
 
-    /* Ajuste de Contenido */
+    /* Ajustes específicos de Consulta Anotaciones */
     .main-content-area {
         padding: 15px 10px; 
     }
@@ -177,6 +175,7 @@
         width: 95%; 
         padding: 20px 15px; 
         border-radius: 20px;
+        max-width: none; /* Quitamos el límite para que use el 95% */
     }
 
     .grade-row-item {
