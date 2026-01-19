@@ -1,4 +1,5 @@
 <div class="dashboard-wrapper" (click)="menuOpen = false; notifOpen = false">
+  
   <header class="header-main">
     <div class="logo-wrapper">
       <div class="logo-white-bg">
@@ -6,39 +7,46 @@
       </div>
     </div>
     
-    <div class="user-profile-pill">
-      <div class="notification-wrapper" *ngIf="!esDocente">
-        <button class="notif-trigger" (click)="toggleNotifications($event)">
+    <div class="user-profile-pill" (click)="$event.stopPropagation()">
+      <div class="notif-wrapper" *ngIf="!esDocente">
+        <button class="notif-trigger-btn" (click)="toggleNotifications($event)">
           <span class="bell-icon">🔔</span>
           <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
         </button>
+      </div>
+
+      <span class="user-name-label">{{ userRol }}: {{ userName }}</span>
+
+      <div style="position: relative;">
+        <button class="menu-trigger" (click)="toggleMenu($event)">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </button>
         
-        <div class="notif-dropdown" *ngIf="notifOpen" (click)="$event.stopPropagation()">
-          <div class="notif-header">NOTIFICACIONES</div>
-          <div class="notif-list">
-            <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding: 15px; text-align: center; font-size: 0.8rem; color: #999;">Sin avisos</div>
-            <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
-              <div class="notif-indicator" [attr.data-type]="n.tipo"></div>
-              <div class="notif-body">
-                <span class="notif-t">{{ n.titulo }}</span>
-                <span class="notif-m">{{ n.mensaje }}</span>
-                <span class="notif-f">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
-              </div>
-            </div>
+        <div class="dropdown-floating-menu" *ngIf="menuOpen">
+          <button class="dropdown-item" (click)="irAConfig()">⚙️ Configuración</button>
+          <div style="height: 1px; background: #eee; margin: 4px 0;"></div>
+          <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dropdown-notif-box" *ngIf="notifOpen" (click)="$event.stopPropagation()">
+      <div class="notif-header">ÚLTIMOS AVISOS</div>
+      <div class="notif-scroll">
+        <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding: 30px; text-align: center; color: #ccc;">
+          No hay mensajes nuevos
+        </div>
+        <div class="notif-row" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
+          <div class="type-line" [attr.data-type]="n.tipo"></div>
+          <div class="notif-data">
+            <span class="n-tit">{{ n.titulo }}</span>
+            <span class="n-msg">{{ n.mensaje }}</span>
+            <span class="n-fec">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
           </div>
         </div>
       </div>
-
-      <span class="user-info">{{ userRol }}: {{ userName }}</span>
-
-      <button class="menu-trigger" (click)="toggleMenu($event)">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </button>
-      
-      <div class="dropdown-floating-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
-        <button class="dropdown-item" (click)="irAConfig()">⚙️ Configuración</button>
-        <div style="height: 1px; background: #eee; margin: 5px 0;"></div>
-        <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+      <div class="notif-footer">
+        <button class="btn-close-notif" (click)="notifOpen = false">CERRAR NOTIFICACIONES</button>
       </div>
     </div>
   </header>
@@ -52,32 +60,30 @@
     </div>
   </nav>
 
-  <main class="dashboard-body" style="width: 100%; max-width: 1200px; margin: 30px auto; padding: 0 15px;">
+  <main class="dashboard-body">
     <div class="layout-container">
-        
         <aside class="sidebar-info">
-          <div class="glass-card" style="background: #002d40; border-radius: 25px; padding: 20px; color: white; text-align: center;">
-            <h3 style="font-size: 0.9rem; margin-bottom: 15px;">CANALES DE COMUNICACIÓN</h3>
+          <div class="glass-card">
+            <h3 class="sidebar-title">CANALES DE COMUNICACIÓN</h3>
             <div class="social-actions">
-              <button class="nav-btn" style="background: #8e44ad; width: 100%; margin-bottom: 10px;">📞 TELÉFONO</button>
-              <button class="nav-btn" style="background: #28b463; width: 100%; margin-bottom: 10px;">💬 WHATSAPP</button>
-              <button class="nav-btn" style="background: #2e86c1; width: 100%;">👤 FACEBOOK</button>
+              <button class="nav-btn-social btn-tel">📞 TELÉFONO</button>
+              <button class="nav-btn-social btn-ws">💬 WHATSAPP</button>
+              <button class="nav-btn-social btn-fb">👤 FACEBOOK</button>
             </div>
           </div>
         </aside>
   
         <section class="news-section">
-          <div style="display: flex; flex-direction: column; align-items: center;">
+          <div class="news-container">
             <div class="news-header-badge">NOVEDADES</div>
-            <div class="news-display-card" style="background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%;">
-              <img src="assets/ninos-jugando.jpg" alt="Actualidad" class="news-visual" style="width: 100%; height: auto; display: block;">
-              <div style="padding: 15px; text-align: center; color: #777; font-size: 0.8rem;">
+            <div class="news-display-card">
+              <img src="assets/ninos-jugando.jpg" alt="Actualidad" class="news-visual">
+              <div class="news-footer-text">
                 Actualidad Escuela Trapilhue • 2026
               </div>
             </div>
           </div>
         </section>
-
     </div>
   </main>
 
