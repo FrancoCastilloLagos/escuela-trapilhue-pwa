@@ -20,9 +20,9 @@
           </button>
           
           <div class="notif-dropdown" *ngIf="notifOpen" (click)="$event.stopPropagation()">
-            <div class="notif-header">NOTIFICACIONES</div>
+            <div class="notif-header">CENTRO DE NOTIFICACIONES</div>
             <div class="notif-list">
-              <div *ngIf="listaNotificaciones.length === 0" class="no-notif">Sin avisos nuevos</div>
+              <div *ngIf="listaNotificaciones.length === 0" class="no-notif">No tienes avisos nuevos</div>
               
               <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="n.leida === 0">
                 <div class="notif-indicator" [attr.data-type]="n.tipo"></div>

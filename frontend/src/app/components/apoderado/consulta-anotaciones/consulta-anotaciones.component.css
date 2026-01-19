@@ -3,6 +3,12 @@
   to { opacity: 1; transform: translateY(0); } 
 }
 
+/* Animación específica para el dropdown */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .dashboard-wrapper {
   background-color: #85c1e9; min-height: 100vh; display: flex; flex-direction: column;
   font-family: 'Poppins', sans-serif; animation: fadeIn 0.8s ease-out;
@@ -42,8 +48,8 @@
   display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* --- NOTIFICACIONES CORREGIDAS --- */
-.notification-wrapper { position: relative; display: flex; align-items: center; }
+/* --- NOTIFICACIONES (SOLUCIÓN AL TAMAÑO PEQUEÑO) --- */
+.notification-wrapper { position: static; } /* Importante: static para que el dropdown no se limite al tamaño del pill */
 
 .notif-trigger { 
   background: transparent !important; border: none !important; cursor: pointer; 
@@ -58,27 +64,27 @@
   display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #17a2b8; 
 }
 
-/* El Dropdown ahora se posiciona mejor respecto al pill */
+/* El Dropdown ahora tiene un tamaño fijo y flota por encima de todo */
 .notif-dropdown { 
   position: absolute; 
-  top: 50px; 
-  right: -20px; 
-  width: 320px; 
+  top: 75px; /* Ajustado para que caiga debajo del pill */
+  right: 0; 
+  width: 350px; 
   background: white; 
   border-radius: 20px; 
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4); 
-  z-index: 3000; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+  z-index: 9999; /* Máxima prioridad */
   overflow: hidden; 
-  animation: fadeIn 0.3s ease-out;
+  animation: slideDown 0.3s ease-out;
 }
 
-.notif-header { background: #002d40; color: white; padding: 15px; text-align: center; font-weight: 700; }
-.notif-list { max-height: 350px; overflow-y: auto; }
+.notif-header { background: #002d40; color: white; padding: 15px; text-align: center; font-weight: 700; font-size: 1rem; }
+.notif-list { max-height: 400px; overflow-y: auto; }
 
-/* Estilos de los items */
-.notif-item { display: flex; border-bottom: 1px solid #f0f0f0; min-height: 80px; transition: background 0.2s; }
+.notif-item { display: flex; border-bottom: 1px solid #f0f0f0; min-height: 85px; width: 100%; transition: background 0.2s; }
 .notif-item.unread { background: #f0f9ff; }
-.notif-indicator { width: 10px; min-height: 100%; flex-shrink: 0; background-color: #ccc; }
+
+.notif-indicator { width: 12px; min-height: 100%; flex-shrink: 0; }
 .notif-indicator[data-type="anotacion"] { background-color: #f7a0f2 !important; } 
 .notif-indicator[data-type="nota"] { background-color: #2ecc71 !important; }      
 .notif-indicator[data-type="riesgo"] { background-color: #e74c3c !important; }     
@@ -86,63 +92,53 @@
 .notif-indicator[data-type="fecha"] { background-color: #8e44ad !important; }      
 
 .notif-body { padding: 12px; display: flex; flex-direction: column; flex-grow: 1; text-align: left; }
-.notif-t { font-weight: 800; font-size: 0.85rem; color: #2c3e50; margin-bottom: 2px; }
-.notif-m { font-size: 0.8rem; color: #576574; line-height: 1.2; }
-.notif-f { font-size: 0.7rem; color: #95a5a6; margin-top: 4px; }
+.notif-t { font-weight: 800; font-size: 0.9rem; color: #2c3e50; margin-bottom: 3px; }
+.notif-m { font-size: 0.85rem; color: #576574; line-height: 1.3; }
+.notif-f { font-size: 0.75rem; color: #95a5a6; margin-top: 5px; font-weight: 600; }
 
-/* --- MENU DROPDOWN --- */
-.menu-trigger { background: transparent; border: none; cursor: pointer; display: flex; gap: 3px; padding: 10px; }
-.dot { width: 4px; height: 4px; background: white; border-radius: 50%; }
+.no-notif { padding: 30px; text-align: center; color: #999; font-weight: 600; }
+
+/* --- MENU DROPDOWN (Cerrar Sesión / Config) --- */
 .dropdown-floating-menu { 
-  position: absolute; top: 60px; right: 0; width: 200px; background: white; 
-  border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); z-index: 2500; padding: 5px 0;
+  position: absolute; top: 65px; right: 0; width: 210px; background: white; 
+  border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 9998; padding: 8px 0;
 }
-.dropdown-item { width: 100%; padding: 12px 20px; border: none; background: none; text-align: left; cursor: pointer; font-weight: 600; color: #333; }
+.dropdown-item { width: 100%; padding: 12px 20px; border: none; background: none; text-align: left; cursor: pointer; font-weight: 600; color: #333; font-size: 0.95rem; }
 .dropdown-item:hover { background: #f8f9fa; color: #e67e22; }
 
-/* --- CUERPO --- */
+/* --- CONTENIDO ANOTACIONES --- */
 .title-section-container { text-align: center; margin-top: 50px; margin-bottom: 20px; }
 .badge-title-dark { background: #002d40; color: white; padding: 15px 60px; border-radius: 20px; font-weight: 800; font-size: 1.6rem; display: inline-block; }
 .panels-grid { display: flex; justify-content: center; gap: 40px; padding: 0 20px; align-items: flex-start; }
 .card-white-panel { background: white; padding: 30px; border-radius: 25px; width: 600px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-height: 520px; }
-.panel-title { color: #002d40; font-weight: 800; margin-bottom: 20px; text-align: center; font-size: 1.4rem; }
-.grades-scroll-container { max-height: 500px; overflow-y: auto; padding-right: 10px; }
 
-/* Estilos de las tarjetas de anotación */
-.grade-row-item { background: #f4f6f7; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #e0e0e0; }
-.anotation-container { display: flex; gap: 15px; align-items: flex-start; }
-.indicator-bar-anot { width: 6px; min-height: 60px; border-radius: 10px; flex-shrink: 0; }
-.is-neg { background-color: #e74c3c !important; }
-.is-pos { background-color: #27ae60 !important; }
-.label-tipo { font-size: 0.75rem; font-weight: 900; margin-bottom: 3px; text-transform: uppercase; }
-.txt-rojo { color: #e74c3c !important; }
-.txt-verde { color: #27ae60 !important; }
-.txt-contenido { font-weight: 600; color: #333; margin: 0; line-height: 1.3; }
-.txt-fecha { color: #2980b9; font-weight: bold; display: block; margin-top: 5px; }
-
-.minimal-footer { background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto; }
-
-/* --- RESPONSIVE MOBILE --- */
+/* --- RESPONSIVE MOBILE (CORRECCIÓN DEFINITIVA) --- */
 @media (max-width: 768px) {
   .header-main { height: auto !important; min-height: 180px; flex-direction: column !important; padding: 15px 0 !important; }
-  .header-container { flex-direction: column !important; }
+  .header-container { flex-direction: column !important; position: relative; }
+  
   .header-left-action { position: relative !important; top: 0; left: 0; margin-bottom: 15px; order: 1; }
   .logo-white-bg { margin-top: 0 !important; width: 85px !important; height: 85px !important; order: 2; }
+  
   .user-profile-pill { 
     position: relative !important; top: 10px !important; right: 0 !important; 
     width: 90% !important; justify-content: center !important; order: 3; 
+    padding: 12px 20px;
   }
   
-  /* Ajuste crucial para que el menu de notificaciones no se salga de la pantalla en movil */
+  /* EL CAMBIO CLAVE: Posicionamiento fijo para ocupar el ancho real del celular */
   .notif-dropdown { 
     position: fixed !important; 
-    top: 170px; 
-    left: 5%; 
-    right: 5%; 
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
     width: 90% !important; 
-    margin: 0 auto;
+    max-width: 360px;
+    height: auto;
+    max-height: 80vh; /* Que no sea más alto que la pantalla */
+    box-shadow: 0 0 0 1000px rgba(0,0,0,0.5); /* Oscurece el fondo para que resalte */
   }
 
-  .badge-title-dark { padding: 10px 20px; font-size: 1.1rem; width: 85%; margin-top: 20px; }
+  .badge-title-dark { padding: 10px 20px; font-size: 1.2rem; width: 85%; margin-top: 20px; }
   .card-white-panel { width: 95%; padding: 20px; min-height: auto; }
 }
