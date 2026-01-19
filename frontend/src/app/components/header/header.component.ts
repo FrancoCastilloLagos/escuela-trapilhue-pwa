@@ -93,6 +93,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate([route]);
   }
 
-  irAConfiguracion() { this.menuOpen = false; this.router.navigate(['/configuracion']); }
+  irAConfig() { this.menuOpen = false; this.router.navigate(['/configuracion']); }
   cerrarSesion() { this.authService.logout(); this.router.navigate(['/login']); }
 }

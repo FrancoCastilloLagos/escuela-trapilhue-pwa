@@ -1,56 +1,49 @@
-<header class="header-main" (click)="notifOpen = false; menuOpen = false">
-  <div class="header-grid">
-    
-    <div class="header-section left">
-      <button class="btn-volver" (click)="volverDashboard()">
-        <span class="arrow">⬅</span> VOLVER
+<header class="header-main" (click)="menuOpen = false; notifOpen = false">
+  
+  <div class="header-left-action">
+    <button class="btn-back-nav" (click)="volverDashboard()"><span>⬅</span> VOLVER</button>
+  </div>
+  
+  <div class="logo-wrapper">
+    <div class="logo-white-bg">
+      <img src="assets/logo-escuela.png" alt="Logo Escuela" class="img-logo">
+    </div>
+  </div>
+  
+  <div class="user-profile-pill">
+    <div class="notif-wrapper" *ngIf="!esDocente">
+      <button class="notif-trigger-btn" (click)="toggleNotifications($event)">
+        <span class="bell-icon">🔔</span>
+        <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
       </button>
-    </div>
-    
-    <div class="header-section center">
-      <div class="logo-circle">
-        <img src="assets/logo-escuela.png" alt="Logo" class="logo-img">
-      </div>
-    </div>
-    
-    <div class="header-section right">
-      <div class="user-pill">
-        
-        <div class="notif-container" *ngIf="!esDocente">
-          <button class="bell-btn" (click)="toggleNotifications($event)">
-            <span class="bell-icon">🔔</span>
-            <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
-          </button>
-        </div>
 
-        <span class="user-text">{{ userRol }}: {{ userName }}</span>
-        
-        <button class="dots-btn" (click)="toggleMenu($event)">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        </button>
-
-        <div class="dropdown-notif" *ngIf="notifOpen" (click)="$event.stopPropagation()">
-          <div class="dropdown-header">NOTIFICACIONES</div>
-          <div class="dropdown-scroll">
-            <div *ngIf="listaNotificaciones.length === 0" class="empty-msg">No hay avisos</div>
-            <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
-              <div class="type-indicator" [attr.data-type]="n.tipo"></div>
-              <div class="notif-content">
-                <p class="n-title">{{ n.titulo }}</p>
-                <p class="n-desc">{{ n.mensaje }}</p>
-                <p class="n-date">{{ n.fecha | date:'dd/MM HH:mm' }}</p>
-              </div>
+      <div class="dropdown-notif-box" *ngIf="notifOpen" (click)="$event.stopPropagation()">
+        <div class="notif-header">NOTIFICACIONES</div>
+        <div class="notif-scroll">
+          <div *ngIf="listaNotificaciones.length === 0" class="no-notif">No hay mensajes nuevos</div>
+          <div class="notif-row" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
+            <div class="type-line" [attr.data-type]="n.tipo"></div>
+            <div class="notif-data">
+              <span class="n-tit">{{ n.titulo }}</span>
+              <span class="n-msg">{{ n.mensaje }}</span>
+              <span class="n-fec">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
             </div>
           </div>
         </div>
-
-        <div class="dropdown-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
-          <button (click)="irAConfiguracion()">⚙️ Configuración</button>
-          <button (click)="cerrarSesion()" class="btn-exit">🚪 Cerrar sesión</button>
-        </div>
-
       </div>
     </div>
 
+    <span class="user-name-label">{{ userRol }}: {{ userName }}</span>
+    
+    <button class="menu-trigger" (click)="toggleMenu($event)">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </button>
+    
+    <div class="dropdown-floating-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
+      <button class="dropdown-item" (click)="irAConfig()">⚙️ Configuración</button>
+      <div class="divider"></div>
+      <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+    </div>
   </div>
+
 </header>

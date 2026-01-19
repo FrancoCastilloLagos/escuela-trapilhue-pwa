@@ -1,133 +1,99 @@
+/* ESTILOS BASE DE TU DISEÑO */
 .header-main {
-  width: 100%;
-  background: linear-gradient(180deg, #f1c40f, #e67e22);
+  width: 100%; 
+  background: linear-gradient(180deg, #f1c40f, #e67e22); 
   height: 120px;
-  border-bottom-left-radius: 40px;
+  border-bottom-left-radius: 40px; 
   border-bottom-right-radius: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  display: flex; 
+  justify-content: center; 
+  position: relative; 
   z-index: 1000;
-  padding: 0 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.header-grid {
-  width: 100%;
-  max-width: 1200px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header-section { flex: 1; display: flex; align-items: center; }
-.header-section.center { justify-content: center; }
-.header-section.right { justify-content: flex-end; }
-
-/* Botón Volver (Estilo Imagen Docente) */
-.btn-volver {
-  background: #002d40;
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Logo (Estilo Imagen Docente) */
-.logo-circle {
-  background: white;
-  width: 85px;
-  height: 85px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid #002d40;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-.logo-img { width: 70%; object-fit: contain; }
-
-/* Pill Turquesa (Estilo Imagen Docente) */
-.user-pill {
-  background: #17a2b8;
-  padding: 6px 16px;
-  border-radius: 50px;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: relative; /* Para que los dropdowns se posicionen respecto a esto */
-  min-height: 40px;
-}
-
-.user-text { font-weight: 500; font-size: 0.9rem; white-space: nowrap; }
-
-.bell-btn { background: none; border: none; cursor: pointer; position: relative; padding: 0; display: flex; }
-.bell-icon { font-size: 1.3rem; }
-.badge {
-  position: absolute; top: -4px; right: -6px;
-  background: #ff4757; color: white; font-size: 9px;
-  width: 16px; height: 16px; border-radius: 50%;
+.logo-white-bg {
+  background: white; width: 100px; height: 100px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  border: 1.5px solid #17a2b8; font-weight: bold;
+  border: 4px solid #002d40; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  overflow: hidden;
 }
 
-.dots-btn { background: none; border: none; cursor: pointer; display: flex; gap: 3px; padding: 5px; }
-.dot { width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.8; }
+.img-logo { width: 80%; height: auto; display: block; }
 
-/* DROPDOWNS REALMENTE FLOTANTES (No rompen el Pill) */
-.dropdown-notif {
-  position: absolute; top: 50px; right: 0; width: 300px;
-  background: white; border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  overflow: hidden; z-index: 1100; color: #333;
-  animation: slideIn 0.2s ease-out;
+.header-left-action { position: absolute; top: 35px; left: 30px; }
+
+.btn-back-nav { 
+  background: #002d40; color: white; border: none; padding: 10px 20px; 
+  border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; 
 }
 
-.dropdown-menu {
-  position: absolute; top: 50px; right: 0; width: 180px;
-  background: white; border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  z-index: 1100; display: flex; flex-direction: column; overflow: hidden;
+/* PILL TURQUESA (Mantenido según tu diseño) */
+.user-profile-pill {
+  position: absolute; top: 25px; right: 30px; 
+  background: linear-gradient(135deg, #17a2b8, #117a8b);
+  padding: 10px 20px; border-radius: 50px; color: white; 
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.dropdown-menu button {
-  padding: 12px; border: none; background: none; text-align: left;
-  cursor: pointer; font-weight: 600; font-size: 0.85rem; color: #444;
+/* CAMPANA */
+.notif-wrapper { position: relative; display: flex; align-items: center; }
+.notif-trigger-btn { background: none; border: none; cursor: pointer; padding: 0; position: relative; }
+.bell-icon { font-size: 1.4rem; }
+.notif-badge {
+  position: absolute; top: -5px; right: -5px; background: #e74c3c; color: white;
+  font-size: 10px; width: 17px; height: 17px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-weight: 800;
+  border: 2px solid #117a8b;
 }
-.dropdown-menu button:hover { background: #f8f9fa; color: #e67e22; }
-.btn-exit { border-top: 1px solid #eee !important; }
 
-@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+/* MENÚS FLOTANTES (CORREGIDOS) */
+.dropdown-floating-menu, .dropdown-notif-box {
+  position: absolute; top: 60px; right: 0; 
+  background: white; border-radius: 16px; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+  z-index: 1100; animation: fadeInMenu 0.3s ease;
+}
 
-/* Estilo de lista de notificaciones */
-.dropdown-header { background: #002d40; color: white; padding: 10px; text-align: center; font-size: 0.75rem; font-weight: bold; }
-.dropdown-scroll { max-height: 280px; overflow-y: auto; }
-.notif-item { display: flex; border-bottom: 1px solid #eee; transition: 0.2s; }
-.notif-item.unread { background: #f1f9ff; }
-.type-indicator { width: 5px; flex-shrink: 0; }
-.type-indicator[data-type="anotacion"] { background: #f7a0f2; }
-.type-indicator[data-type="nota"] { background: #2ecc71; }
-.type-indicator[data-type="riesgo"] { background: #e74c3c; }
-.type-indicator[data-type="comunicacion"] { background: #3498db; }
-.type-indicator[data-type="fecha"] { background: #8e44ad; }
+.dropdown-floating-menu { width: 210px; padding: 8px 0; }
+.dropdown-notif-box { width: 320px; overflow: hidden; color: #333; }
 
-.notif-content { padding: 8px; flex: 1; }
-.n-title { font-weight: 700; font-size: 0.8rem; margin: 0; color: #2c3e50; }
-.n-desc { font-size: 0.75rem; margin: 2px 0; color: #636e72; }
-.n-date { font-size: 0.65rem; color: #b2bec3; margin: 0; }
-.empty-msg { padding: 20px; text-align: center; color: #999; font-size: 0.8rem; }
+@keyframes fadeInMenu { 
+  from { opacity: 0; transform: translateY(-10px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
 
-/* RESPONSIVE MÓVIL */
+.dropdown-item { width: 100%; padding: 12px 20px; border: none; background: none; text-align: left; cursor: pointer; color: #333; font-weight: 600; font-size: 0.9rem; }
+.dropdown-item:hover { background: #f8f9fa; color: #e67e22; }
+.divider { height: 1px; background: #eee; margin: 4px 0; }
+
+.menu-trigger { background: rgba(255, 255, 255, 0.15); border: none; cursor: pointer; display: flex; gap: 3px; padding: 10px; border-radius: 50%; }
+.dot { width: 4px; height: 4px; background: white; border-radius: 50%; }
+
+/* ESTILOS LISTA NOTIFICACIONES */
+.notif-header { background: #002d40; color: white; padding: 12px; text-align: center; font-weight: 800; font-size: 0.8rem; }
+.notif-scroll { max-height: 300px; overflow-y: auto; }
+.notif-row { display: flex; border-bottom: 1px solid #f0f0f0; min-height: 70px; }
+.notif-row.unread { background: #f0faff; }
+.type-line { width: 6px; flex-shrink: 0; }
+.type-line[data-type="anotacion"] { background: #f7a0f2; }
+.type-line[data-type="nota"] { background: #2ecc71; }
+.type-line[data-type="riesgo"] { background: #e74c3c; }
+.type-line[data-type="comunicacion"] { background: #3498db; }
+.type-line[data-type="fecha"] { background: #8e44ad; }
+
+.notif-data { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; }
+.n-tit { font-weight: 700; font-size: 0.85rem; color: #002d40; }
+.n-msg { font-size: 0.8rem; color: #555; }
+.n-fec { font-size: 0.7rem; color: #999; margin-top: 4px; }
+.no-notif { padding: 20px; text-align: center; color: #bbb; font-size: 0.85rem; }
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  .header-main { height: auto; min-height: 140px; padding: 15px 0; }
-  .header-grid { flex-direction: column; gap: 10px; }
-  .user-pill { width: 90%; justify-content: center; }
-  .dropdown-notif { position: fixed; top: 150px; left: 5%; right: 5%; width: 90%; }
+  .header-main { height: auto; min-height: 190px; flex-direction: column; padding: 15px 0; }
+  .header-left-action { position: relative; top: 0; left: 0; margin-bottom: 10px; order: 1; }
+  .logo-white-bg { margin-top: 0; order: 2; width: 90px; height: 90px; }
+  .user-profile-pill { position: relative; top: 0; right: 0; order: 3; margin-top: 15px; width: 90%; justify-content: center; }
+  .dropdown-notif-box { position: fixed; top: 180px; left: 5%; width: 90%; right: 5%; }
 }
