@@ -6,80 +6,90 @@
 .dashboard-wrapper {
   background-color: #85c1e9; min-height: 100vh; display: flex; flex-direction: column;
   font-family: 'Poppins', sans-serif; animation: fadeIn 0.8s ease-out;
+  width: 100%; overflow-x: hidden;
 }
 
+/* --- HEADER RESPONSIVE --- */
 .header-main {
-  width: 100%; background: linear-gradient(180deg, #f1c40f, #e67e22); height: 120px;
+  width: 100%; background: linear-gradient(180deg, #f1c40f, #e67e22); 
+  min-height: 120px; height: auto; padding: 20px 0;
   border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
-  display: flex; justify-content: center; position: relative; z-index: 100;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .logo-white-bg {
-  background: white; width: 100px; height: 100px; border-radius: 50%;
+  background: white; width: 80px; height: 80px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  border: 4px solid #002d40; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border: 4px solid #002d40; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  margin-bottom: 10px;
 }
 
-.user-profile-pill {
-  position: absolute; top: 25px; right: 30px; 
-  background: linear-gradient(135deg, #17a2b8, #117a8b);
-  padding: 10px 20px; border-radius: 50px; color: white; display: flex; align-items: center; gap: 12px;
+/* Ajuste de botones y perfil en móvil */
+.header-left-action { position: static; margin-bottom: 10px; }
+.user-profile-pill { 
+  position: static; background: linear-gradient(135deg, #17a2b8, #117a8b);
+  padding: 8px 15px; border-radius: 50px; color: white; display: flex; 
+  align-items: center; gap: 12px; font-size: 0.8rem;
 }
 
-.menu-trigger { background: rgba(255, 255, 255, 0.15); border: none; cursor: pointer; display: flex; gap: 3px; padding: 10px; border-radius: 50%; }
-.dot { width: 4px; height: 4px; background: white; border-radius: 50%; }
-
-.dropdown-floating-menu { 
-  position: absolute; top: 65px; right: 0; width: 210px; background: white; border-radius: 16px; padding: 8px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.1); z-index: 200;
+/* --- TÍTULO --- */
+.title-section-container { text-align: center; margin: 20px 0; padding: 0 10px; }
+.badge-title-dark { 
+  background: #002d40; color: white; padding: 10px 30px; 
+  border-radius: 15px; font-weight: 800; font-size: 1.2rem; width: 90%; 
 }
-.dropdown-item { width: 100%; padding: 10px 20px; border: none; background: none; text-align: left; cursor: pointer; color: #333; font-weight: 500; }
 
-.header-left-action { position: absolute; top: 35px; left: 30px; }
-.btn-back-nav { background: #002d40; color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+/* --- SELECTORES (FILTROS) --- */
+.selectors-row { 
+  display: flex; flex-wrap: wrap; justify-content: center; 
+  gap: 10px; margin-bottom: 20px; padding: 0 15px; 
+}
+.select-box { 
+  width: 100%; max-width: 300px; height: 50px; 
+  background: white; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+}
 
-.title-section-container { text-align: center; margin-top: 50px; margin-bottom: 20px; }
-.badge-title-dark { background: #002d40; color: white; padding: 15px 60px; border-radius: 20px; font-weight: 800; font-size: 1.6rem; display: inline-block; }
+/* --- GRID DE PANELES (LA CLAVE) --- */
+.panels-grid { 
+  display: flex; flex-direction: column; /* Apilados por defecto */
+  align-items: center; gap: 20px; padding: 0 15px 40px 15px; 
+}
 
-.selectors-row { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; }
-.select-box { width: 280px; height: 50px; background: white; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
-.clean-select { width: 100%; height: 100%; padding: 0 15px; border: none; outline: none; font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; color: #333; }
+.card-dark-panel { 
+  background: #002d40; padding: 25px; border-radius: 25px; 
+  width: 100%; max-width: 450px; color: white; box-sizing: border-box; 
+}
+.card-white-panel { 
+  background: white; padding: 25px; border-radius: 25px; 
+  width: 100%; max-width: 450px; display: flex; flex-direction: column; 
+  box-sizing: border-box; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-height: auto; 
+}
 
-.panels-grid { display: flex; justify-content: center; gap: 40px; padding: 0 20px; align-items: flex-start; }
-
-.card-dark-panel { background: #002d40; padding: 30px; border-radius: 25px; width: 380px; color: white; box-sizing: border-box; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-.card-white-panel { background: white; padding: 30px; border-radius: 25px; width: 450px; display: flex; flex-direction: column; box-sizing: border-box; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-height: 520px; }
-
-.label-lite { display: block; font-size: 0.75rem; color: #f1c40f; margin-bottom: 5px; text-transform: uppercase; font-weight: 600; }
-
+/* --- INPUTS Y BOTONES --- */
 .grade-input { 
-  width: 100%; padding: 12px; border-radius: 12px; border: 2px solid transparent; font-size: 1.1rem; text-align: center; font-weight: 600; outline: none; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: 0.3s;
+  width: 100%; padding: 12px; border-radius: 12px; font-size: 1rem; 
+  text-align: center; box-sizing: border-box; margin-bottom: 10px;
+}
+.type-selector-container { display: flex; gap: 5px; margin-bottom: 15px; }
+
+/* --- MEDIA QUERY PARA PC (ESCRITORIO) --- */
+@media (min-width: 992px) {
+  .header-main { flex-direction: row; height: 120px; padding: 0; }
+  .logo-white-bg { margin-top: 20px; width: 100px; height: 100px; }
+  .header-left-action { position: absolute; top: 35px; left: 30px; }
+  .user-profile-pill { position: absolute; top: 25px; right: 30px; font-size: 1rem; }
+  
+  .badge-title-dark { font-size: 1.6rem; width: auto; padding: 15px 60px; }
+  .selectors-row { flex-wrap: nowrap; }
+  .select-box { width: 280px; }
+  
+  .panels-grid { flex-direction: row; justify-content: center; align-items: flex-start; gap: 40px; }
+  .card-dark-panel { width: 380px; }
+  .card-white-panel { width: 450px; min-height: 520px; }
 }
 
-.type-selector-container {
-  display: flex; gap: 8px; margin-bottom: 20px; background: rgba(255,255,255,0.1); padding: 5px; border-radius: 14px;
-}
-.type-btn {
-  flex: 1; padding: 12px; border: none; border-radius: 10px; background: transparent; color: white; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: 0.3s;
-}
-.type-btn.active { background: #f1c40f; color: #002d40; }
-
-.btn-full-action { width: 100%; padding: 15px; border-radius: 15px; border: none; color: white; font-weight: 800; cursor: pointer; transition: 0.2s; }
-.green-grad { background: linear-gradient(90deg, #58d68d, #28b463); box-shadow: 0 4px 15px rgba(40,180,99,0.3); }
-.btn-cancel { width: 100%; background: transparent; border: 1px solid #7f8c8d; color: #bdc3c7; margin-top: 10px; padding: 10px; border-radius: 12px; cursor: pointer; }
-
-.grades-scroll-container { max-height: 400px; overflow-y: auto; padding-right: 5px; }
-.grade-row-item { display: flex; justify-content: space-between; align-items: center; background: #f4f6f7; padding: 15px; border-radius: 15px; margin-bottom: 12px; border-left: 5px solid #002d40; cursor: pointer; }
-.selected-row { background: #d4e6f1 !important; border-left: 5px solid #f1c40f !important; }
-
-.type-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 4px; margin-top: 4px; display: inline-block; font-weight: 700; color: white; }
-.type-badge.sumativa { background: #34495e; }
-.type-badge.formativa { background: #3498db; }
-
-.grade-value-circle { width: 45px; height: 45px; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-
-.actions-footer-panel { display: flex; gap: 15px; margin-top: 20px; }
-.btn-edit { flex: 1; background: #f1c40f; color: #000; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; }
-.btn-delete { flex: 1; background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; }
-
+/* --- OTROS --- */
+.grades-scroll-container { max-height: 400px; overflow-y: auto; }
+.grade-row-item { display: flex; justify-content: space-between; align-items: center; background: #f4f6f7; padding: 15px; border-radius: 15px; margin-bottom: 12px; }
 .minimal-footer { background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto; }
