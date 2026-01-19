@@ -3,66 +3,43 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NotasService } from '../../../services/notas.service';
 import { NotificationsService } from '../../../services/notifications.service';
-import { AuthService } from '../../../services/auth.service';
+import { HeaderComponent } from '../../header/header.component'; // Importamos el header funcional
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-consulta-anotaciones',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderComponent], // Añadido HeaderComponent aquí
   templateUrl: './consulta-anotaciones.component.html',
   styleUrls: ['./consulta-anotaciones.component.css']
 })
 export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
-  // Datos de anotaciones
   anotaciones: any[] = [];
   loading: boolean = true;
   private refreshSub?: Subscription;
 
-  // Variables Header y Notificaciones
-  userRol: string = '';
-  userName: string = '';
-  menuOpen: boolean = false;
-  notifOpen: boolean = false;
-  listaNotificaciones: any[] = [];
-  unreadCount: number = 0;
-  private intervalId: any;
-
   constructor(
     private notasService: NotasService,
     private notiService: NotificationsService,
-    private authService: AuthService,
-    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    // Carga inicial
     this.cargarAnotaciones();
-    this.userRol = (this.authService.getRol() || 'Usuario').toUpperCase();
-    this.userName = localStorage.getItem('rut') || 'Usuario';
-    
-    this.actualizarNotificaciones();
 
-    // INTERVALO DE 10 SEGUNDOS: Actualiza notificaciones Y la lista de anotaciones
-    this.intervalId = setInterval(() => {
-      this.actualizarNotificaciones();
-      this.cargarAnotaciones(); // Esto hace que la nueva anotación aparezca sin recargar la página
-    }, 10000);
-
-    // Suscripción al servicio por si el cambio viene de otra parte de la app
+    // Escuchamos al servicio: cuando el docente guarda algo, refrescamos la lista automáticamente
     this.refreshSub = this.notiService.refreshNeeded$.subscribe(() => {
+      console.log('Nueva anotación detectada, recargando...');
       this.cargarAnotaciones();
-      this.actualizarNotificaciones();
     });
   }
 
   ngOnDestroy(): void {
-    if (this.intervalId) clearInterval(this.intervalId);
-    if (this.refreshSub) this.refreshSub.unsubscribe();
+    if (this.refreshSub) {
+      this.refreshSub.unsubscribe();
+    }
   }
 
-  // --- LÓGICA DE ANOTACIONES ---
   cargarAnotaciones() {
     const id = localStorage.getItem('id_estudiante');
     if (id) {
@@ -78,79 +55,5 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
         }
       });
     }
-  }
-
-  // --- LÓGICA DEL HEADER ---
-  actualizarNotificaciones() {
-    const idUsu = localStorage.getItem('id_usuario');
-    if (!idUsu) return;
-
-    fetch(`http://localhost:3000/api/notificaciones/${idUsu}`)
-      .then(res => res.json())
-      .then(data => {
-        const procesadas = data.map((n: any) => {
-          let t = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
-          const tit = n.titulo.toLowerCase();
-          
-          if (tit.includes('anotaci')) {
-            t = 'anotacion'; 
-          } else if (tit.includes('riesgo') || tit.includes('alerta')) {
-            t = 'riesgo'; 
-          } else if (tit.includes('nota') || tit.includes('calificaci')) {
-            t = 'nota';
-          } else if (tit.includes('fecha') || tit.includes('evaluaci')) {
-            t = 'fecha';
-          }
-
-          return { ...n, tipo: t, leida: Number(n.leida) };
-        });
-
-        // Solo mostramos las últimas 3 en el dropdown
-        this.listaNotificaciones = procesadas.slice(0, 3);
-        this.unreadCount = procesadas.filter((n: any) => n.leida === 0).length;
-        this.cdr.detectChanges(); 
-      })
-      .catch(err => console.error("Error en polling:", err));
-  }
-
-  toggleNotifications(e: Event) {
-    e.stopPropagation();
-    this.notifOpen = !this.notifOpen;
-    this.menuOpen = false;
-    if (this.notifOpen && this.unreadCount > 0) {
-      this.marcarComoLeidas();
-    }
-  }
-
-  private marcarComoLeidas() {
-    const idUsu = localStorage.getItem('id_usuario');
-    fetch(`http://localhost:3000/api/notificaciones/leer/${idUsu}`, { method: 'PUT' })
-      .then(() => {
-        this.unreadCount = 0;
-        this.listaNotificaciones.forEach(n => n.leida = 1);
-        this.cdr.detectChanges();
-      })
-      .catch(err => console.error("Error al marcar como leídas:", err));
-  }
-
-  toggleMenu(e: Event) {
-    e.stopPropagation();
-    this.menuOpen = !this.menuOpen;
-    this.notifOpen = false;
-  }
-
-  volverDashboard() {
-    const r = this.authService.getRol()?.toUpperCase();
-    this.router.navigate([r === 'DOCENTE' ? '/dashboard-docente' : '/dashboard-apoderado']);
-  }
-
-  irAConfiguracion() { 
-    this.menuOpen = false;
-    this.router.navigate(['/configuracion']); 
-  }
-
-  cerrarSesion() { 
-    this.authService.logout(); 
-    this.router.navigate(['/login']); 
   }
 }
