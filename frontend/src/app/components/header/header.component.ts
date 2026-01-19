@@ -56,22 +56,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.listaNotificaciones = data.map(n => {
           let tipoFinal = (n.tipo || 'comunicacion').toLowerCase().trim();
           const tituloNorm = (n.titulo || '').toLowerCase();
-
           if (tituloNorm.includes('anotaci')) tipoFinal = 'anotacion';
           else if (tituloNorm.includes('riesgo') || tituloNorm.includes('alerta')) tipoFinal = 'riesgo';
           else if (tituloNorm.includes('nota') || tituloNorm.includes('calificaci')) tipoFinal = 'nota';
           else if (tituloNorm.includes('fecha') || tituloNorm.includes('evaluaci')) tipoFinal = 'fecha';
 
-          return {
-            ...n,
-            tipo: tipoFinal,
-            leida: n.leida === 1 || n.leida === true
-          };
+          return { ...n, tipo: tipoFinal, leida: n.leida === 1 || n.leida === true };
         });
         this.unreadCount = this.listaNotificaciones.filter(n => !n.leida).length;
         this.cdr.detectChanges();
-      },
-      error: (err) => console.error("Error sincronización:", err)
+      }
     });
   }
 
@@ -79,7 +73,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     this.notifOpen = !this.notifOpen;
     this.menuOpen = false;
-
     if (this.notifOpen && this.unreadCount > 0) {
       this.nService.marcarComoLeidas(this.idUsuarioActual).subscribe(() => {
         this.unreadCount = 0;
@@ -96,16 +89,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   volverDashboard() {
-    this.router.navigate([this.esDocente ? '/dashboard-docente' : '/dashboard-apoderado']);
+    const route = this.esDocente ? '/dashboard-docente' : '/dashboard-apoderado';
+    this.router.navigate([route]);
   }
 
-  irAConfiguracion() { 
-    this.menuOpen = false;
-    this.router.navigate(['/configuracion']); 
-  }
-
-  cerrarSesion() { 
-    this.authService.logout(); 
-    this.router.navigate(['/login']); 
-  }
+  irAConfiguracion() { this.menuOpen = false; this.router.navigate(['/configuracion']); }
+  cerrarSesion() { this.authService.logout(); this.router.navigate(['/login']); }
 }

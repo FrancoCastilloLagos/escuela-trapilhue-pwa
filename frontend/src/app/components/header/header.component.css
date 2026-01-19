@@ -1,4 +1,3 @@
-/* Contenedor Principal */
 .header-main {
   width: 100%;
   background: linear-gradient(180deg, #f1c40f, #e67e22);
@@ -6,149 +5,129 @@
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
   display: flex;
+  align-items: center;
   justify-content: center;
   position: relative;
   z-index: 1000;
+  padding: 0 20px;
 }
 
-.header-container {
+.header-grid {
   width: 100%;
   max-width: 1200px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  position: relative;
+  justify-content: space-between;
 }
 
-.header-left-action { position: absolute; left: 30px; }
+.header-section { flex: 1; display: flex; align-items: center; }
+.header-section.center { justify-content: center; }
+.header-section.right { justify-content: flex-end; }
 
-.btn-back-nav {
+/* Botón Volver (Estilo Imagen Docente) */
+.btn-volver {
   background: #002d40;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 18px;
   border-radius: 10px;
   font-weight: bold;
+  font-size: 0.9rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.logo-white-bg {
+/* Logo (Estilo Imagen Docente) */
+.logo-circle {
   background: white;
-  width: 90px;
-  height: 90px;
+  width: 85px;
+  height: 85px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 3px solid #002d40;
-  margin-top: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-.img-logo { width: 75%; }
+.logo-img { width: 70%; object-fit: contain; }
 
-/* PILL TURQUESA (Mantenemos su forma siempre) */
-.user-profile-pill {
-  position: absolute;
-  right: 30px;
+/* Pill Turquesa (Estilo Imagen Docente) */
+.user-pill {
   background: #17a2b8;
-  padding: 8px 18px;
+  padding: 6px 16px;
   border-radius: 50px;
   color: white;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  /* IMPORTANTE: No usar overflow hidden aquí */
+  position: relative; /* Para que los dropdowns se posicionen respecto a esto */
+  min-height: 40px;
 }
 
-.notif-btn { background: none; border: none; cursor: pointer; position: relative; padding: 0; }
-.bell-icon { font-size: 1.5rem; }
-.notif-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background: #ff4757;
-  color: white;
-  font-size: 10px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #17a2b8;
+.user-text { font-weight: 500; font-size: 0.9rem; white-space: nowrap; }
+
+.bell-btn { background: none; border: none; cursor: pointer; position: relative; padding: 0; display: flex; }
+.bell-icon { font-size: 1.3rem; }
+.badge {
+  position: absolute; top: -4px; right: -6px;
+  background: #ff4757; color: white; font-size: 9px;
+  width: 16px; height: 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid #17a2b8; font-weight: bold;
 }
 
-.user-info-text { font-weight: 600; font-size: 0.9rem; }
-.dots-btn { background: none; border: none; cursor: pointer; display: flex; gap: 3px; }
-.dot { width: 4px; height: 4px; background: white; border-radius: 50%; }
+.dots-btn { background: none; border: none; cursor: pointer; display: flex; gap: 3px; padding: 5px; }
+.dot { width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.8; }
 
-/* --- CUADRO DE NOTIFICACIONES FLOTANTE --- */
-.floating-notif-card {
-  position: absolute;
-  top: 60px; /* Lo bajamos para que no tape el pill */
-  right: 0;
-  width: 300px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  z-index: 2100;
-  overflow: hidden;
-  color: #333;
-  animation: fadeIn 0.2s ease-out;
+/* DROPDOWNS REALMENTE FLOTANTES (No rompen el Pill) */
+.dropdown-notif {
+  position: absolute; top: 50px; right: 0; width: 300px;
+  background: white; border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  overflow: hidden; z-index: 1100; color: #333;
+  animation: slideIn 0.2s ease-out;
 }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-.card-header { background: #002d40; color: white; padding: 10px; text-align: center; font-weight: bold; font-size: 0.8rem; }
-.card-body { max-height: 300px; overflow-y: auto; }
-
-.notif-row { display: flex; border-bottom: 1px solid #eee; min-height: 60px; }
-.notif-row.is-new { background: #f0faff; }
-
-.color-bar { width: 6px; flex-shrink: 0; }
-.color-bar[data-type="anotacion"] { background: #f7a0f2; }
-.color-bar[data-type="nota"] { background: #2ecc71; }
-.color-bar[data-type="riesgo"] { background: #e74c3c; }
-.color-bar[data-type="comunicacion"] { background: #3498db; }
-.color-bar[data-type="fecha"] { background: #8e44ad; }
-
-.content-text { padding: 8px; display: flex; flex-direction: column; gap: 2px; }
-.row-title { font-weight: bold; font-size: 0.8rem; }
-.row-msg { font-size: 0.75rem; color: #666; }
-.row-date { font-size: 0.65rem; color: #aaa; }
-
-/* --- CUADRO DE MENÚ FLOTANTE --- */
-.floating-menu-card {
-  position: absolute;
-  top: 60px;
-  right: 0;
-  width: 180px;
-  background: white;
-  border-radius: 12px;
+.dropdown-menu {
+  position: absolute; top: 50px; right: 0; width: 180px;
+  background: white; border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  z-index: 2100;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  z-index: 1100; display: flex; flex-direction: column; overflow: hidden;
 }
 
-.floating-menu-card button {
-  padding: 12px;
-  border: none;
-  background: none;
-  text-align: left;
-  cursor: pointer;
-  font-weight: 600;
-  color: #333;
+.dropdown-menu button {
+  padding: 12px; border: none; background: none; text-align: left;
+  cursor: pointer; font-weight: 600; font-size: 0.85rem; color: #444;
 }
-.floating-menu-card button:hover { background: #f5f5f5; color: #e67e22; }
-.logout-btn { border-top: 1px solid #eee !important; }
+.dropdown-menu button:hover { background: #f8f9fa; color: #e67e22; }
+.btn-exit { border-top: 1px solid #eee !important; }
 
-/* Mobile */
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Estilo de lista de notificaciones */
+.dropdown-header { background: #002d40; color: white; padding: 10px; text-align: center; font-size: 0.75rem; font-weight: bold; }
+.dropdown-scroll { max-height: 280px; overflow-y: auto; }
+.notif-item { display: flex; border-bottom: 1px solid #eee; transition: 0.2s; }
+.notif-item.unread { background: #f1f9ff; }
+.type-indicator { width: 5px; flex-shrink: 0; }
+.type-indicator[data-type="anotacion"] { background: #f7a0f2; }
+.type-indicator[data-type="nota"] { background: #2ecc71; }
+.type-indicator[data-type="riesgo"] { background: #e74c3c; }
+.type-indicator[data-type="comunicacion"] { background: #3498db; }
+.type-indicator[data-type="fecha"] { background: #8e44ad; }
+
+.notif-content { padding: 8px; flex: 1; }
+.n-title { font-weight: 700; font-size: 0.8rem; margin: 0; color: #2c3e50; }
+.n-desc { font-size: 0.75rem; margin: 2px 0; color: #636e72; }
+.n-date { font-size: 0.65rem; color: #b2bec3; margin: 0; }
+.empty-msg { padding: 20px; text-align: center; color: #999; font-size: 0.8rem; }
+
+/* RESPONSIVE MÓVIL */
 @media (max-width: 768px) {
-  .header-main { height: auto; padding: 20px 0; border-radius: 0 0 30px 30px; }
-  .header-container { flex-direction: column; gap: 15px; }
-  .header-left-action { position: relative; left: 0; }
-  .user-profile-pill { position: relative; right: 0; width: 90%; justify-content: center; }
-  .floating-notif-card { right: 5%; width: 90%; }
+  .header-main { height: auto; min-height: 140px; padding: 15px 0; }
+  .header-grid { flex-direction: column; gap: 10px; }
+  .user-pill { width: 90%; justify-content: center; }
+  .dropdown-notif { position: fixed; top: 150px; left: 5%; right: 5%; width: 90%; }
 }

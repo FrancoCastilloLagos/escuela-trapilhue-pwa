@@ -1,50 +1,56 @@
 <header class="header-main" (click)="notifOpen = false; menuOpen = false">
-  <div class="header-container">
-    <div class="header-left-action">
-      <button class="btn-back-nav" (click)="volverDashboard()"><span>⬅</span> INICIO</button>
-    </div>
+  <div class="header-grid">
     
-    <div class="logo-wrapper">
-      <div class="logo-white-bg">
-        <img src="assets/logo-escuela.png" alt="Logo" class="img-logo">
-      </div>
-    </div>
-    
-    <div class="user-profile-pill">
-      
-      <div class="notification-trigger-area" *ngIf="!esDocente">
-        <button class="notif-btn" (click)="toggleNotifications($event)">
-          <span class="bell-icon">🔔</span>
-          <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
-        </button>
-      </div>
-
-      <span class="user-info-text">{{ userRol }}: {{ userName }}</span>
-      
-      <button class="dots-btn" (click)="toggleMenu($event)">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <div class="header-section left">
+      <button class="btn-volver" (click)="volverDashboard()">
+        <span class="arrow">⬅</span> VOLVER
       </button>
+    </div>
+    
+    <div class="header-section center">
+      <div class="logo-circle">
+        <img src="assets/logo-escuela.png" alt="Logo" class="logo-img">
+      </div>
+    </div>
+    
+    <div class="header-section right">
+      <div class="user-pill">
+        
+        <div class="notif-container" *ngIf="!esDocente">
+          <button class="bell-btn" (click)="toggleNotifications($event)">
+            <span class="bell-icon">🔔</span>
+            <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+          </button>
+        </div>
 
-      <div class="floating-notif-card" *ngIf="notifOpen" (click)="$event.stopPropagation()">
-        <div class="card-header">NOTIFICACIONES</div>
-        <div class="card-body">
-          <div *ngIf="listaNotificaciones.length === 0" class="empty-state">No hay notificaciones</div>
-          <div class="notif-row" *ngFor="let n of listaNotificaciones" [class.is-new]="!n.leida">
-            <div class="color-bar" [attr.data-type]="n.tipo"></div>
-            <div class="content-text">
-              <div class="row-title">{{ n.titulo }}</div>
-              <div class="row-msg">{{ n.mensaje }}</div>
-              <div class="row-date">{{ n.fecha | date:'dd/MM HH:mm' }}</div>
+        <span class="user-text">{{ userRol }}: {{ userName }}</span>
+        
+        <button class="dots-btn" (click)="toggleMenu($event)">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </button>
+
+        <div class="dropdown-notif" *ngIf="notifOpen" (click)="$event.stopPropagation()">
+          <div class="dropdown-header">NOTIFICACIONES</div>
+          <div class="dropdown-scroll">
+            <div *ngIf="listaNotificaciones.length === 0" class="empty-msg">No hay avisos</div>
+            <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
+              <div class="type-indicator" [attr.data-type]="n.tipo"></div>
+              <div class="notif-content">
+                <p class="n-title">{{ n.titulo }}</p>
+                <p class="n-desc">{{ n.mensaje }}</p>
+                <p class="n-date">{{ n.fecha | date:'dd/MM HH:mm' }}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="floating-menu-card" *ngIf="menuOpen" (click)="$event.stopPropagation()">
-        <button (click)="irAConfiguracion()">⚙️ Configuración</button>
-        <button (click)="cerrarSesion()" class="logout-btn">🚪 Cerrar sesión</button>
-      </div>
+        <div class="dropdown-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
+          <button (click)="irAConfiguracion()">⚙️ Configuración</button>
+          <button (click)="cerrarSesion()" class="btn-exit">🚪 Cerrar sesión</button>
+        </div>
 
+      </div>
     </div>
+
   </div>
 </header>
