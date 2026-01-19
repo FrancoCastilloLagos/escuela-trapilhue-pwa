@@ -3,61 +3,77 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NotasService } from '../../../services/notas.service';
 import { NotificationsService } from '../../../services/notifications.service';
-import { HeaderComponent } from '../../header/header.component';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-consulta-anotaciones',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, FormsModule], // Quitamos HeaderComponent ya que lo haremos manual
   templateUrl: './consulta-anotaciones.component.html',
   styleUrls: ['./consulta-anotaciones.component.css']
 })
 export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
-  // Aquí guardo la lista de anotaciones que traigo de la base de datos.
   anotaciones: any[] = [];
-  // Variable para manejar el spinner o mensaje de carga.
   loading: boolean = true;
-  // Guardamos la suscripción para poder matarla cuando salgamos de la pantalla.
   private refreshSub?: Subscription;
+
+  // Variables para el Header Manual
+  menuOpen: boolean = false;
+  userName: string = localStorage.getItem('nombre_usuario') || 'Usuario';
+  userRol: string = localStorage.getItem('rol') || 'Estudiante';
 
   constructor(
     private notasService: NotasService,
     private notiService: NotificationsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
-  // Apenas cargue el componente, traigo los datos y activo el escucha para recargas automáticas.
   ngOnInit() {
     this.cargarAnotaciones();
     this.refreshSub = this.notiService.refreshNeeded$.subscribe(() => {
-      console.log('Recargando anotaciones por señal externa');
       this.cargarAnotaciones();
     });
   }
 
-  // Si cerramos el componente, desuscribimos para no dejar procesos colgados.
   ngOnDestroy() {
     if (this.refreshSub) this.refreshSub.unsubscribe();
   }
 
-  // Función principal para pedir las anotaciones al backend usando el ID del alumno guardado.
   cargarAnotaciones() {
     const id = localStorage.getItem('id_estudiante');
     if (id) {
       this.notasService.getAnotacionesEstudiante(Number(id)).subscribe({
         next: (data: any) => { 
-          // Guardamos lo que llegó, quitamos el loading y refrescamos la vista.
           this.anotaciones = data; 
           this.loading = false; 
           this.cdr.detectChanges(); 
         },
-        // Si falla la petición, igual quitamos el loading para que no se quede pegado.
         error: () => { 
           this.loading = false; 
           this.cdr.detectChanges(); 
         }
       });
     }
+  }
+
+  // Funciones de control del Header Manual
+  toggleMenu(event: Event) {
+    event.stopPropagation();
+    this.menuOpen = !this.menuOpen;
+  }
+
+  volverDashboard() {
+    this.router.navigate(['/dashboard-estudiante']); // Ajusta según tu ruta
+  }
+
+  irAConfig() {
+    this.router.navigate(['/configuracion']);
+  }
+
+  cerrarSesion() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }
