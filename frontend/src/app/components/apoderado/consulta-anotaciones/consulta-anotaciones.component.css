@@ -8,7 +8,6 @@
   font-family: 'Poppins', sans-serif; animation: fadeIn 0.8s ease-out;
 }
 
-/* --- HEADER MANUAL --- */
 .header-main { 
   width: 100%; background: linear-gradient(180deg, #f1c40f, #e67e22); height: 120px; 
   border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; 
@@ -16,10 +15,7 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
 }
 
-.header-container { 
-  width: 100%; max-width: 1200px; display: flex; justify-content: center; align-items: center; position: relative; 
-}
-
+.header-container { width: 100%; max-width: 1200px; display: flex; justify-content: center; align-items: center; position: relative; }
 .header-left-action { position: absolute; left: 30px; top: 35px; }
 
 .btn-back-nav { 
@@ -42,40 +38,20 @@
   display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* --- NOTIFICACIONES CORREGIDAS --- */
 .notification-wrapper { position: relative; display: flex; align-items: center; }
-
-.notif-trigger { 
-  background: transparent !important; border: none !important; cursor: pointer; 
-  padding: 0; display: flex; align-items: center; justify-content: center; position: relative; outline: none;
-}
-
+.notif-trigger { background: transparent !important; border: none !important; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; position: relative; outline: none; }
 .bell-icon { font-size: 1.4rem; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); }
+.notif-badge { position: absolute; top: -5px; right: -8px; background: #ff4757; color: white; font-size: 10px; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #17a2b8; }
 
-.notif-badge { 
-  position: absolute; top: -5px; right: -8px; background: #ff4757; color: white; 
-  font-size: 10px; min-width: 18px; height: 18px; border-radius: 50%; 
-  display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #17a2b8; 
-}
-
-/* El Dropdown ahora se posiciona mejor respecto al pill */
 .notif-dropdown { 
-  position: absolute; 
-  top: 50px; 
-  right: -20px; 
-  width: 320px; 
-  background: white; 
-  border-radius: 20px; 
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4); 
-  z-index: 3000; 
-  overflow: hidden; 
-  animation: fadeIn 0.3s ease-out;
+  position: absolute; top: 50px; right: -20px; width: 320px; background: white; 
+  border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.4); z-index: 3000; 
+  overflow: hidden; animation: fadeIn 0.3s ease-out;
 }
 
 .notif-header { background: #002d40; color: white; padding: 15px; text-align: center; font-weight: 700; }
 .notif-list { max-height: 350px; overflow-y: auto; }
 
-/* Estilos de los items */
 .notif-item { display: flex; border-bottom: 1px solid #f0f0f0; min-height: 80px; transition: background 0.2s; }
 .notif-item.unread { background: #f0f9ff; }
 .notif-indicator { width: 10px; min-height: 100%; flex-shrink: 0; background-color: #ccc; }
@@ -90,17 +66,12 @@
 .notif-m { font-size: 0.8rem; color: #576574; line-height: 1.2; }
 .notif-f { font-size: 0.7rem; color: #95a5a6; margin-top: 4px; }
 
-/* --- MENU DROPDOWN --- */
 .menu-trigger { background: transparent; border: none; cursor: pointer; display: flex; gap: 3px; padding: 10px; }
 .dot { width: 4px; height: 4px; background: white; border-radius: 50%; }
-.dropdown-floating-menu { 
-  position: absolute; top: 60px; right: 0; width: 200px; background: white; 
-  border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); z-index: 2500; padding: 5px 0;
-}
+.dropdown-floating-menu { position: absolute; top: 60px; right: 0; width: 200px; background: white; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); z-index: 2500; padding: 5px 0; }
 .dropdown-item { width: 100%; padding: 12px 20px; border: none; background: none; text-align: left; cursor: pointer; font-weight: 600; color: #333; }
 .dropdown-item:hover { background: #f8f9fa; color: #e67e22; }
 
-/* --- CUERPO --- */
 .title-section-container { text-align: center; margin-top: 50px; margin-bottom: 20px; }
 .badge-title-dark { background: #002d40; color: white; padding: 15px 60px; border-radius: 20px; font-weight: 800; font-size: 1.6rem; display: inline-block; }
 .panels-grid { display: flex; justify-content: center; gap: 40px; padding: 0 20px; align-items: flex-start; }
@@ -108,7 +79,6 @@
 .panel-title { color: #002d40; font-weight: 800; margin-bottom: 20px; text-align: center; font-size: 1.4rem; }
 .grades-scroll-container { max-height: 500px; overflow-y: auto; padding-right: 10px; }
 
-/* Estilos de las tarjetas de anotación */
 .grade-row-item { background: #f4f6f7; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #e0e0e0; }
 .anotation-container { display: flex; gap: 15px; align-items: flex-start; }
 .indicator-bar-anot { width: 6px; min-height: 60px; border-radius: 10px; flex-shrink: 0; }
@@ -122,27 +92,13 @@
 
 .minimal-footer { background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto; }
 
-/* --- RESPONSIVE MOBILE --- */
 @media (max-width: 768px) {
   .header-main { height: auto !important; min-height: 180px; flex-direction: column !important; padding: 15px 0 !important; }
   .header-container { flex-direction: column !important; }
   .header-left-action { position: relative !important; top: 0; left: 0; margin-bottom: 15px; order: 1; }
   .logo-white-bg { margin-top: 0 !important; width: 85px !important; height: 85px !important; order: 2; }
-  .user-profile-pill { 
-    position: relative !important; top: 10px !important; right: 0 !important; 
-    width: 90% !important; justify-content: center !important; order: 3; 
-  }
-  
-  /* Ajuste crucial para que el menu de notificaciones no se salga de la pantalla en movil */
-  .notif-dropdown { 
-    position: fixed !important; 
-    top: 170px; 
-    left: 5%; 
-    right: 5%; 
-    width: 90% !important; 
-    margin: 0 auto;
-  }
-
+  .user-profile-pill { position: relative !important; top: 10px !important; right: 0 !important; width: 90% !important; justify-content: center !important; order: 3; }
+  .notif-dropdown { position: fixed !important; top: 170px; left: 5%; right: 5%; width: 90% !important; margin: 0 auto; }
   .badge-title-dark { padding: 10px 20px; font-size: 1.1rem; width: 85%; margin-top: 20px; }
   .card-white-panel { width: 95%; padding: 20px; min-height: auto; }
 }
