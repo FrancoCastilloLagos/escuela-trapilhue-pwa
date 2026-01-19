@@ -1,6 +1,6 @@
-/* Cambiamos la herencia para que use la base de Gestión de Notas que sí funciona */
 @import url('../../docente/gestion-notas/gestion-notas.component.css');
 
+/* --- ANIMACIÓN DE ENTRADA --- */
 @keyframes fadeIn { 
   from { opacity: 0; transform: translateY(20px); } 
   to { opacity: 1; transform: translateY(0); } 
@@ -15,7 +15,7 @@
   animation: fadeIn 0.8s ease-out;
 }
 
-/* --- ESTRUCTURA DEL HEADER (Copiada fielmente de tu Gestion Notas) --- */
+/* --- HEADER PRINCIPAL --- */
 .header-main {
   width: 100%; 
   background: linear-gradient(180deg, #f1c40f, #e67e22); 
@@ -49,6 +49,7 @@
   display: block;
 }
 
+/* Estilo para escritorio (flotante) */
 .user-profile-pill {
   position: absolute; 
   top: 25px; 
@@ -78,7 +79,7 @@
   cursor: pointer; 
 }
 
-/* --- TÍTULOS --- */
+/* --- TÍTULO SECCIÓN --- */
 .title-section-container { 
   text-align: center; 
   margin-top: 50px; 
@@ -95,7 +96,7 @@
   display: inline-block; 
 }
 
-/* --- CONTENIDO ESPECÍFICO DE ANOTACIONES --- */
+/* --- ÁREA DE CONTENIDO (ANOTACIONES) --- */
 .main-content-area {
   display: flex;
   flex-direction: column;
@@ -112,11 +113,16 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
+/* Estilos de las filas de anotación */
 .grade-row-item {
   border-bottom: 1px solid #f0f0f0;
   padding: 15px 10px;
 }
 
+.is-pos { color: #27ae60 !important; font-weight: bold; }
+.is-neg { color: #e74c3c !important; font-weight: bold; }
+
+/* --- FOOTER --- */
 .minimal-footer {
   background: #e67e22;
   color: white;
@@ -125,66 +131,56 @@
   margin-top: auto;
 }
 
-/* Estados de anotación */
-.is-pos { background-color: #27ae60 !important; }
-.is-neg { background-color: #e74c3c !important; }
-.txt-rojo { color: #e74c3c !important; }
-.txt-verde { color: #27ae60 !important; }
-
 /* =========================================
-   MEDIA QUERY (CLON DE GESTIÓN NOTAS)
+   SOLUCIÓN PARA MÓVIL (EVITA SUPERPOSICIÓN)
    ========================================= */
 @media (max-width: 768px) {
   .header-main { 
-    height: auto; 
-    min-height: 190px; 
-    flex-direction: column; 
-    align-items: center; 
-    padding: 15px 0; 
+    height: auto !important; /* Permite que el header crezca hacia abajo */
+    min-height: 200px; 
+    flex-direction: column !important; 
+    align-items: center !important; 
+    padding: 20px 0 !important; 
+    border-radius: 0 0 40px 40px;
   }
   
+  /* Quitamos el 'absolute' para que no floten uno encima de otro */
   .header-left-action { 
-    position: relative; 
-    top: 0; 
-    left: 0; 
-    margin-bottom: 10px; 
-    order: 1; 
+    position: relative !important; 
+    top: 0 !important; 
+    left: 0 !important; 
+    margin-bottom: 15px; 
+    order: 1; /* Primero el botón Volver/Inicio */
   }
 
   .logo-white-bg { 
-    margin-top: 0; 
-    width: 90px; 
-    height: 90px; 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    order: 2;
+    position: relative !important;
+    margin-top: 0 !important; 
+    order: 2; /* Segundo el Logo */
   }
-
-  .img-logo { width: 75% !important; height: auto !important; margin: 0 auto; }
 
   .user-profile-pill { 
-    position: relative; 
-    top: 0; 
-    right: 0; 
-    order: 3; 
-    margin-top: 10px; 
-    width: 90%; 
+    position: relative !important; 
+    top: 0 !important; 
+    right: 0 !important; 
+    margin-top: 15px;
+    width: 90% !important; 
     justify-content: center; 
+    order: 3; /* Tercero el Perfil */
   }
 
-  .title-section-container { margin-top: 20px; }
+  .title-section-container { 
+    margin-top: 20px; 
+  }
 
   .badge-title-dark { 
-    padding: 10px 20px; 
+    padding: 12px 20px; 
     font-size: 1.1rem; 
-    width: 85%; 
-    margin-top: 20px;
+    width: 90%; 
   }
 
   .card-white-panel {
     width: 95%; 
-    padding: 20px 15px; 
-    border-radius: 20px;
+    padding: 15px;
   }
 }
