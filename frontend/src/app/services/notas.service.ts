@@ -7,11 +7,11 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class NotasService {
-  private apiUrl = 'http://localhost:3000/api/notas';
-  private notifUrl = 'http://localhost:3000/api/notificaciones';
-  private anotacionesUrl = 'http://localhost:3000/api/anotaciones';
-  private evaluacionUrl = 'http://localhost:3000/api/evaluaciones';
-  private usuariosUrl = 'http://localhost:3000/api/usuarios';
+  private apiUrl = 'https://escuela-backend-vva9.onrender.com/api/notas';
+  private notifUrl = 'https://escuela-backend-vva9.onrender.com/api/notificaciones';
+  private anotacionesUrl = 'https://escuela-backend-vva9.onrender.com/api/anotaciones';
+  private evaluacionUrl = 'https://escuela-backend-vva9.onrender.com/api/evaluaciones';
+  private usuariosUrl = 'https://escuela-backend-vva9.onrender.com/api/usuarios';
 
   private notificacionSubject = new BehaviorSubject<any>(null);
   public nuevaNotificacion$ = this.notificacionSubject.asObservable();

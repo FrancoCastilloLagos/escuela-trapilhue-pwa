@@ -16,7 +16,7 @@ export interface Notificacion {
   providedIn: 'root'
 })
 export class NotificationsService {
-  private API_URL = 'http://localhost:3000/api/notificaciones';
+  private API_URL = 'https://escuela-backend-vva9.onrender.com/api/notificaciones';
   
   private notificationsSource = new BehaviorSubject<Notificacion[]>([]);
   notifications$ = this.notificationsSource.asObservable();

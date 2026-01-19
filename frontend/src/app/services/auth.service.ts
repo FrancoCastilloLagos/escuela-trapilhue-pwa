@@ -6,7 +6,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private API_URL = 'http://localhost:3000/api/auth';
+  private API_URL = 'https://escuela-backend-vva9.onrender.com';
 
   constructor(private http: HttpClient) { }
 
