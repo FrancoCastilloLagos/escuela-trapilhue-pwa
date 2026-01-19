@@ -19,11 +19,11 @@
   background: white; width: 100px; height: 100px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   border: 4px solid #002d40; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  overflow: hidden; /* IMPORTANTE: Corta cualquier parte de la imagen que se salga */
+  overflow: hidden;
 }
 
 .img-logo {
-  width: 80%; /* Tamaño base en escritorio */
+  width: 80%;
   height: auto;
   display: block;
 }
@@ -91,34 +91,38 @@
 
 .minimal-footer { background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto; }
 
-/* AJUSTES MÓVILES */
 @media (max-width: 768px) {
-  .header-main { height: auto; min-height: 180px; padding-top: 20px; }
-  .header-left-action { top: 15px; left: 10px; }
-  .btn-back-nav { padding: 5px 12px; font-size: 0.8rem; }
-  .user-profile-pill { top: 15px; right: 10px; padding: 5px 12px; font-size: 0.7rem; }
+  .header-main { height: 200px; padding-top: 10px; flex-direction: column; align-items: center; justify-content: flex-start; }
+  
+  .header-left-action { position: relative; top: 10px; left: 0; width: 100%; display: flex; justify-content: center; margin-bottom: 10px; }
+  .btn-back-nav { padding: 8px 20px; font-size: 0.9rem; width: 40%; }
+  
+  .user-profile-pill { position: relative; top: 10px; right: 0; margin-top: 15px; width: 90%; justify-content: center; }
 
-  /* Centrado total del logo */
   .logo-white-bg { 
-    width: 80px; 
-    height: 80px; 
-    margin-top: 60px; 
+    width: 100px; 
+    height: 100px; 
+    margin-top: 10px; 
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    overflow: hidden !important;
+    padding: 0 !important;
   }
   
   .img-logo {
-    width: 70% !important; /* Forzamos el ancho dentro del óvalo */
-    height: auto !important;
-    max-height: 70%;
-    object-fit: contain;
+    width: 80% !important;
+    height: 80% !important;
+    object-fit: contain !important;
+    margin: auto !important;
+    display: block !important;
   }
 
-  .badge-title-dark { padding: 10px 20px; font-size: 1.1rem; width: 80%; }
-  .selectors-row { flex-direction: column; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .title-section-container { margin-top: 20px; }
+  .badge-title-dark { padding: 12px 25px; font-size: 1.2rem; width: 85%; }
+
+  .selectors-row { flex-direction: column; align-items: center; gap: 12px; margin-top: 10px; }
   .select-box { width: 90%; }
+
   .panels-grid { flex-direction: column; align-items: center; gap: 20px; }
-  .card-dark-panel, .card-white-panel { width: 95%; padding: 20px; min-height: auto; }
+  .card-dark-panel, .card-white-panel { width: 95%; padding: 25px; min-height: auto; border-radius: 20px; }
 }
