@@ -12,18 +12,25 @@
         <h3 class="panel-title">Historial de Observaciones</h3>
         
         <div class="grades-scroll-container">
-          <div *ngIf="loading" class="info-msg">Cargando historial...</div>
-          <div *ngIf="!loading && anotaciones.length === 0" class="info-msg">No se registran anotaciones para este estudiante.</div>
+          <div *ngIf="loading" class="info-msg">Actualizando historial...</div>
+          
+          <div *ngIf="!loading && anotaciones.length === 0" class="info-msg">
+            No se registran anotaciones para este estudiante.
+          </div>
           
           <div class="grade-row-item" *ngFor="let a of anotaciones">
             <div class="anotation-container">
-              <div class="indicator-bar-anot" [ngClass]="{'is-neg': a.tipo === 'NEGATIVA', 'is-pos': a.tipo === 'POSITIVA'}"></div>
+              <div class="indicator-bar-anot" 
+                   [ngClass]="{'is-neg': a.tipo === 'NEGATIVA', 'is-pos': a.tipo === 'POSITIVA'}">
+              </div>
+              
               <div class="anotation-details">
-                <div class="label-tipo" [ngClass]="{'txt-rojo': a.tipo === 'NEGATIVA', 'txt-verde': a.tipo === 'POSITIVA'}">
+                <div class="label-tipo" 
+                     [ngClass]="{'txt-rojo': a.tipo === 'NEGATIVA', 'txt-verde': a.tipo === 'POSITIVA'}">
                   {{ a.tipo === 'NEGATIVA' ? 'ANOTACIÓN NEGATIVA' : 'ANOTACIÓN POSITIVA' }}
                 </div>
                 <p class="txt-contenido">{{ a.contenido }}</p>
-                <small class="txt-fecha">REGISTRADO EL: {{ a.fecha | date:'dd/MM/yyyy' }}</small>
+                <small class="txt-fecha">FECHA: {{ a.fecha | date:'dd/MM/yyyy' }}</small>
               </div>
             </div>
           </div>
