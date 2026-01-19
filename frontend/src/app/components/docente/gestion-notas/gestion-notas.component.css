@@ -83,3 +83,27 @@
 .btn-delete { flex: 1; background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
 .minimal-footer { background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto; }
+
+@media (max-width: 768px) {
+  .header-main { height: auto; min-height: 180px; padding-top: 20px; }
+  
+  .header-left-action { top: 15px; left: 10px; }
+  .btn-back-nav { padding: 5px 12px; font-size: 0.8rem; }
+  
+  .user-profile-pill { top: 15px; right: 10px; padding: 5px 12px; font-size: 0.7rem; }
+  .logo-white-bg { width: 80px; height: 80px; margin-top: 60px; }
+
+  .badge-title-dark { padding: 10px 20px; font-size: 1.1rem; width: 80%; }
+
+  .selectors-row { flex-direction: column; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .select-box { width: 90%; }
+
+  .panels-grid { flex-direction: column; align-items: center; gap: 20px; }
+  
+  /* Aquí ajustamos los anchos fijos de 380px y 450px para que no se salgan */
+  .card-dark-panel, .card-white-panel { 
+    width: 95%; 
+    padding: 20px;
+    min-height: auto;
+  }
+}
