@@ -19,24 +19,6 @@
         <span class="bell-icon">🔔</span>
         <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
       </button>
-
-      <div class="dropdown-notif-box" *ngIf="notifOpen">
-        <div class="notif-header">ÚLTIMOS AVISOS</div>
-        <div class="notif-scroll">
-          <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding:30px; text-align:center; color:#ccc;">
-            No hay mensajes nuevos
-          </div>
-          
-          <div class="notif-row" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
-            <div class="type-line" [attr.data-type]="n.tipo"></div>
-            <div class="notif-data">
-              <span class="n-tit">{{ n.titulo }}</span>
-              <span class="n-msg">{{ n.mensaje }}</span>
-              <span class="n-fec">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <span class="user-name-label">{{ userRol }}: {{ userName }}</span>
@@ -48,11 +30,28 @@
       
       <div class="dropdown-floating-menu" *ngIf="menuOpen">
         <button class="dropdown-item" (click)="irAConfig()">⚙️ Configuración</button>
-        <div class="divider" style="height: 1px; background: #eee; margin: 5px 0;"></div>
+        <div style="height: 1px; background: #eee; margin: 4px 0;"></div>
         <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
       </div>
     </div>
+  </div>
 
+  <div class="dropdown-notif-box" *ngIf="notifOpen" (click)="$event.stopPropagation()">
+    <div class="notif-header">ÚLTIMOS AVISOS</div>
+    <div class="notif-scroll">
+      <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding: 30px; text-align: center; color: #ccc;">
+        No hay mensajes nuevos
+      </div>
+      
+      <div class="notif-row" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
+        <div class="type-line" [attr.data-type]="n.tipo"></div>
+        <div class="notif-data">
+          <span class="n-tit">{{ n.titulo }}</span>
+          <span class="n-msg">{{ n.mensaje }}</span>
+          <span class="n-fec">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 
 </header>
