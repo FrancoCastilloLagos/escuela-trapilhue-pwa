@@ -11,40 +11,40 @@
     </div>
     
     <div class="user-profile-pill">
-      <div class="notification-wrapper" *ngIf="!esDocente">
-        <button class="notif-trigger" (click)="toggleNotifications($event)">
+      
+      <div class="notification-trigger-area" *ngIf="!esDocente">
+        <button class="notif-btn" (click)="toggleNotifications($event)">
           <span class="bell-icon">🔔</span>
           <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
         </button>
-        
-        <div class="notif-dropdown" *ngIf="notifOpen" (click)="$event.stopPropagation()">
-          <div class="notif-header">NOTIFICACIONES</div>
-          <div class="notif-list">
-            <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding: 15px; text-align: center; font-size: 0.8rem; color: #999;">Sin avisos nuevos</div>
-            
-            <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
-              <div class="notif-indicator" [attr.data-type]="n.tipo"></div>
-              <div class="notif-body">
-                <span class="notif-t">{{ n.titulo }}</span>
-                <span class="notif-m">{{ n.mensaje }}</span>
-                <span class="notif-f">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
-              </div>
+      </div>
+
+      <span class="user-info-text">{{ userRol }}: {{ userName }}</span>
+      
+      <button class="dots-btn" (click)="toggleMenu($event)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+
+      <div class="floating-notif-card" *ngIf="notifOpen" (click)="$event.stopPropagation()">
+        <div class="card-header">NOTIFICACIONES</div>
+        <div class="card-body">
+          <div *ngIf="listaNotificaciones.length === 0" class="empty-state">No hay notificaciones</div>
+          <div class="notif-row" *ngFor="let n of listaNotificaciones" [class.is-new]="!n.leida">
+            <div class="color-bar" [attr.data-type]="n.tipo"></div>
+            <div class="content-text">
+              <div class="row-title">{{ n.titulo }}</div>
+              <div class="row-msg">{{ n.mensaje }}</div>
+              <div class="row-date">{{ n.fecha | date:'dd/MM HH:mm' }}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <span class="user-info">{{ userRol }}: {{ userName }}</span>
-      
-      <button class="menu-trigger" (click)="toggleMenu($event)">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </button>
-      
-      <div class="dropdown-floating-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
-        <button class="dropdown-item" (click)="irAConfiguracion()">⚙️ Configuración</button>
-        <div style="height: 1px; background: #eee; margin: 5px 0;"></div>
-        <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+      <div class="floating-menu-card" *ngIf="menuOpen" (click)="$event.stopPropagation()">
+        <button (click)="irAConfiguracion()">⚙️ Configuración</button>
+        <button (click)="cerrarSesion()" class="logout-btn">🚪 Cerrar sesión</button>
       </div>
+
     </div>
   </div>
 </header>

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { NotasService } from '../../services/notas.service'; // Usamos tu servicio funcional
+import { NotasService } from '../../services/notas.service';
 import { Subscription, interval } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 
@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private nService: NotasService, // Inyectamos el servicio que funciona
+    private nService: NotasService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
@@ -38,7 +38,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.idUsuarioActual = Number(localStorage.getItem('id_usuario'));
     this.esDocente = this.userRol === 'DOCENTE';
 
-    // Si es apoderado, iniciamos la sincronización igual que en el dashboard
     if (!this.esDocente && this.idUsuarioActual > 0) {
       this.iniciarSincronizacion();
     }
@@ -49,57 +48,43 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   iniciarSincronizacion() {
-    // Usamos la misma lógica RxJS que hace que tu Dashboard funcione bien
     this.pollSub = interval(5000).pipe(
       startWith(0),
       switchMap(() => this.nService.getNotificaciones(this.idUsuarioActual))
     ).subscribe({
       next: (data: any[]) => {
         this.listaNotificaciones = data.map(n => {
-          let tipoFinal = (n.tipo || n.TIPO || 'comunicacion').toLowerCase().trim();
-          const tituloNorm = (n.titulo || n.TITULO || '').toLowerCase();
+          let tipoFinal = (n.tipo || 'comunicacion').toLowerCase().trim();
+          const tituloNorm = (n.titulo || '').toLowerCase();
 
-          // Aplicamos la misma prioridad de colores que el dashboard para consistencia
-          if (tituloNorm.includes('anotaci')) {
-            tipoFinal = 'anotacion';
-          } else if (tipoFinal === 'alerta' || tituloNorm.includes('alerta') || tituloNorm.includes('riesgo')) {
-            tipoFinal = 'riesgo';
-          } else if (tituloNorm.includes('nota') || tituloNorm.includes('calificaci')) {
-            tipoFinal = 'nota';
-          } else if (tituloNorm.includes('fecha') || tituloNorm.includes('evaluaci')) {
-            tipoFinal = 'fecha';
-          }
+          if (tituloNorm.includes('anotaci')) tipoFinal = 'anotacion';
+          else if (tituloNorm.includes('riesgo') || tituloNorm.includes('alerta')) tipoFinal = 'riesgo';
+          else if (tituloNorm.includes('nota') || tituloNorm.includes('calificaci')) tipoFinal = 'nota';
+          else if (tituloNorm.includes('fecha') || tituloNorm.includes('evaluaci')) tipoFinal = 'fecha';
 
           return {
-            titulo: n.titulo || n.TITULO || 'Aviso',
-            mensaje: n.mensaje || n.MENSAJE || '',
-            fecha: n.fecha || n.FECHA || n.created_at,
+            ...n,
             tipo: tipoFinal,
-            leida: n.leida === 1 || n.LEIDA === 1 || false
+            leida: n.leida === 1 || n.leida === true
           };
         });
-
         this.unreadCount = this.listaNotificaciones.filter(n => !n.leida).length;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error("Error en sincronización header:", err)
+      error: (err) => console.error("Error sincronización:", err)
     });
   }
 
   toggleNotifications(event: Event) {
     event.stopPropagation();
-    if (this.esDocente) return;
-    
     this.notifOpen = !this.notifOpen;
     this.menuOpen = false;
 
     if (this.notifOpen && this.unreadCount > 0) {
-      this.nService.marcarComoLeidas(this.idUsuarioActual).subscribe({
-        next: () => {
-          this.unreadCount = 0;
-          this.listaNotificaciones.forEach(n => n.leida = true);
-          this.cdr.detectChanges();
-        }
+      this.nService.marcarComoLeidas(this.idUsuarioActual).subscribe(() => {
+        this.unreadCount = 0;
+        this.listaNotificaciones.forEach(n => n.leida = true);
+        this.cdr.detectChanges();
       });
     }
   }
