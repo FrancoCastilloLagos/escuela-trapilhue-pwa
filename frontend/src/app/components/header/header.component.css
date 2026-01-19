@@ -36,7 +36,7 @@
   display: flex; align-items: center; gap: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   z-index: 1001;
-  width: auto; /* IMPORTANTE: Para que no se estire */
+  width: auto; 
 }
 
 .user-name-label { font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
@@ -61,10 +61,10 @@
   animation: fadeIn 0.2s ease;
 }
 
-/* --- CAJA DE NOTIFICACIONES (FLOTANTE FUERA DEL BOTÓN) --- */
+/* --- CAJA DE NOTIFICACIONES --- */
 .dropdown-notif-box {
   position: absolute; 
-  top: 90px;   /* Flota debajo de la píldora */
+  top: 90px; 
   right: 25px; 
   width: 350px; 
   background: white; 
@@ -104,6 +104,22 @@
 .menu-trigger { background: rgba(255, 255, 255, 0.2); border: none; cursor: pointer; display: flex; gap: 3px; padding: 10px; border-radius: 50%; }
 .dot { width: 4px; height: 4px; background: white; border-radius: 50%; }
 
+/* NUEVOS ESTILOS BOTÓN CERRAR */
+.notif-footer { padding: 10px; background: #f9f9f9; border-top: 1px solid #eee; }
+.btn-close-notif { 
+  width: 100%; 
+  background: #e74c3c; 
+  color: white; 
+  border: none; 
+  padding: 10px; 
+  border-radius: 10px; 
+  font-weight: 800; 
+  font-size: 0.75rem; 
+  cursor: pointer; 
+  transition: background 0.2s;
+}
+.btn-close-notif:hover { background: #c0392b; }
+
 /* --- MODO CELULAR --- */
 @media (max-width: 768px) {
   .header-main { height: auto; min-height: 210px; flex-direction: column; padding: 20px 0; }
@@ -111,7 +127,6 @@
   .logo-white-bg { order: 2; margin-top: 0; width: 85px; height: 85px; }
   .user-profile-pill { position: relative; top: 15px; right: 0; order: 3; width: 92%; justify-content: center; }
 
-  /* En móvil ocupa casi todo el ancho */
   .dropdown-notif-box { 
     position: fixed; 
     top: 150px; 
@@ -119,28 +134,4 @@
     right: 4%; 
     width: 92%; 
   }
-  /* Estilos para el footer y el botón de cerrar */
-.notif-footer { 
-  padding: 10px; 
-  background: #f9f9f9; 
-  border-top: 1px solid #eee; 
-  text-align: center; 
-}
-
-.btn-close-notif { 
-  background: #e74c3c; 
-  color: white; 
-  border: none; 
-  padding: 8px 15px; 
-  border-radius: 8px; 
-  font-weight: 700; 
-  cursor: pointer; 
-  font-size: 0.7rem; 
-  width: 100%; 
-  transition: background 0.2s;
-}
-
-.btn-close-notif:hover {
-  background: #c0392b;
-}
 }

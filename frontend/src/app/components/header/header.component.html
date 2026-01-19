@@ -41,9 +41,6 @@
     <div class="notif-scroll">
       <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding: 30px; text-align: center; color: #ccc;">
         No hay mensajes nuevos
-        <div class="notif-footer">
-        <button class="btn-close-notif" (click)="notifOpen = false">CERRAR NOTIFICACIONES</button>
-      </div>
       </div>
       
       <div class="notif-row" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
@@ -54,6 +51,12 @@
           <span class="n-fec">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
         </div>
       </div>
+    </div>
+
+    <div class="notif-footer" style="padding: 10px; background: #f9f9f9; border-top: 1px solid #eee;">
+      <button (click)="notifOpen = false" style="width: 100%; background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 10px; font-weight: 800; font-size: 0.75rem; cursor: pointer;">
+        CERRAR NOTIFICACIONES
+      </button>
     </div>
   </div>
 
