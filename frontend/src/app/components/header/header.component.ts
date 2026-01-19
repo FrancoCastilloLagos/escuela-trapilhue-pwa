@@ -2,6 +2,9 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { NotasService } from '../../services/notas.service'; // Usamos tu servicio funcional
+import { Subscription, interval } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -17,90 +20,98 @@ export class HeaderComponent implements OnInit, OnDestroy {
   notifOpen: boolean = false;
   listaNotificaciones: any[] = [];
   unreadCount: number = 0;
-  private intervalId: any;
+  idUsuarioActual: number = 0;
+  esDocente: boolean = false;
+
+  private pollSub: Subscription | null = null;
 
   constructor(
     private authService: AuthService,
+    private nService: NotasService, // Inyectamos el servicio que funciona
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.userRol = (this.authService.getRol() || 'Usuario').toUpperCase();
+    this.userRol = (this.authService.getRol() || '').toUpperCase();
     this.userName = localStorage.getItem('rut') || 'Usuario';
-    this.actualizarNotificaciones();
-    this.intervalId = setInterval(() => this.actualizarNotificaciones(), 10000);
-  }
+    this.idUsuarioActual = Number(localStorage.getItem('id_usuario'));
+    this.esDocente = this.userRol === 'DOCENTE';
 
-  ngOnDestroy(): void {
-    if (this.intervalId) clearInterval(this.intervalId);
-  }
-
-  actualizarNotificaciones() {
-    const idUsu = localStorage.getItem('id_usuario');
-    if (!idUsu) return;
-
-    fetch(`http://localhost:3000/api/notificaciones/${idUsu}`)
-      .then(res => res.json())
-      .then(data => {
-        this.listaNotificaciones = data.map((n: any) => {
-          // Normalizamos el tipo base
-          let t = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
-          const tit = n.titulo.toLowerCase();
-          
-          // PRIORIDAD DE COLORES POR PALABRAS CLAVE
-          if (tit.includes('anotaci')) {
-            t = 'anotacion'; // Esto activará el rosado
-          } else if (tit.includes('riesgo') || tit.includes('alerta')) {
-            t = 'riesgo'; // Ahora 'alerta' también activará el ROJO
-          } else if (tit.includes('nota') || tit.includes('calificaci')) {
-            t = 'nota';
-          } else if (tit.includes('fecha') || tit.includes('evaluaci')) {
-            t = 'fecha';
-          }
-
-          return { 
-            ...n, 
-            tipo: t, 
-            leida: Number(n.leida) 
-          };
-        });
-
-        this.unreadCount = this.listaNotificaciones.filter(n => n.leida === 0).length;
-        this.cdr.detectChanges(); 
-      })
-      .catch(err => console.error("Error en polling:", err));
-  }
-
-  toggleNotifications(e: Event) {
-    e.stopPropagation();
-    this.notifOpen = !this.notifOpen;
-    this.menuOpen = false;
-    if (this.notifOpen && this.unreadCount > 0) {
-      this.marcarComoLeidas();
+    // Si es apoderado, iniciamos la sincronización igual que en el dashboard
+    if (!this.esDocente && this.idUsuarioActual > 0) {
+      this.iniciarSincronizacion();
     }
   }
 
-  private marcarComoLeidas() {
-    const idUsu = localStorage.getItem('id_usuario');
-    fetch(`http://localhost:3000/api/notificaciones/leer/${idUsu}`, { method: 'PUT' })
-      .then(() => {
-        this.unreadCount = 0;
-        this.listaNotificaciones.forEach(n => n.leida = 1);
-        this.cdr.detectChanges();
-      })
-      .catch(err => console.error("Error al marcar como leídas:", err));
+  ngOnDestroy(): void {
+    if (this.pollSub) this.pollSub.unsubscribe();
   }
 
-  toggleMenu(e: Event) {
-    e.stopPropagation();
+  iniciarSincronizacion() {
+    // Usamos la misma lógica RxJS que hace que tu Dashboard funcione bien
+    this.pollSub = interval(5000).pipe(
+      startWith(0),
+      switchMap(() => this.nService.getNotificaciones(this.idUsuarioActual))
+    ).subscribe({
+      next: (data: any[]) => {
+        this.listaNotificaciones = data.map(n => {
+          let tipoFinal = (n.tipo || n.TIPO || 'comunicacion').toLowerCase().trim();
+          const tituloNorm = (n.titulo || n.TITULO || '').toLowerCase();
+
+          // Aplicamos la misma prioridad de colores que el dashboard para consistencia
+          if (tituloNorm.includes('anotaci')) {
+            tipoFinal = 'anotacion';
+          } else if (tipoFinal === 'alerta' || tituloNorm.includes('alerta') || tituloNorm.includes('riesgo')) {
+            tipoFinal = 'riesgo';
+          } else if (tituloNorm.includes('nota') || tituloNorm.includes('calificaci')) {
+            tipoFinal = 'nota';
+          } else if (tituloNorm.includes('fecha') || tituloNorm.includes('evaluaci')) {
+            tipoFinal = 'fecha';
+          }
+
+          return {
+            titulo: n.titulo || n.TITULO || 'Aviso',
+            mensaje: n.mensaje || n.MENSAJE || '',
+            fecha: n.fecha || n.FECHA || n.created_at,
+            tipo: tipoFinal,
+            leida: n.leida === 1 || n.LEIDA === 1 || false
+          };
+        });
+
+        this.unreadCount = this.listaNotificaciones.filter(n => !n.leida).length;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error("Error en sincronización header:", err)
+    });
+  }
+
+  toggleNotifications(event: Event) {
+    event.stopPropagation();
+    if (this.esDocente) return;
+    
+    this.notifOpen = !this.notifOpen;
+    this.menuOpen = false;
+
+    if (this.notifOpen && this.unreadCount > 0) {
+      this.nService.marcarComoLeidas(this.idUsuarioActual).subscribe({
+        next: () => {
+          this.unreadCount = 0;
+          this.listaNotificaciones.forEach(n => n.leida = true);
+          this.cdr.detectChanges();
+        }
+      });
+    }
+  }
+
+  toggleMenu(event: Event) {
+    event.stopPropagation();
     this.menuOpen = !this.menuOpen;
     this.notifOpen = false;
   }
 
   volverDashboard() {
-    const r = this.authService.getRol()?.toUpperCase();
-    this.router.navigate([r === 'DOCENTE' ? '/dashboard-docente' : '/dashboard-apoderado']);
+    this.router.navigate([this.esDocente ? '/dashboard-docente' : '/dashboard-apoderado']);
   }
 
   irAConfiguracion() { 
