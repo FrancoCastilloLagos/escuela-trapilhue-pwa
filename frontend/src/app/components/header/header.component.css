@@ -1,4 +1,3 @@
-/* --- Estructura Principal --- */
 .header-main { 
   width: 100%; 
   background: linear-gradient(180deg, #f1c40f, #e67e22); 
@@ -13,103 +12,146 @@
 }
 
 .header-container { 
-  width: 100%; max-width: 1200px; display: flex; justify-content: center; align-items: center; position: relative; 
+  width: 100%; 
+  max-width: 1200px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  position: relative; 
 }
 
 .header-left-action { position: absolute; left: 30px; top: 35px; }
 
 .btn-back-nav { 
-  background: #002d40; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; 
+  background: #002d40; 
+  color: white; 
+  border: none; 
+  padding: 12px 24px; 
+  border-radius: 12px; 
+  font-weight: 700; 
+  cursor: pointer; 
 }
 
 .logo-white-bg { 
-  background: white; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #002d40; margin-top: 20px; 
+  background: white; 
+  width: 100px; 
+  height: 100px; 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  border: 4px solid #002d40; 
+  margin-top: 20px; 
 }
 
 .img-logo { width: 80%; object-fit: contain; }
 
 .user-profile-pill { 
-  position: absolute; top: 25px; right: 30px; background: linear-gradient(135deg, #17a2b8, #117a8b); 
-  padding: 8px 20px; border-radius: 50px; color: white; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-/* --- Notificaciones --- */
-.notification-wrapper { position: relative; display: flex; align-items: center; }
-
-.notif-trigger { 
-  background: transparent !important; border: none !important; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; position: relative; outline: none;
-}
-
-.bell-icon { font-size: 1.4rem; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); }
-
-.notif-badge { 
-  position: absolute; top: -5px; right: -8px; background: #ff4757; color: white; font-size: 10px; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #17a2b8; 
-}
-
-/* Dropdown Ajustado para no salirse de pantalla */
-.notif-dropdown { 
   position: absolute; 
-  top: 55px; 
-  right: -50px; 
-  width: 300px; 
-  background: white; 
-  border-radius: 20px; 
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3); 
-  z-index: 2100; 
-  overflow: hidden; 
-  animation: slideIn 0.3s ease-out;
+  top: 25px; 
+  right: 30px; 
+  background: linear-gradient(135deg, #17a2b8, #117a8b); 
+  padding: 8px 20px; 
+  border-radius: 50px; 
+  color: white; 
+  display: flex; 
+  align-items: center; 
+  gap: 15px; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* --- ESTILOS DE NOTIFICACIONES (MANTENIDOS) --- */
+.notif-trigger { 
+  background: transparent !important; 
+  border: none !important;           
+  cursor: pointer; 
+  padding: 0; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  position: relative;
+  outline: none;
 }
-
-.notif-header { background: #002d40; color: white; padding: 12px; text-align: center; font-weight: 700; font-size: 0.9rem; }
-.notif-list { max-height: 380px; overflow-y: auto; }
-.notif-item { display: flex; border-bottom: 1px solid #f0f0f0; min-height: 70px; }
+.bell-icon { font-size: 1.4rem; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); }
+.notif-badge { 
+  position: absolute; top: -5px; right: -8px; background: #ff4757; color: white; 
+  font-size: 10px; min-width: 18px; height: 18px; border-radius: 50%; 
+  display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #17a2b8; 
+}
+.notif-dropdown { 
+  position: absolute; top: 55px; right: -60px; width: 320px; background: white; 
+  border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); z-index: 2000; overflow: hidden; 
+}
+.notif-header { background: #002d40; color: white; padding: 15px; text-align: center; font-weight: 700; }
+.notif-list { max-height: 350px; overflow-y: auto; }
+.notif-item { display: flex; border-bottom: 1px solid #f0f0f0; min-height: 80px; }
 .notif-item.unread { background: #f0f9ff; }
-.notif-indicator { width: 8px; min-height: 100%; flex-shrink: 0; }
-.notif-body { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; text-align: left; }
-.notif-t { font-weight: 800; font-size: 0.8rem; color: #2c3e50; line-height: 1.2; }
-.notif-m { font-size: 0.75rem; color: #576574; margin-top: 3px; }
-.notif-f { font-size: 0.65rem; color: #95a5a6; margin-top: 5px; }
-.notif-footer { font-size: 0.65rem; color: #aaa; text-align: center; padding: 8px; background: #f9f9f9; }
-
+.notif-indicator { width: 10px; min-height: 100%; flex-shrink: 0; background-color: #ccc; }
 .notif-indicator[data-type="anotacion"] { background-color: #f7a0f2 !important; } 
 .notif-indicator[data-type="nota"] { background-color: #2ecc71 !important; }      
 .notif-indicator[data-type="riesgo"] { background-color: #e74c3c !important; }     
 .notif-indicator[data-type="comunicacion"] { background-color: #3498db !important; } 
-.notif-indicator[data-type="fecha"] { background-color: #8e44ad !important; }
+.notif-indicator[data-type="fecha"] { background-color: #8e44ad !important; }      
+.notif-body { padding: 12px; display: flex; flex-direction: column; flex-grow: 1; }
+.notif-t { font-weight: 800; font-size: 0.85rem; color: #2c3e50; }
+.notif-m { font-size: 0.8rem; color: #576574; }
+.notif-f { font-size: 0.7rem; color: #95a5a6; }
 
-/* --- Menú --- */
+/* --- MENU DROPDOWN --- */
 .menu-trigger { background: transparent; border: none; cursor: pointer; display: flex; gap: 3px; padding: 10px; }
 .dot { width: 4px; height: 4px; background: white; border-radius: 50%; }
-.dropdown-floating-menu { position: absolute; top: 65px; right: 0; width: 180px; background: white; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); z-index: 2000; overflow: hidden; }
-.dropdown-item { width: 100%; padding: 12px 20px; border: none; background: none; text-align: left; cursor: pointer; font-weight: 600; color: #333; font-size: 0.9rem; }
+.dropdown-floating-menu { 
+  position: absolute; top: 65px; right: 0; width: 200px; background: white; 
+  border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); z-index: 2000; 
+}
+.dropdown-item { width: 100%; padding: 12px 20px; border: none; background: none; text-align: left; cursor: pointer; font-weight: 600; }
 .dropdown-item:hover { background: #f8f9fa; color: #e67e22; }
 
 /* =========================================
-   MEDIA QUERY: FIX CELULAR EXTREMO
+   MEDIA QUERY: LA PIEZA QUE FALTABA
    ========================================= */
 @media (max-width: 768px) {
-  .header-main { height: auto !important; min-height: 180px; flex-direction: column !important; padding: 15px 0 !important; border-radius: 0 0 30px 30px; }
-  .header-container { flex-direction: column !important; height: auto !important; }
-  .header-left-action { position: relative !important; top: 0 !important; left: 0 !important; margin-bottom: 10px; order: 1; }
-  .logo-white-bg { margin-top: 0 !important; width: 85px !important; height: 85px !important; order: 2; }
-  .user-profile-pill { position: relative !important; top: 0 !important; right: 0 !important; margin-top: 10px; width: 95% !important; justify-content: center; order: 3; padding: 6px 15px; font-size: 0.85rem; }
-
-  /* FIX: El dropdown ahora se centra en la pantalla del celular */
-  .notif-dropdown {
-    position: fixed; /* Cambiado a fixed para asegurar que no se corte con contenedores */
-    top: 170px;
-    left: 50%;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    width: 90%; /* Ocupa casi todo el ancho */
-    max-width: 320px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  .header-main { 
+    height: auto !important; 
+    min-height: 190px; 
+    flex-direction: column !important; 
+    align-items: center !important; 
+    padding: 15px 0 !important; 
   }
 
-  .notif-list { max-height: 300px; } /* Un poco más corto en móvil */
+  .header-container {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+  
+  .header-left-action { 
+    position: relative !important; 
+    top: 0 !important; 
+    left: 0 !important; 
+    margin-bottom: 10px !important; 
+    order: 1; 
+  }
+
+  .logo-white-bg { 
+    margin-top: 0 !important; 
+    width: 90px !important; 
+    height: 90px !important; 
+    order: 2; 
+  }
+
+  .user-profile-pill { 
+    position: relative !important; 
+    top: 0 !important; 
+    right: 0 !important; 
+    margin-top: 10px !important; 
+    width: 90% !important; 
+    justify-content: center !important; 
+    order: 3; 
+  }
+
+  .notif-dropdown {
+    right: 50% !important;
+    transform: translateX(50%);
+    width: 280px;
+  }
 }
