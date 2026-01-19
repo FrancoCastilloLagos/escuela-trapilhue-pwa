@@ -2,8 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { NotificationsService } from '../../services/notifications.service'; // <--- IMPORTANTE
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -19,13 +17,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   notifOpen: boolean = false;
   listaNotificaciones: any[] = [];
   unreadCount: number = 0;
-  
-  // Usamos una suscripción en lugar de un intervalo para que sea instantáneo
-  private refreshSub?: Subscription;
+  private intervalId: any;
 
   constructor(
     private authService: AuthService,
-    private notiService: NotificationsService, // <--- INYECTAMOS EL SERVICIO
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
@@ -33,42 +28,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userRol = (this.authService.getRol() || 'Usuario').toUpperCase();
     this.userName = localStorage.getItem('rut') || 'Usuario';
-    
-    // 1. Carga inicial
     this.actualizarNotificaciones();
-
-    // 2. ESCUCHAR AL SERVICIO: Cuando el docente guarda algo, el servicio avisa 
-    // y el header reacciona de inmediato sin esperar 10 segundos.
-    this.refreshSub = this.notiService.refreshNeeded$.subscribe(() => {
-      console.log('🔔 Header: Recibida señal de actualización de notificaciones');
-      this.actualizarNotificaciones();
-    });
+    this.intervalId = setInterval(() => this.actualizarNotificaciones(), 10000);
   }
 
   ngOnDestroy(): void {
-    // Limpiamos la suscripción para evitar fugas de memoria
-    if (this.refreshSub) this.refreshSub.unsubscribe();
+    if (this.intervalId) clearInterval(this.intervalId);
   }
 
   actualizarNotificaciones() {
     const idUsu = localStorage.getItem('id_usuario');
     if (!idUsu) return;
 
-    // USAMOS LA URL DE RENDER (La misma del servicio)
-    const API_URL = `https://escuela-backend-vva9.onrender.com/api/notificaciones/${idUsu}`;
-
-    fetch(API_URL)
+    fetch(`http://localhost:3000/api/notificaciones/${idUsu}`)
       .then(res => res.json())
       .then(data => {
-        this.listaNotificaciones = (data || []).map((n: any) => {
+        this.listaNotificaciones = data.map((n: any) => {
+          // Normalizamos el tipo base
           let t = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
           const tit = n.titulo.toLowerCase();
           
-          // Lógica de colores por tipo
+          // PRIORIDAD DE COLORES POR PALABRAS CLAVE
           if (tit.includes('anotaci')) {
-            t = 'anotacion'; 
+            t = 'anotacion'; // Esto activará el rosado
           } else if (tit.includes('riesgo') || tit.includes('alerta')) {
-            t = 'riesgo'; 
+            t = 'riesgo'; // Ahora 'alerta' también activará el ROJO
           } else if (tit.includes('nota') || tit.includes('calificaci')) {
             t = 'nota';
           } else if (tit.includes('fecha') || tit.includes('evaluaci')) {
@@ -85,14 +69,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.unreadCount = this.listaNotificaciones.filter(n => n.leida === 0).length;
         this.cdr.detectChanges(); 
       })
-      .catch(err => console.error("Error en sincronización del Header:", err));
+      .catch(err => console.error("Error en polling:", err));
   }
 
   toggleNotifications(e: Event) {
     e.stopPropagation();
     this.notifOpen = !this.notifOpen;
     this.menuOpen = false;
-    
     if (this.notifOpen && this.unreadCount > 0) {
       this.marcarComoLeidas();
     }
@@ -100,16 +83,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private marcarComoLeidas() {
     const idUsu = localStorage.getItem('id_usuario');
-    // TAMBIÉN CORREGIMOS ESTA URL A RENDER
-    const API_URL_LEER = `https://escuela-backend-vva9.onrender.com/api/notificaciones/leer/${idUsu}`;
-
-    fetch(API_URL_LEER, { method: 'PUT' })
+    fetch(`http://localhost:3000/api/notificaciones/leer/${idUsu}`, { method: 'PUT' })
       .then(() => {
         this.unreadCount = 0;
         this.listaNotificaciones.forEach(n => n.leida = 1);
         this.cdr.detectChanges();
-        // Avisamos al servicio que forcé una actualización
-        this.notiService.forzarActualizacion();
       })
       .catch(err => console.error("Error al marcar como leídas:", err));
   }

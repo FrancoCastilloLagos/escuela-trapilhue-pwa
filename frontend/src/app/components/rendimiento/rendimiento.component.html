@@ -1,6 +1,53 @@
-<div class="dashboard-wrapper fade-in-viewer">
+<div class="dashboard-wrapper fade-in-viewer" (click)="menuOpen = false; notifOpen = false">
   
-  <app-header></app-header>
+  <header class="header-main" (click)="$event.stopPropagation()">
+    <div class="header-container">
+      <div class="header-left-action">
+        <button class="btn-back-nav" (click)="volverDashboard()"><span>⬅</span> INICIO</button>
+      </div>
+      
+      <div class="logo-wrapper">
+        <div class="logo-white-bg">
+          <img src="assets/logo-escuela.png" alt="Logo" class="img-logo">
+        </div>
+      </div>
+      
+      <div class="user-profile-pill">
+        <div class="notification-wrapper" *ngIf="!esDocente">
+          <button class="notif-trigger" (click)="toggleNotifications($event)">
+            <span class="bell-icon">🔔</span>
+            <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+          </button>
+          
+          <div class="notif-dropdown" *ngIf="notifOpen">
+            <div class="notif-header">NOTIFICACIONES</div>
+            <div class="notif-list">
+              <div *ngIf="listaNotificaciones.length === 0" class="no-notif">Sin avisos nuevos</div>
+              <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="n.leida === 0">
+                <div class="notif-indicator" [attr.data-type]="n.tipo"></div>
+                <div class="notif-body">
+                  <span class="notif-t">{{ n.titulo }}</span>
+                  <span class="notif-m">{{ n.mensaje }}</span>
+                  <span class="notif-f">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span class="user-info">{{ userRol }}: {{ userName }}</span>
+        
+        <button class="menu-trigger" (click)="toggleMenu($event)">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </button>
+        
+        <div class="dropdown-floating-menu" *ngIf="menuOpen">
+          <button class="dropdown-item" (click)="irAConfiguracion()">⚙️ Configuración</button>
+          <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </header>
 
   <div class="title-section-container">
     <div class="news-header-badge">ANALÍTICA DE RENDIMIENTO</div>
@@ -10,15 +57,15 @@
     <div class="layout-container">
       <aside class="sidebar-info">
         <div class="glass-card">
-          <h3 class="sidebar-title">FILTROS</h3>
+          <h3 class="sidebar-title">FILTROS ANALÍTICOS</h3>
           <div class="selectors-stack">
             <ng-container *ngIf="esDocente">
               <select [(ngModel)]="idCursoSel" (change)="onCursoChange()" class="clean-select-dark">
-                <option [ngValue]="null">Curso</option>
+                <option [ngValue]="null">Seleccione Curso</option>
                 <option *ngFor="let c of cursos" [ngValue]="c.id_curso">{{ c.nombre_curso }}</option>
               </select>
               <select [(ngModel)]="idEstudianteSel" (change)="onEstudianteChange()" class="clean-select-dark" [disabled]="!idCursoSel">
-                <option [ngValue]="null">Estudiante</option>
+                <option [ngValue]="null">Seleccione Estudiante</option>
                 <option *ngFor="let e of estudiantes" [ngValue]="e.id_estudiante">{{ e.nombre_completo }}</option>
               </select>
             </ng-container>
@@ -30,10 +77,10 @@
           </div>
 
           <div class="analitica-box-glass sumativo" [class.danger-alert]="alertaSumativa">
-              <strong>SUMATIVO:</strong><br>{{ mensajeSumativo }}
+              <strong>ANALÍTICA SUMATIVA:</strong><br>{{ mensajeSumativo }}
           </div>
           <div class="analitica-box-glass formativo" [class.danger-alert]="alertaFormativa">
-              <strong>FORMATIVO:</strong><br>{{ mensajeFormativo }}
+              <strong>PROCESO FORMATIVO:</strong><br>{{ mensajeFormativo }}
           </div>
         </div>
       </aside>
@@ -56,17 +103,21 @@
         
         <div class="news-display-card table-card" *ngIf="notasActuales.length > 0">
           <div class="table-area">
-            <div class="table-title">Historial</div>
-            <table class="minimal-table">
-              <thead><tr><th>EVALUACIÓN</th><th>VALOR</th><th>TIPO</th></tr></thead>
-              <tbody>
-                <tr *ngFor="let n of notasActuales">
-                  <td>{{ n.descripcion || 'Eva' }}</td>
-                  <td [class.red-text]="n.valor < 4.0" class="bold-text">{{ n.valor }}</td>
-                  <td>{{ n.tipo || 'Sumativa' }}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-title">Historial de Calificaciones</div>
+            <div class="table-scroll">
+              <table class="minimal-table">
+                <thead>
+                  <tr><th>EVALUACIÓN</th><th>VALOR</th><th>TIPO</th></tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let n of notasActuales">
+                    <td>{{ n.descripcion || n.nombre_evaluacion }}</td>
+                    <td [class.red-text]="n.valor < 4.0" class="bold-text">{{ n.valor | number:'1.1-1' }}</td>
+                    <td><span class="badge-tipo" [class.sum]="n.tipo?.toUpperCase() !== 'FORMATIVA'">{{ n.tipo || 'Sumativa' }}</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
