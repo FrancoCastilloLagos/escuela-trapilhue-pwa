@@ -7,44 +7,51 @@ html, body {
   width: 100%;
   font-family: 'Poppins', sans-serif;
   background-color: #85c1e9;
-  overflow-x: hidden; // <--- Evita que la página "baile" de lado a lado
+  overflow-x: hidden;
 }
 
-/* --- ESTA REGLA VA A ARREGLAR TUS OTROS CSS --- */
-/* Forzamos a que cualquier contenedor que use display: flex se apile en móvil */
-
+// --- SOLUCIÓN PARA EL AMONTONAMIENTO EN MÓVIL ---
 @media (max-width: 768px) {
-  // Buscamos los divs que suelen ser contenedores de tus componentes
-  div, section, article {
-    // Si el elemento tiene un ancho fijo en su .css, esto lo vuelve flexible
-    max-width: 100% !important; 
-    box-sizing: border-box !important;
+  
+  // 1. Quitamos alturas fijas que causan que las cosas se monten una sobre otra
+  div, section, article, .card, .container {
+    height: auto !important; 
+    min-height: min-content !important;
+    position: relative !important; // Evita que elementos 'absolute' floten encima de otros
+    top: auto !important;
+    left: auto !important;
+    margin-bottom: 20px !important; // Separación obligatoria entre bloques
   }
 
-  // Si usaste flexbox en tus archivos .css, esto los obliga a ponerse uno abajo de otro
-  .container, .main-content, .grid-container, [style*="display: flex"] {
+  // 2. Los contenedores Flex ahora respiran
+  .flex-container, [style*="display: flex"], .main-content {
+    display: block !important; // Cambiamos flex por block para evitar colapsos
+    width: 100% !important;
+  }
+
+  // 3. El encabezado/Logo que se veía mal
+  header, .header, .top-bar {
     display: flex !important;
     flex-direction: column !important;
-    width: 100% !important;
-    padding: 10px !important;
+    align-items: center !important;
+    padding: 15px !important;
+    
+    img {
+      margin-bottom: 10px;
+      max-width: 120px !important;
+    }
   }
 
-  // Las tablas son lo que más rompe el diseño. Esto les da scroll.
-  table {
+  // 4. Forzamos a que las tarjetas ocupen su propio espacio
+  .card, .panel, .box {
+    width: 95% !important;
+    margin: 10px auto !important;
     display: block !important;
-    width: 100% !important;
-    overflow-x: auto !important;
-  }
-
-  // Los inputs que se ven cortados en tu foto
-  input, select, button {
-    width: 100% !important;
-    font-size: 16px !important; // Evita que iOS haga zoom automático al clickear
-    margin-bottom: 8px !important;
+    clear: both; // Limpia flotados
   }
 }
 
-/* Tu animación se queda igual */
+// Tu animación (fuera del media query para que funcione en ambos)
 .fade-in-viewer {
   animation: fadeInModern 0.8s ease-out;
 }
