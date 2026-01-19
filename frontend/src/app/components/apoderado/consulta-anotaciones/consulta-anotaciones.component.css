@@ -1,4 +1,3 @@
-/* --- LIMPIEZA Y BASE --- */
 @keyframes fadeIn { 
   from { opacity: 0; transform: translateY(20px); } 
   to { opacity: 1; transform: translateY(0); } 
@@ -13,11 +12,10 @@
   animation: fadeIn 0.8s ease-out;
 }
 
-/* --- HEADER (ESTILO GESTIÓN NOTAS) --- */
 .header-main {
   width: 100%; 
   background: linear-gradient(180deg, #f1c40f, #e67e22); 
-  height: 140px; /* Un poco más de aire */
+  height: 120px;
   border-bottom-left-radius: 40px; 
   border-bottom-right-radius: 40px;
   display: flex; 
@@ -36,19 +34,17 @@
   align-items: center; 
   justify-content: center;
   border: 4px solid #002d40; 
-  margin-top: 25px; 
+  margin-top: 20px; 
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   overflow: hidden;
-  position: relative;
-  z-index: 2;
 }
 
 .img-logo {
   width: 80%;
   height: auto;
+  display: block;
 }
 
-/* Perfil Usuario (Escritorio) */
 .user-profile-pill {
   position: absolute; 
   top: 25px; 
@@ -60,10 +56,12 @@
   display: flex; 
   align-items: center; 
   gap: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Botón Volver (Escritorio) */
+/* Elementos del menú (respetando tu código funcional) */
+.menu-trigger { background: rgba(255, 255, 255, 0.15); border: none; cursor: pointer; display: flex; gap: 3px; padding: 10px; border-radius: 50%; }
+.dot { width: 4px; height: 4px; background: white; border-radius: 50%; }
+
 .header-left-action { 
   position: absolute; 
   top: 35px; 
@@ -74,118 +72,141 @@
   background: #002d40; 
   color: white; 
   border: none; 
-  padding: 10px 25px; 
+  padding: 10px 20px; 
   border-radius: 12px; 
   font-weight: 700; 
   cursor: pointer; 
-  text-transform: uppercase;
-  font-size: 0.9rem;
+  transition: 0.2s; 
 }
 
-/* --- TÍTULO DE LA SECCIÓN --- */
 .title-section-container { 
   text-align: center; 
-  margin-top: 60px; 
-  margin-bottom: 25px; 
+  margin-top: 50px; 
+  margin-bottom: 20px; 
 }
 
 .badge-title-dark { 
   background: #002d40; 
   color: white; 
-  padding: 15px 50px; 
+  padding: 15px 60px; 
   border-radius: 20px; 
   font-weight: 800; 
-  font-size: 1.5rem; 
+  font-size: 1.6rem; 
   display: inline-block; 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* --- ÁREA DE TARJETAS / CONTENIDO --- */
-.main-content-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  gap: 20px;
+/* Área de contenido adaptada a la cuadrícula de tu código funcional */
+.panels-grid { 
+  display: flex; 
+  justify-content: center; 
+  gap: 40px; 
+  padding: 0 20px; 
+  align-items: flex-start; 
 }
 
-.card-white-panel {
-  background: white;
-  border-radius: 25px;
-  padding: 25px;
-  width: 100%;
-  max-width: 550px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+.card-white-panel { 
+  background: white; 
+  padding: 30px; 
+  border-radius: 25px; 
+  width: 600px; /* Ajustado para anotaciones */
+  display: flex; 
+  flex-direction: column; 
+  box-sizing: border-box; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+  min-height: 520px; 
 }
 
-/* Estilos de texto para Anotaciones */
-.anotacion-item {
-  margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 15px;
-  background: #fcfcfc;
-  border-left: 5px solid #ccc;
+/* Estilos de las filas de anotación */
+.grade-row-item { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  background: #f4f6f7; 
+  padding: 15px; 
+  border-radius: 15px; 
+  margin-bottom: 12px; 
+  border-left: 5px solid #002d40; 
 }
 
-.is-pos { border-left-color: #27ae60 !important; color: #27ae60; }
-.is-neg { border-left-color: #e74c3c !important; color: #e74c3c; }
+/* Clases de estado para anotaciones */
+.txt-rojo { color: #e74c3c !important; font-weight: bold; }
+.txt-verde { color: #27ae60 !important; font-weight: bold; }
 
-/* --- FOOTER --- */
-.minimal-footer {
-  background: #e67e22;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: auto;
-  font-weight: 600;
+.minimal-footer { 
+  background: #e67e22; 
+  color: white; 
+  text-align: center; 
+  padding: 15px; 
+  margin-top: auto; 
 }
 
 /* =========================================
-   MEDIA QUERY: COPIA EXACTA DE GESTIÓN NOTAS
+   MEDIA QUERY (CLON EXACTO DE TU CÓDIGO)
    ========================================= */
 @media (max-width: 768px) {
   .header-main { 
     height: auto; 
-    min-height: 220px; 
+    min-height: 190px; 
     flex-direction: column; 
     align-items: center; 
-    padding: 20px 0; 
-    border-radius: 0 0 40px 40px;
+    padding: 15px 0; 
   }
   
-  /* Botón Volver arriba */
   .header-left-action { 
-    position: static; 
-    margin-bottom: 15px;
+    position: relative; 
+    top: 0; 
+    left: 0; 
+    margin-bottom: 10px; 
+    order: 1; 
   }
 
-  /* Logo al medio */
-  .logo-white-bg { 
-    margin-top: 0; 
-    width: 90px; 
-    height: 90px;
-  }
-
-  /* Perfil abajo */
   .user-profile-pill { 
-    position: static; 
-    margin-top: 15px; 
-    width: 85%; 
+    position: relative; 
+    top: 0; 
+    right: 0; 
+    order: 3; 
+    margin-top: 10px; 
+    width: 90%; 
+    justify-content: center; 
+  }
+  
+  .logo-wrapper { 
+    order: 2; 
+    display: flex; 
     justify-content: center; 
   }
 
-  .title-section-container { 
-    margin-top: 30px; 
+  .logo-white-bg { 
+    margin-top: 0; 
+    width: 90px; 
+    height: 90px; 
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .img-logo { 
+    width: 75% !important; 
+    height: auto !important; 
+    margin: 0 auto; 
   }
 
   .badge-title-dark { 
-    padding: 12px 25px; 
-    font-size: 1.2rem; 
+    padding: 10px 20px; 
+    font-size: 1.1rem; 
     width: 85%; 
+    margin-top: 20px; 
   }
 
-  .card-white-panel {
-    width: 92%;
-    padding: 20px;
+  .panels-grid { 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 20px; 
+  }
+
+  .card-white-panel { 
+    width: 95%; 
+    padding: 20px; 
+    min-height: auto; 
   }
 }
