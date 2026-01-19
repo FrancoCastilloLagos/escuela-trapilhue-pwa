@@ -1,4 +1,4 @@
-/* --- BASE Y ANIMACIÓN --- */
+
 .dashboard-wrapper {
   background-color: #85c1e9;
   min-height: 100vh;
@@ -14,7 +14,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- TÍTULO --- */
 .title-section-container { 
   text-align: center; 
   margin-top: 50px; 
@@ -31,7 +30,6 @@
   display: inline-block;
 }
 
-/* --- CUERPO Y GRID DEL CALENDARIO --- */
 .calendar-body { 
   flex: 1; 
   padding: 0 40px; 
@@ -122,7 +120,6 @@
   margin: 4px auto 0; 
 }
 
-/* --- PANEL DERECHO --- */
 .detail-card { 
   background: #002d40; 
   border-radius: 25px; 

@@ -8,7 +8,6 @@ import { NotificationsService } from '../../../services/notifications.service';
 import { HeaderComponent } from '../../header/header.component';
 import { Subscription } from 'rxjs';
 
-// Estructura para manejar los datos de cada nota que viene del back.
 interface Nota {
   descripcion: string;
   tipo: string;

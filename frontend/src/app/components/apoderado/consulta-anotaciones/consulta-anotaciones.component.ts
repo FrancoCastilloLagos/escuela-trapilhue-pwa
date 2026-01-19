@@ -26,13 +26,10 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // 1. Carga inicial
     this.cargarAnotaciones();
 
-    // 2. Suscripción idéntica a la de consulta-fechas
     this.refreshSub = this.notiService.refreshNeeded$.subscribe(() => {
       console.log('Señal de refresco recibida en Anotaciones');
-      // Agregamos un pequeño delay de 500ms para asegurar que la DB esté lista
       setTimeout(() => {
         this.cargarAnotaciones();
       }, 500);
@@ -46,7 +43,6 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
   }
 
   cargarAnotaciones() {
-    // Es vital asegurarse de que estamos usando el ID correcto del almacenamiento
     const idEstudiante = localStorage.getItem('id_estudiante');
     
     if (!idEstudiante) {
@@ -58,7 +54,6 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.notasService.getAnotacionesEstudiante(Number(idEstudiante)).subscribe({
       next: (data: any) => { 
-        // Forzamos el mapeo para asegurar que los campos existan
         this.anotaciones = (data || []).map((a: any) => ({
           ...a,
           tipo: a.tipo ? a.tipo.toUpperCase() : 'POSITIVA',
@@ -66,7 +61,7 @@ export class ConsultaAnotacionesComponent implements OnInit, OnDestroy {
         }));
         
         this.loading = false; 
-        this.cdr.detectChanges(); // Forzar renderizado igual que en Fechas
+        this.cdr.detectChanges(); 
       },
       error: (err) => { 
         console.error('Error al cargar anotaciones:', err);

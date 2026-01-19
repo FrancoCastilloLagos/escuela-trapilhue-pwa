@@ -12,7 +12,6 @@
   animation: fadeIn 0.8s ease-out;
 }
 
-/* --- TÍTULO --- */
 .title-section-container { 
   text-align: center; 
   margin-top: 50px; 
@@ -29,7 +28,6 @@
   display: inline-block; 
 }
 
-/* --- ÁREA DE CONTENIDO --- */
 .main-content-area { 
   display: flex; 
   flex-direction: column; 
@@ -72,7 +70,6 @@
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
-/* --- TABLAS Y PANELES --- */
 .tables-container { 
   width: 100%; 
   max-width: 700px; 
