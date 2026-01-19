@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { Chart, registerables } from 'chart.js';
 import { NotasService } from '../../services/notas.service';
 import { AuthService } from '../../services/auth.service';
 import { NotificationsService, Notificacion } from '../../services/notifications.service';
-import { forkJoin, of } from 'rxjs';
+import { Subscription, forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 Chart.register(...registerables);
@@ -18,7 +18,7 @@ Chart.register(...registerables);
   templateUrl: './rendimiento.component.html',
   styleUrls: ['./rendimiento.component.css']
 })
-export class RendimientoComponent implements OnInit {
+export class RendimientoComponent implements OnInit, OnDestroy {
   @ViewChild('sumativasChart', { static: false }) sumativasCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('formativasChart', { static: false }) formativasCanvas!: ElementRef<HTMLCanvasElement>;
   
@@ -28,8 +28,9 @@ export class RendimientoComponent implements OnInit {
   notifOpen: boolean = false; 
   esDocente: boolean = false;
 
-  listaNotificaciones: Notificacion[] = [];
+  listaNotificaciones: any[] = [];
   unreadCount: number = 0;
+  private refreshSub?: Subscription;
 
   cursos: any[] = [];
   estudiantes: any[] = [];
@@ -54,7 +55,7 @@ export class RendimientoComponent implements OnInit {
   constructor(
     private nService: NotasService,
     private authService: AuthService,
-    public notifService: NotificationsService,
+    private notiService: NotificationsService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
@@ -65,34 +66,11 @@ export class RendimientoComponent implements OnInit {
     this.userName = localStorage.getItem('rut') || 'Usuario';
     this.esDocente = this.userRol === 'DOCENTE';
 
-    if (!this.esDocente) {
-      this.notifService.notifications$.subscribe(list => {
-        // Mapeo corregido para evitar el error de tipo TS(2322)
-        this.listaNotificaciones = list.map(n => {
-          let t: any = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
-          const tit = n.titulo ? n.titulo.toLowerCase() : '';
-
-          if (tit.includes('riesgo') || tit.includes('alerta')) {
-            t = 'riesgo';
-          } else if (tit.includes('anotaci')) {
-            t = 'anotacion';
-          } else if (tit.includes('nota') || tit.includes('calificaci')) {
-            t = 'nota';
-          } else if (tit.includes('fecha') || tit.includes('evaluaci')) {
-            t = 'fecha';
-          }
-
-          // Retornamos el objeto forzando la compatibilidad con Notificacion
-          return { 
-            ...n, 
-            tipo: t as "nota" | "comunicacion" | "fecha" | "anotacion" | "riesgo" 
-          };
-        });
-        
-        this.unreadCount = this.notifService.totalNoLeidas;
-        this.cdr.detectChanges();
-      });
-    }
+    // Sincronización de notificaciones manual
+    this.actualizarNotificacionesManual();
+    this.refreshSub = this.notiService.refreshNeeded$.subscribe(() => {
+      this.actualizarNotificacionesManual();
+    });
 
     if (this.esDocente) {
       this.cargarCursos();
@@ -106,6 +84,30 @@ export class RendimientoComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    if (this.refreshSub) this.refreshSub.unsubscribe();
+  }
+
+  actualizarNotificacionesManual() {
+    const idUsu = localStorage.getItem('id_usuario');
+    if (!idUsu || this.esDocente) return;
+
+    fetch(`https://escuela-backend-vva9.onrender.com/api/notificaciones/${idUsu}`)
+      .then(res => res.json())
+      .then(data => {
+        this.listaNotificaciones = (data || []).map((n: any) => {
+          let t = n.tipo ? n.tipo.toLowerCase().trim() : 'comunicacion';
+          const tit = n.titulo.toLowerCase();
+          if (tit.includes('anotaci')) t = 'anotacion';
+          else if (tit.includes('riesgo') || tit.includes('alerta')) t = 'riesgo';
+          return { ...n, tipo: t, leida: Number(n.leida) };
+        });
+        this.unreadCount = this.listaNotificaciones.filter(n => n.leida === 0).length;
+        this.cdr.detectChanges();
+      });
+  }
+
+  // --- Lógica de Negocio ---
   cargarCursos() {
     this.nService.getCursos().subscribe(data => { 
       this.cursos = data; 
@@ -163,27 +165,19 @@ export class RendimientoComponent implements OnInit {
   procesarAnalisisYGraficos(notas: any[]) {
     const sumativas = notas.filter(n => n.tipo?.toUpperCase() === 'SUMATIVA' || !n.tipo);
     const formativas = notas.filter(n => n.tipo?.toUpperCase() === 'FORMATIVA');
-
     const asignaturaObj = this.asignaturas.find(a => a.id_asignatura === this.idAsignaturaSel);
     const nombreAsig = asignaturaObj ? asignaturaObj.nombre.toUpperCase() : 'ASIGNATURA';
 
     if (sumativas.length > 0) {
       const promS = sumativas.reduce((a, b) => a + Number(b.valor), 0) / sumativas.length;
-      
       let tendenciaDescendente = false;
       if (sumativas.length >= 2) {
         const ultima = Number(sumativas[sumativas.length - 1].valor);
         const penultima = Number(sumativas[sumativas.length - 2].valor);
         if (ultima < penultima) tendenciaDescendente = true;
       }
-
       this.alertaSumativa = (promS < 4.0) || (promS < 4.5 && (this.cantidadAnotaciones > 0 || tendenciaDescendente));
-      
-      if (this.alertaSumativa) {
-        this.mensajeSumativo = `RIESGO DETECTADO EN ${nombreAsig}.`;
-      } else {
-        this.mensajeSumativo = `Promedio sumativo: ${promS.toFixed(1)}`;
-      }
+      this.mensajeSumativo = this.alertaSumativa ? `RIESGO DETECTADO EN ${nombreAsig}.` : `Promedio sumativo: ${promS.toFixed(1)}`;
     } else {
       this.mensajeSumativo = "Sin notas registradas.";
     }
@@ -207,10 +201,8 @@ export class RendimientoComponent implements OnInit {
     const isSum = tipo === 'sumativo';
     const canvasElement = isSum ? this.sumativasCanvas?.nativeElement : this.formativasCanvas?.nativeElement;
     if (!canvasElement) return;
-
     if (isSum && this.chartSumativo) this.chartSumativo.destroy();
     if (!isSum && this.chartFormativo) this.chartFormativo.destroy();
-
     const ctx = canvasElement.getContext('2d');
     if (!ctx) return;
 
@@ -223,44 +215,48 @@ export class RendimientoComponent implements OnInit {
           data: datos.map(n => n.valor),
           borderColor: isSum ? '#e67e22' : '#17a2b8',
           backgroundColor: isSum ? 'rgba(230,126,34,0.2)' : 'rgba(23,162,184,0.2)',
-          fill: true,
-          tension: 0.4,
-          pointRadius: 5
+          fill: true, tension: 0.4, pointRadius: 5
         }]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         scales: { y: { min: 1, max: 7 } },
         plugins: { legend: { display: false } }
       }
     });
-
     if (isSum) this.chartSumativo = newChart; else this.chartFormativo = newChart;
     this.cdr.detectChanges();
   }
 
   limpiarGraficos() {
-    if (this.chartSumativo) { this.chartSumativo.destroy(); this.chartSumativo = null; }
-    if (this.chartFormativo) { this.chartFormativo.destroy(); this.chartFormativo = null; }
-    this.notasActuales = [];
-    this.alertaSumativa = false;
-    this.mensajeSumativo = 'Seleccione asignatura.';
-    this.mensajeFormativo = 'Seleccione asignatura.';
+    if (this.chartSumativo) this.chartSumativo.destroy();
+    if (this.chartFormativo) this.chartFormativo.destroy();
+    this.chartSumativo = null; this.chartFormativo = null;
+    this.notasActuales = []; this.alertaSumativa = false;
+    this.mensajeSumativo = 'Seleccione asignatura.'; this.mensajeFormativo = 'Seleccione asignatura.';
     this.cdr.detectChanges();
   }
 
+  // --- Acciones del Header ---
   toggleNotifications(e: Event) {
-    if (this.esDocente) return;
     e.stopPropagation();
     this.notifOpen = !this.notifOpen;
-    if (this.notifOpen && this.unreadCount > 0) this.notifService.marcarTodasComoLeidas();
+    this.menuOpen = false;
+    if (this.notifOpen && this.unreadCount > 0) this.marcarComoLeidas();
   }
 
-  toggleMenu(e: Event) { e.stopPropagation(); this.menuOpen = !this.menuOpen; }
-  volverDashboard() { 
-    this.router.navigate([this.esDocente ? '/dashboard-docente' : '/dashboard-apoderado']);
+  private marcarComoLeidas() {
+    const idUsu = localStorage.getItem('id_usuario');
+    fetch(`https://escuela-backend-vva9.onrender.com/api/notificaciones/leer/${idUsu}`, { method: 'PUT' })
+      .then(() => {
+        this.unreadCount = 0;
+        this.listaNotificaciones.forEach(n => n.leida = 1);
+        this.cdr.detectChanges();
+      });
   }
-  irAConfiguracion() { this.router.navigate(['/configuracion']); }
+
+  toggleMenu(e: Event) { e.stopPropagation(); this.menuOpen = !this.menuOpen; this.notifOpen = false; }
+  volverDashboard() { this.router.navigate([this.esDocente ? '/dashboard-docente' : '/dashboard-apoderado']); }
+  irAConfiguracion() { this.menuOpen = false; this.router.navigate(['/configuracion']); }
   cerrarSesion() { this.authService.logout(); this.router.navigate(['/login']); }
 }
