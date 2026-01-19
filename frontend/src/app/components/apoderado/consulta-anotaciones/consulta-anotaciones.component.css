@@ -1,6 +1,5 @@
 @import url('../../docente/gestion-anotaciones/gestion-anotaciones.component.css');
 
-/* Contenedor principal con fondo azul y altura completa. */
 .dashboard-wrapper { 
     background-color: #85c1e9; 
     min-height: 100vh; 
@@ -8,7 +7,6 @@
     flex-direction: column; 
 }
 
-/* Área central para centrar las tarjetas de contenido. */
 .main-content-area {
     display: flex;
     flex-direction: column;
@@ -16,7 +14,6 @@
     padding: 20px;
 }
 
-/* Tarjeta blanca redondeada para mostrar el historial. */
 .card-white-panel {
     background: white;
     border-radius: 25px;
@@ -26,13 +23,11 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* Separador gris suave entre cada fila de anotación. */
 .grade-row-item {
     border-bottom: 1px solid #f0f0f0;
     padding: 15px 10px;
 }
 
-/* Footer naranjo pegado siempre al final de la página. */
 .minimal-footer {
     background: #e67e22;
     color: white;
@@ -41,23 +36,38 @@
     margin-top: auto;
 }
 
-/* CLASES PARA REFLEJAR TIPO POSITIVO/NEGATIVO */
-/* Colores de fondo para las barras laterales de estado. */
 .is-pos { background-color: #27ae60 !important; }
 .is-neg { background-color: #e74c3c !important; }
 
-/* Colores de texto para las etiquetas de tipo. */
 .txt-rojo { color: #e74c3c !important; }
 .txt-verde { color: #27ae60 !important; }
 
-/* Indicador lateral genérico para las notificaciones. */
 .notif-indicator { 
     width: 10px; 
     min-height: 100%; 
     background-color: #ccc; 
 }
 
-/* Resalto en rojo si el tipo es de riesgo. */
 .notif-indicator[data-type="riesgo"] { 
     background-color: #e74c3c !important; 
+}
+
+@media (max-width: 768px) {
+    .main-content-area {
+        padding: 15px 10px; 
+    }
+
+    .card-white-panel {
+        width: 95%; 
+        padding: 20px 15px; 
+        border-radius: 20px;
+    }
+
+    .grade-row-item {
+        padding: 12px 5px;
+    }
+
+    .notif-indicator {
+        width: 8px; 
+    }
 }
