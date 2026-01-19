@@ -1,4 +1,4 @@
-<header class="header-main" (click)="$event.stopPropagation()">
+<header class="header-main" (click)="notifOpen = false; menuOpen = false">
   <div class="header-container">
     <div class="header-left-action">
       <button class="btn-back-nav" (click)="volverDashboard()"><span>⬅</span> INICIO</button>
@@ -11,27 +11,11 @@
     </div>
     
     <div class="user-profile-pill">
-      <div class="notification-wrapper">
+      <div class="notification-wrapper" *ngIf="userRol !== 'DOCENTE'">
         <button class="notif-trigger" (click)="toggleNotifications($event)">
           <span class="bell-icon">🔔</span>
           <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
         </button>
-        
-        <div class="notif-dropdown" *ngIf="notifOpen">
-          <div class="notif-header">NOTIFICACIONES</div>
-          <div class="notif-list">
-            <div *ngIf="listaNotificaciones.length === 0" class="no-notif">Sin avisos nuevos</div>
-            
-            <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="n.leida === 0">
-              <div class="notif-indicator" [attr.data-type]="n.tipo"></div>
-              <div class="notif-body">
-                <span class="notif-t">{{ n.titulo }}</span>
-                <span class="notif-m">{{ n.mensaje }}</span>
-                <span class="notif-f">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <span class="user-info">{{ userRol }}: {{ userName }}</span>
@@ -39,11 +23,29 @@
       <button class="menu-trigger" (click)="toggleMenu($event)">
         <span class="dot"></span><span class="dot"></span><span class="dot"></span>
       </button>
-      
-      <div class="dropdown-floating-menu" *ngIf="menuOpen">
-        <button class="dropdown-item" (click)="irAConfiguracion()">⚙️ Configuración</button>
-        <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+    </div>
+
+    <div class="notif-dropdown" *ngIf="notifOpen" (click)="$event.stopPropagation()">
+      <div class="notif-header">NOTIFICACIONES RECIENTES</div>
+      <div class="notif-list">
+        <div *ngIf="listaNotificaciones.length === 0" class="no-notif">Sin avisos nuevos</div>
+        
+        <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="n.leida === 0">
+          <div class="notif-indicator" [attr.data-type]="n.tipo"></div>
+          <div class="notif-body">
+            <span class="notif-t">{{ n.titulo }}</span>
+            <span class="notif-m">{{ n.mensaje }}</span>
+            <span class="notif-f">{{ n.fecha | date:'dd/MM HH:mm' }}</span>
+          </div>
+        </div>
       </div>
+      <div class="notif-footer" *ngIf="listaNotificaciones.length > 0">Viendo los últimos 5 avisos</div>
+    </div>
+
+    <div class="dropdown-floating-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
+      <button class="dropdown-item" (click)="irAConfiguracion()">⚙️ Configuración</button>
+      <div class="menu-divider"></div>
+      <button class="dropdown-item logout" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
     </div>
   </div>
 </header>
