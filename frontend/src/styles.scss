@@ -1,15 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
+// Variables de colores para mantener consistencia
+$celeste-base: #85c1e9;
+$naranja-escuela: #f39c12;
+
 html, body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
   width: 100%;
   font-family: 'Poppins', sans-serif;
-  background-color: #85c1e9; /* Celeste base */
-  overflow-x: hidden;
+  background-color: $celeste-base;
+  overflow-x: hidden; // Evita el scroll horizontal en celulares
+  -webkit-tap-highlight-color: transparent; // Mejora la experiencia táctil
 }
 
+// --- CLASES GLOBALES RESPONSIVAS ---
+
+// 1. Contenedores que se adaptan
+.container-fluid {
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+// 2. Forzar que las tarjetas y secciones se apilen en móvil
+.flex-adaptive {
+  display: flex;
+  flex-direction: column; // Por defecto uno abajo del otro
+  gap: 20px;
+  
+  @media (min-width: 768px) {
+    flex-direction: row; // En PC se ponen de lado
+  }
+}
+
+// 3. Ajuste para tablas (muy importante para Notas)
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+// 4. Botones e Inputs que no se deforman
+.btn-block-mobile {
+  @media (max-width: 768px) {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+}
+
+// Tu animación original
 .fade-in-viewer {
   animation: fadeInModern 0.8s ease-out;
 }
@@ -17,4 +59,10 @@ html, body {
 @keyframes fadeInModern {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+// --- FIX PARA IMÁGENES ---
+img {
+  max-width: 100%;
+  height: auto;
 }
