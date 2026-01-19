@@ -53,7 +53,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       switchMap(() => this.nService.getNotificaciones(this.idUsuarioActual))
     ).subscribe({
       next: (data: any[]) => {
-        this.listaNotificaciones = data.map(n => {
+        // Limitamos a las últimas 5 notificaciones aquí
+        const ultimas5 = data.slice(0, 5); 
+        
+        this.listaNotificaciones = ultimas5.map(n => {
           let tipoFinal = (n.tipo || 'comunicacion').toLowerCase().trim();
           const tituloNorm = (n.titulo || '').toLowerCase();
           if (tituloNorm.includes('anotaci')) tipoFinal = 'anotacion';

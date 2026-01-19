@@ -1,7 +1,9 @@
 <header class="header-main" (click)="menuOpen = false; notifOpen = false">
   
   <div class="header-left-action">
-    <button class="btn-back-nav" (click)="volverDashboard()"><span>⬅</span> VOLVER</button>
+    <button class="btn-back-nav" (click)="volverDashboard()">
+      <span>⬅</span> VOLVER
+    </button>
   </div>
   
   <div class="logo-wrapper">
@@ -10,17 +12,21 @@
     </div>
   </div>
   
-  <div class="user-profile-pill">
+  <div class="user-profile-pill" (click)="$event.stopPropagation()">
+    
     <div class="notif-wrapper" *ngIf="!esDocente">
       <button class="notif-trigger-btn" (click)="toggleNotifications($event)">
         <span class="bell-icon">🔔</span>
         <span class="notif-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
       </button>
 
-      <div class="dropdown-notif-box" *ngIf="notifOpen" (click)="$event.stopPropagation()">
-        <div class="notif-header">NOTIFICACIONES</div>
+      <div class="dropdown-notif-box" *ngIf="notifOpen">
+        <div class="notif-header">ÚLTIMOS AVISOS</div>
         <div class="notif-scroll">
-          <div *ngIf="listaNotificaciones.length === 0" class="no-notif">No hay mensajes nuevos</div>
+          <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding:30px; text-align:center; color:#ccc;">
+            No hay mensajes nuevos
+          </div>
+          
           <div class="notif-row" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
             <div class="type-line" [attr.data-type]="n.tipo"></div>
             <div class="notif-data">
@@ -35,15 +41,18 @@
 
     <span class="user-name-label">{{ userRol }}: {{ userName }}</span>
     
-    <button class="menu-trigger" (click)="toggleMenu($event)">
-      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-    </button>
-    
-    <div class="dropdown-floating-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
-      <button class="dropdown-item" (click)="irAConfig()">⚙️ Configuración</button>
-      <div class="divider"></div>
-      <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+    <div style="position: relative;">
+      <button class="menu-trigger" (click)="toggleMenu($event)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+      
+      <div class="dropdown-floating-menu" *ngIf="menuOpen">
+        <button class="dropdown-item" (click)="irAConfig()">⚙️ Configuración</button>
+        <div class="divider" style="height: 1px; background: #eee; margin: 5px 0;"></div>
+        <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+      </div>
     </div>
+
   </div>
 
 </header>
