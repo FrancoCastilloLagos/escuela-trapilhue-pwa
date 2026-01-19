@@ -92,37 +92,26 @@
 .minimal-footer { background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto; }
 
 @media (max-width: 768px) {
-  .header-main { height: 200px; padding-top: 10px; flex-direction: column; align-items: center; justify-content: flex-start; }
+  .header-main { height: auto; min-height: 190px; flex-direction: column; align-items: center; padding: 15px 0; }
   
-  .header-left-action { position: relative; top: 10px; left: 0; width: 100%; display: flex; justify-content: center; margin-bottom: 10px; }
-  .btn-back-nav { padding: 8px 20px; font-size: 0.9rem; width: 40%; }
+  .header-left-action { position: relative; top: 0; left: 0; margin-bottom: 10px; order: 1; }
+  .user-profile-pill { position: relative; top: 0; right: 0; order: 3; margin-top: 10px; width: 90%; justify-content: center; }
   
-  .user-profile-pill { position: relative; top: 10px; right: 0; margin-top: 15px; width: 90%; justify-content: center; }
-
+  .logo-wrapper { order: 2; display: flex; justify-content: center; }
   .logo-white-bg { 
-    width: 100px; 
-    height: 100px; 
-    margin-top: 10px; 
+    margin-top: 0; 
+    width: 90px; 
+    height: 90px; 
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 0 !important;
   }
-  
-  .img-logo {
-    width: 80% !important;
-    height: 80% !important;
-    object-fit: contain !important;
-    margin: auto !important;
-    display: block !important;
-  }
+  .img-logo { width: 75% !important; height: auto !important; margin: 0 auto; }
 
-  .title-section-container { margin-top: 20px; }
-  .badge-title-dark { padding: 12px 25px; font-size: 1.2rem; width: 85%; }
-
-  .selectors-row { flex-direction: column; align-items: center; gap: 12px; margin-top: 10px; }
+  .badge-title-dark { padding: 10px 20px; font-size: 1.1rem; width: 85%; margin-top: 20px; }
+  .selectors-row { flex-direction: column; align-items: center; gap: 10px; margin-bottom: 30px; }
   .select-box { width: 90%; }
 
   .panels-grid { flex-direction: column; align-items: center; gap: 20px; }
-  .card-dark-panel, .card-white-panel { width: 95%; padding: 25px; min-height: auto; border-radius: 20px; }
+  .card-dark-panel, .card-white-panel { width: 95%; padding: 20px; min-height: auto; }
 }
