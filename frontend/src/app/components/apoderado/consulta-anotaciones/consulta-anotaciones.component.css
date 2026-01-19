@@ -1,5 +1,4 @@
-@import url('../../docente/gestion-notas/gestion-notas.component.css');
-
+/* --- LIMPIEZA Y BASE --- */
 @keyframes fadeIn { 
   from { opacity: 0; transform: translateY(20px); } 
   to { opacity: 1; transform: translateY(0); } 
@@ -14,11 +13,11 @@
   animation: fadeIn 0.8s ease-out;
 }
 
-/* --- ESTRUCTURA DEL HEADER --- */
+/* --- HEADER (ESTILO GESTIÓN NOTAS) --- */
 .header-main {
   width: 100%; 
   background: linear-gradient(180deg, #f1c40f, #e67e22); 
-  height: 120px;
+  height: 140px; /* Un poco más de aire */
   border-bottom-left-radius: 40px; 
   border-bottom-right-radius: 40px;
   display: flex; 
@@ -37,17 +36,19 @@
   align-items: center; 
   justify-content: center;
   border: 4px solid #002d40; 
-  margin-top: 20px; 
+  margin-top: 25px; 
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 }
 
 .img-logo {
   width: 80%;
   height: auto;
-  display: block;
 }
 
+/* Perfil Usuario (Escritorio) */
 .user-profile-pill {
   position: absolute; 
   top: 25px; 
@@ -59,8 +60,10 @@
   display: flex; 
   align-items: center; 
   gap: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+/* Botón Volver (Escritorio) */
 .header-left-action { 
   position: absolute; 
   top: 35px; 
@@ -71,119 +74,118 @@
   background: #002d40; 
   color: white; 
   border: none; 
-  padding: 10px 20px; 
+  padding: 10px 25px; 
   border-radius: 12px; 
   font-weight: 700; 
   cursor: pointer; 
+  text-transform: uppercase;
+  font-size: 0.9rem;
 }
 
-/* --- TÍTULOS --- */
+/* --- TÍTULO DE LA SECCIÓN --- */
 .title-section-container { 
   text-align: center; 
-  margin-top: 50px; 
-  margin-bottom: 20px; 
+  margin-top: 60px; 
+  margin-bottom: 25px; 
 }
 
 .badge-title-dark { 
   background: #002d40; 
   color: white; 
-  padding: 15px 60px; 
+  padding: 15px 50px; 
   border-radius: 20px; 
   font-weight: 800; 
-  font-size: 1.6rem; 
+  font-size: 1.5rem; 
   display: inline-block; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* --- CONTENIDO ESPECÍFICO DE ANOTACIONES --- */
+/* --- ÁREA DE TARJETAS / CONTENIDO --- */
 .main-content-area {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  gap: 20px;
 }
 
 .card-white-panel {
   background: white;
   border-radius: 25px;
-  padding: 30px;
+  padding: 25px;
   width: 100%;
-  max-width: 600px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  max-width: 550px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
-.grade-row-item {
-  border-bottom: 1px solid #f0f0f0;
-  padding: 15px 10px;
+/* Estilos de texto para Anotaciones */
+.anotacion-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 15px;
+  background: #fcfcfc;
+  border-left: 5px solid #ccc;
 }
 
+.is-pos { border-left-color: #27ae60 !important; color: #27ae60; }
+.is-neg { border-left-color: #e74c3c !important; color: #e74c3c; }
+
+/* --- FOOTER --- */
 .minimal-footer {
   background: #e67e22;
   color: white;
   text-align: center;
-  padding: 15px;
+  padding: 20px;
   margin-top: auto;
+  font-weight: 600;
 }
 
-/* Estados de anotación */
-.is-pos { background-color: #27ae60 !important; }
-.is-neg { background-color: #e74c3c !important; }
-.txt-rojo { color: #e74c3c !important; }
-.txt-verde { color: #27ae60 !important; }
-
 /* =========================================
-   MEDIA QUERY (CLON DE GESTIÓN NOTAS)
+   MEDIA QUERY: COPIA EXACTA DE GESTIÓN NOTAS
    ========================================= */
 @media (max-width: 768px) {
   .header-main { 
-    height: auto !important; 
-    min-height: 190px !important; 
-    flex-direction: column !important; 
-    align-items: center !important; 
-    padding: 15px 0 !important; 
+    height: auto; 
+    min-height: 220px; 
+    flex-direction: column; 
+    align-items: center; 
+    padding: 20px 0; 
+    border-radius: 0 0 40px 40px;
   }
   
+  /* Botón Volver arriba */
   .header-left-action { 
-    position: relative !important; 
-    top: 0 !important; 
-    left: 0 !important; 
-    margin-bottom: 10px !important; 
-    order: 1 !important; 
+    position: static; 
+    margin-bottom: 15px;
   }
 
+  /* Logo al medio */
   .logo-white-bg { 
-    margin-top: 0 !important; 
-    width: 90px !important; 
-    height: 90px !important; 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    order: 2 !important;
+    margin-top: 0; 
+    width: 90px; 
+    height: 90px;
   }
 
-  .img-logo { width: 75% !important; height: auto !important; margin: 0 auto !important; }
-
+  /* Perfil abajo */
   .user-profile-pill { 
-    position: relative !important; 
-    top: 0 !important; 
-    right: 0 !important; 
-    order: 3 !important; 
-    margin-top: 10px !important; 
-    width: 90% !important; 
-    justify-content: center !important; 
+    position: static; 
+    margin-top: 15px; 
+    width: 85%; 
+    justify-content: center; 
   }
 
-  .title-section-container { margin-top: 20px !important; }
+  .title-section-container { 
+    margin-top: 30px; 
+  }
 
   .badge-title-dark { 
-    padding: 10px 20px !important; 
-    font-size: 1.1rem !important; 
-    width: 85% !important; 
-    margin-top: 20px !important;
+    padding: 12px 25px; 
+    font-size: 1.2rem; 
+    width: 85%; 
   }
 
   .card-white-panel {
-    width: 95% !important; 
-    padding: 20px 15px !important; 
-    border-radius: 20px !important;
+    width: 92%;
+    padding: 20px;
   }
 }
