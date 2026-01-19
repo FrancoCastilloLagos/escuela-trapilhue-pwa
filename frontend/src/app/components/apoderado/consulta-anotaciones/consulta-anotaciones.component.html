@@ -2,17 +2,16 @@
   
   <header class="header-main" (click)="$event.stopPropagation()">
     <div class="header-container">
-      
       <div class="header-left-action">
-        <button class="btn-back-nav" (click)="volverDashboard()">
-          <span>⬅</span> INICIO
-        </button>
+        <button class="btn-back-nav" (click)="volverDashboard()"><span>⬅</span> INICIO</button>
       </div>
-
-      <div class="logo-white-bg">
-        <img src="assets/logo-escuela.png" alt="Logo" class="img-logo">
+      
+      <div class="logo-wrapper">
+        <div class="logo-white-bg">
+          <img src="assets/logo-escuela.png" alt="Logo" class="img-logo">
+        </div>
       </div>
-
+      
       <div class="user-profile-pill">
         <div class="notification-wrapper">
           <button class="notif-trigger" (click)="toggleNotifications($event)">
@@ -21,9 +20,10 @@
           </button>
           
           <div class="notif-dropdown" *ngIf="notifOpen" (click)="$event.stopPropagation()">
-            <div class="notif-header">NOTIFICACIONES</div>
+            <div class="notif-header">CENTRO DE NOTIFICACIONES</div>
             <div class="notif-list">
-              <div *ngIf="listaNotificaciones.length === 0" style="padding:20px; text-align:center;">Sin avisos</div>
+              <div *ngIf="listaNotificaciones.length === 0" class="no-notif">No tienes avisos nuevos</div>
+              
               <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="n.leida === 0">
                 <div class="notif-indicator" [attr.data-type]="n.tipo"></div>
                 <div class="notif-body">
@@ -36,18 +36,17 @@
           </div>
         </div>
 
-        <span style="font-size: 0.8rem; font-weight: 700;">{{ userName }}</span>
+        <span class="user-info">{{ userRol }}: {{ userName }}</span>
         
-        <div style="position: relative;">
-          <button class="menu-trigger" (click)="toggleMenu($event)">
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          </button>
-          <div class="dropdown-floating-menu" *ngIf="menuOpen">
-            <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
-          </div>
+        <button class="menu-trigger" (click)="toggleMenu($event)">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </button>
+        
+        <div class="dropdown-floating-menu" *ngIf="menuOpen" (click)="$event.stopPropagation()">
+          <button class="dropdown-item" (click)="irAConfiguracion()">⚙️ Configuración</button>
+          <button class="dropdown-item" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
         </div>
       </div>
-
     </div>
   </header>
 
@@ -55,26 +54,31 @@
     <div class="badge-title-dark">HOJA DE VIDA - ANOTACIONES</div>
   </div>
 
-  <main>
+  <main class="panels-grid">
     <section class="card-white-panel">
-      <h3 style="text-align: center; color: #002d40; margin-bottom: 20px;">Historial de Observaciones</h3>
+      <h3 class="panel-title">Historial de Observaciones</h3>
       
-      <div style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
-        <div *ngFor="let a of anotaciones" 
-             style="background: #f4f6f7; padding: 15px; border-radius: 15px; margin-bottom: 12px; border-left: 6px solid;"
-             [style.border-left-color]="a.tipo === 'NEGATIVA' ? '#e74c3c' : '#2ecc71'">
-          <div style="font-size: 0.75rem; font-weight: 900; text-transform: uppercase;"
-               [style.color]="a.tipo === 'NEGATIVA' ? '#e74c3c' : '#2ecc71'">
-            {{ a.tipo === 'NEGATIVA' ? 'ANOTACIÓN NEGATIVA' : 'ANOTACIÓN POSITIVA' }}
+      <div class="grades-scroll-container">
+        <div *ngIf="loading" class="info-msg">Cargando anotaciones...</div>
+        <div *ngIf="!loading && anotaciones.length === 0" class="info-msg">No hay anotaciones registradas.</div>
+        
+        <div class="grade-row-item" *ngFor="let a of anotaciones">
+          <div class="anotation-container">
+            <div class="indicator-bar-anot" [ngClass]="{'is-neg': a.tipo === 'NEGATIVA', 'is-pos': a.tipo === 'POSITIVA'}"></div>
+            <div class="anotation-details">
+              <div class="label-tipo" [ngClass]="{'txt-rojo': a.tipo === 'NEGATIVA', 'txt-verde': a.tipo === 'POSITIVA'}">
+                {{ a.tipo === 'NEGATIVA' ? 'ANOTACIÓN NEGATIVA' : 'ANOTACIÓN POSITIVA' }}
+              </div>
+              <p class="txt-contenido">{{ a.contenido }}</p>
+              <small class="txt-fecha">FECHA: {{ a.fecha | date:'dd/MM/yyyy' }}</small>
+            </div>
           </div>
-          <p style="font-weight: 600; color: #333; margin: 5px 0;">{{ a.contenido }}</p>
-          <small style="color: #2980b9; font-weight: bold;">FECHA: {{ a.fecha | date:'dd/MM/yyyy' }}</small>
         </div>
       </div>
     </section>
   </main>
 
-  <footer style="background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto;">
+  <footer class="minimal-footer">
     <p>Copyright © 2026 | KALINK DISEÑOS</p>
   </footer>
 </div>
