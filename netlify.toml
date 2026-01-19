@@ -1,11 +1,12 @@
 [build]
-  # Donde Netlify debe empezar a trabajar
+  # Esta es la carpeta donde Netlify entra primero
   base = "frontend"
   
-  # El comando para compilar Angular
+  # Como ya está dentro de "frontend", el comando es directo
   command = "npm run build"
   
-  # La carpeta exacta donde Angular deja los archivos (relativa a 'base')
+  # ¡Aquí está el truco! Como ya está en "frontend", 
+  # la ruta al resultado NO debe llevar el prefijo "frontend/"
   publish = "dist/frontend/browser"
 
 [[redirects]]
