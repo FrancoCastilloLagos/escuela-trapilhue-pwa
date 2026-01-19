@@ -1,5 +1,6 @@
 @import url('../../docente/gestion-anotaciones/gestion-anotaciones.component.css');
 
+/* --- BASE Y ANIMACIÓN --- */
 @keyframes fadeIn { 
   from { opacity: 0; transform: translateY(20px); } 
   to { opacity: 1; transform: translateY(0); } 
@@ -14,6 +15,7 @@
   animation: fadeIn 0.8s ease-out;
 }
 
+/* --- HEADER (IGUAL A IMAGEN 2) --- */
 .header-main {
   width: 100%; 
   background: linear-gradient(180deg, #f1c40f, #e67e22); 
@@ -77,6 +79,7 @@
   transition: 0.2s; 
 }
 
+/* --- TÍTULOS --- */
 .title-section-container { 
   text-align: center; 
   margin-top: 50px; 
@@ -93,7 +96,7 @@
   display: inline-block; 
 }
 
-/* --- ÁREA DE CONTENIDO (Basada en Consulta) --- */
+/* --- CONTENIDO --- */
 .main-content-area {
   display: flex;
   flex-direction: column;
@@ -123,84 +126,63 @@
   margin-top: auto;
 }
 
-/* --- CLASES DE ESTADO --- */
+/* --- ESTADOS --- */
 .is-pos { background-color: #27ae60 !important; }
 .is-neg { background-color: #e74c3c !important; }
 .txt-rojo { color: #e74c3c !important; }
 .txt-verde { color: #27ae60 !important; }
 
-.notif-indicator { 
-  width: 10px; 
-  min-height: 100%; 
-  background-color: #ccc; 
-}
-
-.notif-indicator[data-type="riesgo"] { 
-  background-color: #e74c3c !important; 
-}
-
 /* =========================================
-   CAPA MÓVIL (Misma lógica Gestión Notas)
+   MEDIA QUERY: LOGICA DE LA IMAGEN 2
    ========================================= */
 @media (max-width: 768px) {
   .header-main { 
-    height: auto; 
+    height: auto !important; 
     min-height: 190px; 
-    flex-direction: column; 
-    align-items: center; 
-    padding: 15px 0; 
+    flex-direction: column !important; 
+    align-items: center !important; 
+    padding: 20px 0 !important; 
   }
   
+  /* Botón VOLVER arriba solo (Imagen 2) */
   .header-left-action { 
-    position: relative; 
-    top: 0; 
-    left: 0; 
-    margin-bottom: 10px; 
+    position: relative !important; 
+    top: 0 !important; 
+    left: 0 !important; 
+    margin-bottom: 15px; 
     order: 1; 
   }
 
-  .logo-wrapper { order: 2; display: flex; justify-content: center; }
-
+  /* LOGO al centro (Imagen 2) */
   .logo-white-bg { 
-    margin-top: 0; 
-    width: 90px; 
-    height: 90px; 
+    margin-top: 0 !important; 
+    width: 90px !important; 
+    height: 90px !important; 
     display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
     order: 2;
   }
 
-  .img-logo { 
-    width: 75% !important; 
-    height: auto !important; 
-    margin: 0 auto; 
-  }
-
+  /* PILL de usuario abajo (Imagen 2) */
   .user-profile-pill { 
-    position: relative; 
-    top: 0; 
-    right: 0; 
-    order: 3; 
-    margin-top: 10px; 
-    width: 90%; 
+    position: relative !important; 
+    top: 0 !important; 
+    right: 0 !important; 
+    margin-top: 15px;
+    width: 85% !important; 
     justify-content: center; 
+    order: 3; 
   }
 
-  .title-section-container { 
-    margin-top: 20px; 
-  }
+  .title-section-container { margin-top: 25px; }
 
   .badge-title-dark { 
-    padding: 10px 20px; 
-    font-size: 1.1rem; 
-    width: 85%; 
+    padding: 12px 20px; 
+    font-size: 1.2rem; 
+    width: 90%; 
   }
 
   .card-white-panel {
     width: 95%; 
-    padding: 20px 15px; 
-    border-radius: 20px;
-    min-height: auto;
+    padding: 20px 15px;
   }
 }
