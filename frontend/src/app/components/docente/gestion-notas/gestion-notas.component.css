@@ -15,10 +15,11 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
+/* CAMBIO AQUÍ: margin-top de 20px a 5px para que el logo esté arriba */
 .logo-white-bg {
   background: white; width: 100px; height: 100px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  border: 4px solid #002d40; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border: 4px solid #002d40; margin-top: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   overflow: hidden;
 }
 
@@ -93,10 +94,8 @@
 
 @media (max-width: 768px) {
   .header-main { height: auto; min-height: 190px; flex-direction: column; align-items: center; padding: 15px 0; }
-  
   .header-left-action { position: relative; top: 0; left: 0; margin-bottom: 10px; order: 1; }
   .user-profile-pill { position: relative; top: 0; right: 0; order: 3; margin-top: 10px; width: 90%; justify-content: center; }
-  
   .logo-wrapper { order: 2; display: flex; justify-content: center; }
   .logo-white-bg { 
     margin-top: 0; 
@@ -106,12 +105,4 @@
     align-items: center !important;
     justify-content: center !important;
   }
-  .img-logo { width: 75% !important; height: auto !important; margin: 0 auto; }
-
-  .badge-title-dark { padding: 10px 20px; font-size: 1.1rem; width: 85%; margin-top: 20px; }
-  .selectors-row { flex-direction: column; align-items: center; gap: 10px; margin-bottom: 30px; }
-  .select-box { width: 90%; }
-
-  .panels-grid { flex-direction: column; align-items: center; gap: 20px; }
-  .card-dark-panel, .card-white-panel { width: 95%; padding: 20px; min-height: auto; }
 }
