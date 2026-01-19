@@ -16,7 +16,7 @@
         <div class="notif-dropdown" *ngIf="notifOpen" (click)="$event.stopPropagation()">
           <div class="notif-header">NOTIFICACIONES</div>
           <div class="notif-list">
-            <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding: 15px; text-align: center; font-size: 0.8rem; color: #999;">Sin avisos nuevos</div>
+            <div *ngIf="listaNotificaciones.length === 0" class="no-notif" style="padding: 15px; text-align: center; font-size: 0.8rem; color: #999;">Sin avisos</div>
             <div class="notif-item" *ngFor="let n of listaNotificaciones" [class.unread]="!n.leida">
               <div class="notif-indicator" [attr.data-type]="n.tipo"></div>
               <div class="notif-body">
@@ -43,8 +43,8 @@
     </div>
   </header>
 
-  <nav class="central-nav" style="margin-top: 85px; display: flex; justify-content: center;">
-    <div class="nav-container" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+  <nav class="central-nav">
+    <div class="nav-container">
       <button class="nav-btn" (click)="irANotas()">NOTAS</button>
       <button class="nav-btn" (click)="irAAnotaciones()">ANOTACIONES</button>
       <button class="nav-btn" (click)="irAFechas()">FECHAS EVALUACIONES</button>
@@ -52,53 +52,36 @@
     </div>
   </nav>
 
-  <main class="dashboard-body" style="width: 100%; max-width: 1200px; margin: 40px auto; padding: 0 20px;">
-    <div class="layout-container" style="display: grid; grid-template-columns: 300px 1fr; gap: 30px; align-items: start;">
+  <main class="dashboard-body" style="width: 100%; max-width: 1200px; margin: 30px auto; padding: 0 15px;">
+    <div class="layout-container">
         
         <aside class="sidebar-info">
-          <div class="glass-card" style="background: #002d40; border-radius: 25px; padding: 25px; color: white; text-align: center;">
-            <h3 class="sidebar-title" style="font-size: 1rem; margin-bottom: 20px;">CANALES DE COMUNICACIÓN</h3>
+          <div class="glass-card" style="background: #002d40; border-radius: 25px; padding: 20px; color: white; text-align: center;">
+            <h3 style="font-size: 0.9rem; margin-bottom: 15px;">CANALES DE COMUNICACIÓN</h3>
             <div class="social-actions">
-              <button class="action-btn purple-grad" 
-                style="background: linear-gradient(90deg, #a569bd, #8e44ad); border: none; padding: 14px; border-radius: 15px; color: white; font-weight: bold; width: 100%; margin-bottom: 12px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;"
-                onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 20px rgba(165,105,189,0.4)'"
-                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
-                📞 TELÉFONO
-              </button>
-
-              <button class="action-btn green-grad" 
-                style="background: linear-gradient(90deg, #58d68d, #28b463); border: none; padding: 14px; border-radius: 15px; color: white; font-weight: bold; width: 100%; margin-bottom: 12px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;"
-                onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 20px rgba(88,214,141,0.4)'"
-                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
-                💬 WHATSAPP
-              </button>
-
-              <button class="action-btn blue-grad" 
-                style="background: linear-gradient(90deg, #5dade2, #2e86c1); border: none; padding: 14px; border-radius: 15px; color: white; font-weight: bold; width: 100%; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;"
-                onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 20px rgba(93,173,226,0.4)'"
-                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
-                👤 FACEBOOK
-              </button>
+              <button class="nav-btn" style="background: #8e44ad; width: 100%; margin-bottom: 10px;">📞 TELÉFONO</button>
+              <button class="nav-btn" style="background: #28b463; width: 100%; margin-bottom: 10px;">💬 WHATSAPP</button>
+              <button class="nav-btn" style="background: #2e86c1; width: 100%;">👤 FACEBOOK</button>
             </div>
           </div>
         </aside>
   
-        <section class="news-section" style="display: flex; flex-direction: column; align-items: center;">
-          <div class="news-header-badge" style="background: #17a2b8; color: white; padding: 10px 80px; border-radius: 20px; font-weight: 800; font-size: 2rem; z-index: 2; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); position: relative;">NOVEDADES</div>
-          
-          <div class="news-display-card" style="background: white; border-radius: 35px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.1); border: 8px solid white; width: 100%;">
-            <div class="image-zoom-container" style="width: 100%; background: #222; display: flex; justify-content: center; align-items: center; overflow: hidden;">
-              <img src="assets/ninos-jugando.jpg" alt="Actualidad escolar" class="news-visual" style="width: 100%; max-height: 500px; object-fit: contain;">
-            </div>
-            <div class="news-caption" style="padding: 15px; text-align: center; color: #555;">
-              <span>Actualidad Escuela Trapilhue • 2026</span>
+        <section class="news-section">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="news-header-badge">NOVEDADES</div>
+            <div class="news-display-card" style="background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%;">
+              <img src="assets/ninos-jugando.jpg" alt="Actualidad" class="news-visual" style="width: 100%; height: auto; display: block;">
+              <div style="padding: 15px; text-align: center; color: #777; font-size: 0.8rem;">
+                Actualidad Escuela Trapilhue • 2026
+              </div>
             </div>
           </div>
         </section>
-      </div>
+
+    </div>
   </main>
 
-  <footer class="minimal-footer" style="background: #e67e22; color: white; text-align: center; padding: 15px; margin-top: auto;">
+  <footer class="minimal-footer">
     <p>Copyright © 2026 | KALINK DISEÑOS</p>
   </footer>
 </div>
