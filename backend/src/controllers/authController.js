@@ -1,6 +1,7 @@
 const db = require('../config/db');
+const bcrypt = require('bcrypt'); // Importamos bcrypt
 
-// Gestion inicio de sesión y vinculación con estudiantes.
+// Gestión inicio de sesión y vinculación con estudiantes.
 exports.login = async (req, res) => {
     const { rut, password } = req.body;
 
@@ -29,8 +30,10 @@ exports.login = async (req, res) => {
 
         const user = rows[0];
 
-        // Comparar la contraseña ingresada con la almacenada.
-        if (user.password !== password) {
+        // --- CAMBIO DE SEGURIDAD: Comparar Hash con Bcrypt ---
+        const match = await bcrypt.compare(password, user.password);
+
+        if (!match) {
             return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
         }
 
@@ -48,7 +51,6 @@ exports.login = async (req, res) => {
         });
 
     } catch (error) {
-        // Captura y respuesta ante errores inesperados en el servidor.
         console.error('❌ Error en Login Backend:', error.message);
         res.status(500).json({ success: false, message: 'Error interno', detail: error.message });
     }
@@ -59,6 +61,10 @@ exports.register = async (req, res) => {
     const { rut, password } = req.body;
 
     try {
+        // --- CAMBIO DE SEGURIDAD: Hashear contraseña antes de guardar ---
+        const SALT_ROUNDS = 10;
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
         // Define el rol inicial como APODERADO por defecto.
         let rolFinal = 'APODERADO';
 
@@ -70,9 +76,9 @@ exports.register = async (req, res) => {
             rolFinal = 'DOCENTE';
         }
 
-        // Inserta el nuevo usuario con credenciales y rol determinado.
+        // Inserta el nuevo usuario con la contraseña HASHEADA.
         const sqlInsert = 'INSERT INTO usuario (rut, password, tipo_usuario) VALUES (?, ?, ?)';
-        await db.query(sqlInsert, [rut, password, rolFinal]);
+        await db.query(sqlInsert, [rut, hashedPassword, rolFinal]);
 
         // Confirma el registro exitoso al usuario.
         res.json({ 
@@ -82,7 +88,6 @@ exports.register = async (req, res) => {
         });
 
     } catch (error) {
-        // Maneja errores de duplicidad de RUT o fallos generales.
         console.error('❌ Error en Registro Backend:', error.message);
         if (error.code === 'ER_DUP_ENTRY') {
             return res.status(400).json({ success: false, message: 'Este RUT ya se encuentra registrado.' });
