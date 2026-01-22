@@ -105,4 +105,77 @@
     align-items: center !important;
     justify-content: center !important;
   }
+  /* ... (Todo tu código anterior se mantiene igual hasta el final) ... */
+
+/* --- CORRECCIÓN RESPONSIVA DE PANELES Y SELECTORES --- */
+@media (max-width: 768px) {
+  
+  /* Ajuste de Título */
+  .badge-title-dark {
+    font-size: 1.2rem;
+    padding: 12px 30px;
+    width: 80%;
+  }
+
+  /* 1. Selectores: de fila a columna */
+  .selectors-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  .select-box {
+    width: 90%; /* Ocupa casi todo el ancho del celular */
+    max-width: 320px;
+  }
+
+  /* 2. Paneles: de lado a lado a uno debajo del otro */
+  .panels-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px; /* Espacio entre el panel de ingreso y el de lista */
+    padding: 0 10px;
+  }
+
+  /* 3. Ancho de paneles: quitamos los px fijos para que sean elásticos */
+  .card-dark-panel, 
+  .card-white-panel {
+    width: 100%;
+    max-width: 100%; /* Permite que el panel use el ancho disponible */
+    min-height: auto; /* En móvil no queremos forzar altura mínima */
+    padding: 20px; /* Reducimos un poco el padding interno */
+    border-radius: 20px;
+  }
+
+  /* 4. Ajustes internos para facilitar el uso táctil */
+  .grade-input {
+    font-size: 1rem;
+    padding: 15px; /* Más grande para dedos */
+  }
+
+  .type-btn {
+    font-size: 0.75rem; /* Letra un poco más pequeña para que quepa en una línea */
+    padding: 10px 5px;
+  }
+
+  .grades-scroll-container {
+    max-height: 350px; /* Limitamos la altura de la lista para no scrollear infinito */
+  }
+
+  .grade-row-item {
+    padding: 12px;
+  }
+
+  .grade-value-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .actions-footer-panel {
+    flex-direction: row; /* Mantenemos botones lado a lado */
+    gap: 10px;
+  }
+}
 }
