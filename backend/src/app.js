@@ -19,18 +19,15 @@ app.use(cors({
 
 app.use(express.json());
 
-// --- SECCIÓN DE RUTAS DE AUTENTICACIÓN ---
-// Estas rutas deben coincidir con tu AuthService de Angular
-// Si Angular llama a /login, aquí DEBE ser /login
 app.post('/login', authController.login);
 app.post('/register', authController.register);
 
-// También las dejamos con /api/auth por si acaso
+
 app.post('/api/auth/login', authController.login);
 app.post('/api/auth/register', authController.register);
 
 
-// --- RESTO DE MÓDULOS ---
+
 app.use('/api/notificaciones', notificacionesRoutes);
 app.use('/api/notas', notasRoutes); 
 app.use('/api/anotaciones', anotacionesRoutes); 

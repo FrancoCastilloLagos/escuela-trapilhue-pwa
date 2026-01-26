@@ -30,7 +30,7 @@ export class ConsultaNotasComponent implements OnInit, OnDestroy {
   idAsignaturaSeleccionada: number | null = null;
   promedioFinal: number = 0;
   
-  // Guardamos la suscripción para poder limpiarla al cerrar y que no gaste memoria.
+  // Guardo la suscripción para poder limpiarla al cerrar y que no gaste memoria.
   private refreshSub?: Subscription;
 
   constructor(

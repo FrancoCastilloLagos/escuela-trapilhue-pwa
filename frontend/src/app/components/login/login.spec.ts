@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LoginComponent } from './login.component'; // Ruta y nombre de clase corregidos
+import { LoginComponent } from './login.component'; 
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -7,14 +7,13 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      // Si es un componente standalone, se incluye en imports
       imports: [LoginComponent] 
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Reemplaza whenStable para inicialización básica
+    fixture.detectChanges(); 
   });
 
   it('should create', () => {

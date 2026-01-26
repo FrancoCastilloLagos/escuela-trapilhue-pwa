@@ -53,7 +53,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       switchMap(() => this.nService.getNotificaciones(this.idUsuarioActual))
     ).subscribe({
       next: (data: any[]) => {
-        // FILTRO: Solo mostramos las últimas 5 según tu lógica del Header
         const ultimas5 = data.slice(0, 5); 
 
         this.listaNotificaciones = ultimas5.map(n => {

@@ -4,7 +4,6 @@ import { AppComponent } from './app/app.component';
 
 bootstrapApplication(AppComponent, appConfig)
   .then(() => {
-    // Registro del Service Worker para funcionalidad Offline (Elemento 1)
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')

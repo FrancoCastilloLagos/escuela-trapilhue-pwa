@@ -1,11 +1,7 @@
-/* --- Estructura Base --- */
 .dashboard-wrapper { background-color: #85c1e9; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Poppins', sans-serif; }
 .fade-in-viewer { animation: fadeIn 0.8s ease-out; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-/* =========================================
-   CUERPO DE RENDIMIENTO
-   ========================================= */
 .title-section-container { text-align: center; margin-top: 60px; margin-bottom: 20px; }
 .news-header-badge { 
   background: #002d40; color: white; padding: 12px 60px; border-radius: 25px; 
@@ -31,13 +27,11 @@
 .analitica-box-glass.formativo { border-left-color: #17a2b8; }
 .danger-alert { border-left-color: #e74c3c !important; background: rgba(231, 76, 60, 0.25) !important; color: #ffadad !important; }
 
-/* Gráficos */
 .dual-charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .news-display-card { background: white; border-radius: 30px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 6px solid white; }
 .chart-header { background: #002d40; color: white; padding: 12px; text-align: center; font-weight: 700; font-size: 0.85rem; }
 .chart-container-wrapper { padding: 20px; height: 250px; }
 
-/* Tabla */
 .table-area { padding: 20px; }
 .table-title { font-weight: 800; color: #002d40; margin-bottom: 15px; font-size: 1.1rem; }
 .minimal-table { width: 100%; border-collapse: collapse; }
@@ -49,7 +43,6 @@
 
 .minimal-footer { background: #e67e22; color: white; text-align: center; padding: 20px; margin-top: 40px; font-weight: 700; }
 
-/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
   .layout-container { grid-template-columns: 1fr; }
   .dual-charts-grid { grid-template-columns: 1fr; }

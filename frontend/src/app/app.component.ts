@@ -12,8 +12,6 @@ import { SyncService } from './services/sync.service';
 })
 export class AppComponent implements OnInit {
   title = 'escuela-trapilhue-frontend';
-  
-  // Variable que uso para controlar el estado de conexión
   isOffline: boolean = false;
 
   constructor(private syncService: SyncService) {
@@ -21,10 +19,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Verifico estado inicial
     this.isOffline = !navigator.onLine;
-
-    // Escucha los eventos de conexión
+    
     window.addEventListener('online', () => this.isOffline = false);
     window.addEventListener('offline', () => this.isOffline = true);
   }
