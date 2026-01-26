@@ -70,25 +70,42 @@
   white-space: nowrap;
 }
 
-.menu-trigger {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  cursor: pointer;
+.notif-wrapper {
+  position: relative;
   display: flex;
-  gap: 3px;
-  padding: 10px;
-  border-radius: 50%;
   align-items: center;
 }
 
-.dot {
-  width: 4px;
-  height: 4px;
-  background: white;
-  border-radius: 50%;
+.notif-trigger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  position: relative;
+  outline: none;
 }
 
-/* --- MENÚ DESPLEGABLE CORREGIDO --- */
+.bell-icon {
+  font-size: 1.3rem;
+}
+
+.notif-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #e74c3c;
+  color: white;
+  font-size: 9px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  border: 1.5px solid white;
+}
+
 .dropdown-floating-menu {
   position: absolute;
   top: 50px;
@@ -100,32 +117,20 @@
   width: 190px;
   padding: 8px 0;
   animation: fadeIn 0.2s ease;
-  border: 1px solid #eee;
 }
 
 .dropdown-item {
   width: 100%;
-  padding: 12px 20px;
+  padding: 10px 20px;
   border: none;
-  background: transparent;
+  background: none;
   text-align: left;
   cursor: pointer;
   color: #333;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.85rem;
   font-weight: 600;
-  transition: 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  font-size: 0.85rem;
 }
 
-.dropdown-item:hover {
-  background: #f8f9fa;
-  color: #117a8b;
-}
-
-/* --- NOTIFICACIONES --- */
 .dropdown-notif-box {
   position: absolute;
   top: 90px;
@@ -170,11 +175,73 @@
   flex-shrink: 0;
 }
 
+.type-line[data-type="anotacion"] {
+  background: #f7a0f2;
+}
+
+.type-line[data-type="nota"] {
+  background: #2ecc71;
+}
+
+.type-line[data-type="riesgo"] {
+  background: #e74c3c;
+}
+
+.type-line[data-type="comunicacion"] {
+  background: #3498db;
+}
+
+.type-line[data-type="fecha"] {
+  background: #8e44ad;
+}
+
 .notif-data {
   padding: 12px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+}
+
+.n-tit {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #002d40;
+}
+
+.n-msg {
+  font-size: 0.75rem;
+  color: #555;
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+.n-fec {
+  font-size: 0.65rem;
+  color: #aaa;
+  margin-top: 5px;
+}
+
+.menu-trigger {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  gap: 3px;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+}
+
+.notif-footer {
+  padding: 10px;
+  background: #f9f9f9;
+  border-top: 1px solid #eee;
 }
 
 .btn-close-notif {
@@ -190,7 +257,6 @@
   transition: background 0.2s;
 }
 
-/* --- MEDIA QUERIES --- */
 @media (max-width: 768px) {
   .header-main {
     height: auto;
@@ -221,5 +287,13 @@
     order: 3;
     width: 92%;
     justify-content: center;
+  }
+
+  .dropdown-notif-box {
+    position: fixed;
+    top: 150px;
+    left: 4%;
+    right: 4%;
+    width: 92%;
   }
 }
