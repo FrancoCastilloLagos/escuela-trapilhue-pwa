@@ -29,22 +29,18 @@ router.get('/conteo/:id_estudiante', async (req, res) => {
 router.post('/', async (req, res) => {
     const { id_estudiante, id_docente, contenido, tipo, fecha } = req.body;
     
-    // Validación de datos obligatorios
+  
     if (!id_estudiante || !id_docente || !contenido || !tipo) {
         return res.status(400).json({ success: false, message: 'Faltan datos obligatorios' });
     }
     
     try {
-        /* PASO CLAVE: 
-           Si la PWA manda el ID de Usuario (4), buscamos su ID de Docente real (1).
-           Si ya manda el ID de Docente correcto, lo mantenemos.
-        */
+    
         const [rows] = await db.query(
             'SELECT id_docente FROM docente WHERE id_usuario = ? OR id_docente = ? LIMIT 1', 
             [id_docente, id_docente]
         );
 
-        // Si encontramos el registro, usamos ese ID. Si no, usamos el que venía (por si acaso).
         const idDocenteFinal = (rows.length > 0) ? rows[0].id_docente : id_docente;
 
         console.log(`Mapeando ID Docente: Recibido ${id_docente} -> Usando ${idDocenteFinal}`);
@@ -61,7 +57,6 @@ router.post('/', async (req, res) => {
     } catch (error) {
         console.error('❌ Error detallado al guardar anotación:', error);
         
-        // Si el error es de llave foránea (Constraint), damos una respuesta clara
         if (error.errno === 1452) {
             return res.status(400).json({ 
                 success: false, 
