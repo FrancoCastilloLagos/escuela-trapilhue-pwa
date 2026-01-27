@@ -4,55 +4,44 @@ const bcrypt = require('bcrypt'); // Importamos bcrypt
 // Gestión inicio de sesión y vinculación con estudiantes.
 exports.login = async (req, res) => {
     const { rut, password } = req.body;
-
     try {
-        // Consulta datos de usuario y relación con tabla estudiante.
         const sql = `
-            SELECT 
-                u.id_usuario, 
-                u.rut, 
-                u.tipo_usuario AS rol, 
-                u.password,
-                e.id_estudiante,
-                e.id_curso,
-                e.nombre AS nombre_estudiante
+            SELECT u.*, e.id_estudiante, e.id_curso, e.nombre AS nombre_estudiante
             FROM usuario u
             LEFT JOIN estudiante e ON u.id_usuario = e.id_apoderado
-            WHERE u.rut = ?
-        `;
+            WHERE u.rut = ?`;
 
         const [rows] = await db.query(sql, [rut]);
-
-        // Validación si el usuario existe en la base de datos.
-        if (rows.length === 0) {
-            return res.status(401).json({ success: false, message: 'Usuario no encontrado' });
-        }
+        
+        if (rows.length === 0) return res.status(401).json({ success: false, message: 'Usuario no encontrado' });
 
         const user = rows[0];
+        
+        // --- LOG DE DEPURACIÓN ---
+        console.log("🔍 Intentando login para RUT:", rut);
+        console.log("📊 Datos encontrados en DB:", {
+            id_usuario: user.id_usuario,
+            id_estudiante: user.id_estudiante, // SI ESTO SALE NULL, EL PROBLEMA ES LA DB
+            id_curso: user.id_curso
+        });
 
-        // --- CAMBIO DE SEGURIDAD: Comparar Hash con Bcrypt ---
         const match = await bcrypt.compare(password, user.password);
+        if (!match) return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
 
-        if (!match) {
-            return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
-        }
-
-        // Retorno de datos del usuario y sesión exitosa al cliente.
         res.json({
             success: true,
             user: {
                 id: user.id_usuario,
                 rut: user.rut,
-                rol: user.rol.toUpperCase(),
+                rol: user.tipo_usuario.toUpperCase(),
                 id_estudiante: user.id_estudiante,
                 id_curso: user.id_curso,
                 nombre: user.nombre_estudiante || 'Usuario'
             }
         });
-
     } catch (error) {
-        console.error('❌ Error en Login Backend:', error.message);
-        res.status(500).json({ success: false, message: 'Error interno', detail: error.message });
+        console.error('❌ Error:', error);
+        res.status(500).json({ success: false, message: 'Error interno' });
     }
 };
 
