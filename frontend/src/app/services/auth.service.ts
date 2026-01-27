@@ -6,7 +6,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private API_URL = 'https://escuela-backend-vva9.onrender.com';
+  private API_URL = 'https://escuela-backend-vva9.onrender.com/api/auth'; 
 
   constructor(private http: HttpClient) { }
 
@@ -14,9 +14,11 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/login`, credentials).pipe(
       tap((res: any) => {
         if (res.success && res.user) {
+       
           localStorage.clear();
           
-          localStorage.setItem('token', res.token);
+       
+          localStorage.setItem('token', res.token || 'dummy-token');
           localStorage.setItem('rol', res.user.rol.toUpperCase());
           localStorage.setItem('rut', res.user.rut);
           
@@ -24,21 +26,31 @@ export class AuthService {
             localStorage.setItem('id_usuario', res.user.id.toString());
           }
 
-          if (res.user.id_estudiante) {
-            localStorage.setItem('id_estudiante', res.user.id_estudiante.toString());
+          const idEstudiante = res.user.id_estudiante || res.id_estudiante;
+          const idCurso = res.user.id_curso || res.id_curso;
+
+          if (idEstudiante) {
+            localStorage.setItem('id_estudiante', idEstudiante.toString());
+            console.log("✅ Estudiante vinculado:", idEstudiante);
           }
 
-          if (res.user.id_curso) {
-            localStorage.setItem('id_curso', res.user.id_curso.toString());
+          if (idCurso) {
+            localStorage.setItem('id_curso', idCurso.toString());
           }
+
           if (res.user.nombre_curso) {
             localStorage.setItem('nombre_curso', res.user.nombre_curso);
           }
+          
           if (res.user.nombre) {
             localStorage.setItem('nombre_estudiante', res.user.nombre);
           }
           
-          console.log("💾 Sesión iniciada y datos de curso guardados:", res.user);
+          console.log("💾 Sesión iniciada. Datos en LocalStorage:", {
+            rol: res.user.rol,
+            estudiante: idEstudiante,
+            curso: idCurso
+          });
         }
       })
     );
@@ -49,7 +61,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem('id_usuario'); 
   }
 
   getRol(): string | null {
