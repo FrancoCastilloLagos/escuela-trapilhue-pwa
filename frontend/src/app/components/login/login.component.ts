@@ -30,7 +30,24 @@ export class LoginComponent {
     this.authService.login(credentials).subscribe({
       next: (res: any) => {
         if (res.success) {
-          const rol = res.user.rol.toUpperCase();
+          const user = res.user;
+          const rol = user.rol.toUpperCase();
+          
+          // --- NUEVO: GUARDAR DATOS EN LOCALSTORAGE ---
+          // Esto es lo que faltaba para que el Apoderado vea su info
+          localStorage.setItem('id_usuario', user.id.toString());
+          localStorage.setItem('tipo_usuario', rol);
+          
+          if (user.id_estudiante) {
+            localStorage.setItem('id_estudiante', user.id_estudiante.toString());
+            console.log("✅ Estudiante vinculado guardado:", user.id_estudiante);
+          }
+
+          if (user.id_curso) {
+            localStorage.setItem('id_curso', user.id_curso.toString());
+          }
+          // --------------------------------------------
+
           console.log("Login exitoso, redirigiendo según rol:", rol);
           
           if (rol === 'DOCENTE') {
