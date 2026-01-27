@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db'); 
 
-// ==========================================
-// OBTENER LISTA DE ANOTACIONES
-// ==========================================
 router.get('/:id_estudiante', async (req, res) => {
     const { id_estudiante } = req.params;
     try {
@@ -17,9 +14,6 @@ router.get('/:id_estudiante', async (req, res) => {
     }
 });
 
-// ==========================================
-// CONTEO DE ANOTACIONES
-// ==========================================
 router.get('/conteo/:id_estudiante', async (req, res) => {
     const { id_estudiante } = req.params;
     try {
@@ -32,9 +26,6 @@ router.get('/conteo/:id_estudiante', async (req, res) => {
     }
 });
 
-// ==========================================
-// GUARDAR ANOTACIÓN (AJUSTADO PARA EVITAR ERROR 500)
-// ==========================================
 router.post('/', async (req, res) => {
     const { id_estudiante, id_docente, contenido, tipo, fecha } = req.body;
     
@@ -60,7 +51,7 @@ router.post('/', async (req, res) => {
 
         const query = 'INSERT INTO anotacion (id_estudiante, id_docente, contenido, tipo, fecha) VALUES (?, ?, ?, ?, ?)';
         
-        // Usamos la fecha enviada o la actual del servidor
+        
         const fechaFinal = fecha || new Date();
 
         const [result] = await db.query(query, [id_estudiante, idDocenteFinal, contenido, tipo, fechaFinal]);
@@ -83,9 +74,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// ==========================================
-// ACTUALIZAR ANOTACIÓN
-// ==========================================
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { contenido, tipo } = req.body;
@@ -99,9 +87,6 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// ==========================================
-// BORRAR ANOTACIÓN
-// ==========================================
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     try {
